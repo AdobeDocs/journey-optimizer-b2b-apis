@@ -1,0 +1,242 @@
+{
+  "apiName": "buying_group_role_service",
+  "i18n": {
+    "en_US": {
+      "name": "Buying Group Role Identification",
+      "description": "Identifies and scores buying group members and their roles within target accounts"
+    }
+  },
+  "description": "Analyzes account-person relationships to identify buying committee roles and influence levels",
+  "primaryAttribute": "analysisType",
+  "supportedEntityType": "accountPerson",
+  "timeout": 180,
+  "enableSplitPaths": true,
+  "invocationPayloadDef": {
+    "globalAttributes": [
+      {
+        "apiName": "apiKey",
+        "i18n": {
+          "en_US": {
+            "displayName": "API Key",
+            "description": "Service API key for authentication"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "buyingGroupModel",
+        "i18n": {
+          "en_US": {
+            "displayName": "Buying Group Model",
+            "description": "Which buying group analysis model to use"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "flowAttributes": [
+      {
+        "apiName": "analysisType",
+        "i18n": {
+          "en_US": {
+            "displayName": "Analysis Type",
+            "description": "Type of analysis (role_identification, influence_mapping, committee_complete)"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "minInfluenceLevel",
+        "i18n": {
+          "en_US": {
+            "displayName": "Minimum Influence Level",
+            "description": "Minimum influence threshold to include in results"
+          }
+        },
+        "dataType": "integer",
+        "required": false
+      }
+    ],
+    "accountFields": [
+      {
+        "serviceAttribute": "accountId",
+        "description": "Account identifier",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "accountName",
+        "description": "Company name",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "industry",
+        "description": "Industry sector",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "annualRevenue",
+        "description": "Annual revenue",
+        "dataType": "integer",
+        "required": false
+      },
+      {
+        "serviceAttribute": "employeeCount",
+        "description": "Number of employees",
+        "dataType": "integer",
+        "required": false
+      }
+    ],
+    "fields": [
+      {
+        "serviceAttribute": "email",
+        "description": "Person email address",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "firstName",
+        "description": "First name",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "lastName",
+        "description": "Last name",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "title",
+        "description": "Job title",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "department",
+        "description": "Department",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "seniority",
+        "description": "Seniority level",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "linkedInUrl",
+        "description": "LinkedIn profile URL",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-Org-ID",
+        "value": "{{subscription.imsOrgId}}",
+        "description": "IMS Organization ID"
+      },
+      {
+        "name": "X-Journey-ID",
+        "value": "{{journey.id}}",
+        "description": "Journey identifier"
+      }
+    ],
+    "journeyContext": true,
+    "subscriptionContext": true,
+    "accessorsMetadata": [
+      {
+        "accessorName": "buyingRole",
+        "dataType": "string",
+        "description": "Identified buying group role (economic_buyer, technical_buyer, champion, influencer, user)"
+      },
+      {
+        "accessorName": "influenceScore",
+        "dataType": "integer",
+        "description": "Influence score within buying group (0-100)"
+      },
+      {
+        "accessorName": "engagementLevel",
+        "dataType": "string",
+        "description": "Engagement level (high, medium, low)"
+      },
+      {
+        "accessorName": "committeeComplete",
+        "dataType": "boolean",
+        "description": "Whether all key buying group roles are identified"
+      },
+      {
+        "accessorName": "accountReadiness",
+        "dataType": "string",
+        "description": "Account buying readiness level (ready, evaluating, exploring)"
+      }
+    ]
+  },
+  "callbackPayloadDef": {
+    "accountFields": [
+      {
+        "serviceAttribute": "buyingGroupSize",
+        "description": "Total buying group members identified",
+        "dataType": "integer",
+        "required": false
+      },
+      {
+        "serviceAttribute": "decisionTimeframe",
+        "description": "Estimated decision timeframe",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "committeeCompleteness",
+        "description": "Buying committee completeness percentage",
+        "dataType": "float",
+        "required": false
+      }
+    ],
+    "fields": [
+      {
+        "serviceAttribute": "validatedTitle",
+        "description": "Validated/corrected job title",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "reportingStructure",
+        "description": "Reporting hierarchy information",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "attributes": [
+      {
+        "apiName": "analysisDate",
+        "i18n": {
+          "en_US": {
+            "displayName": "Analysis Date",
+            "description": "When the analysis was performed"
+          }
+        },
+        "dataType": "datetime",
+        "required": false
+      },
+      {
+        "apiName": "modelConfidence",
+        "i18n": {
+          "en_US": {
+            "displayName": "Model Confidence",
+            "description": "Confidence in role identification (0.0-1.0)"
+          }
+        },
+        "dataType": "float",
+        "required": false
+      }
+    ]
+  }
+}
+

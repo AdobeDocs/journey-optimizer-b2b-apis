@@ -1,0 +1,214 @@
+{
+  "apiName": "account_enrichment_service",
+  "i18n": {
+    "en_US": {
+      "name": "Account Enrichment Service",
+      "description": "Enriches B2B account data with firmographic intelligence, technographic insights, and buying signals"
+    }
+  },
+  "description": "Enriches account profiles with external data sources to improve targeting and personalization",
+  "primaryAttribute": "enrichmentType",
+  "supportedEntityType": "account",
+  "timeout": 120,
+  "enableSplitPaths": true,
+  "invocationPayloadDef": {
+    "globalAttributes": [
+      {
+        "apiName": "apiKey",
+        "i18n": {
+          "en_US": {
+            "displayName": "API Key",
+            "description": "Your service API key for authentication"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "dataProvider",
+        "i18n": {
+          "en_US": {
+            "displayName": "Data Provider",
+            "description": "External data provider to use"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "flowAttributes": [
+      {
+        "apiName": "enrichmentType",
+        "i18n": {
+          "en_US": {
+            "displayName": "Enrichment Type",
+            "description": "Type of enrichment to perform (firmographic, technographic, intent)"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "priority",
+        "i18n": {
+          "en_US": {
+            "displayName": "Priority",
+            "description": "Processing priority level"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "accountFields": [
+      {
+        "serviceAttribute": "accountId",
+        "description": "Account identifier",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "accountName",
+        "description": "Company name",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "website",
+        "description": "Company website URL",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "industry",
+        "description": "Industry classification",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "billingCountry",
+        "description": "Billing country",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-Tenant-ID",
+        "value": "{{subscription.prefix}}",
+        "description": "Customer tenant identifier"
+      },
+      {
+        "name": "X-Request-Source",
+        "value": "AJOB2B",
+        "description": "Request source system"
+      }
+    ],
+    "journeyContext": true,
+    "subscriptionContext": true,
+    "accessorsMetadata": [
+      {
+        "accessorName": "accountTier",
+        "dataType": "string",
+        "description": "Account tier classification (enterprise, mid-market, smb)"
+      },
+      {
+        "accessorName": "enrichmentScore",
+        "dataType": "integer",
+        "description": "Data quality score after enrichment (0-100)"
+      },
+      {
+        "accessorName": "buyingSignalStrength",
+        "dataType": "string",
+        "description": "Strength of buying signals (high, medium, low)"
+      },
+      {
+        "accessorName": "technographyMatch",
+        "dataType": "boolean",
+        "description": "Whether account technology stack matches target profile"
+      }
+    ]
+  },
+  "callbackPayloadDef": {
+    "accountFields": [
+      {
+        "serviceAttribute": "annualRevenue",
+        "description": "Annual revenue (enriched)",
+        "dataType": "integer",
+        "required": false
+      },
+      {
+        "serviceAttribute": "employeeCount",
+        "description": "Number of employees (enriched)",
+        "dataType": "integer",
+        "required": false
+      },
+      {
+        "serviceAttribute": "sicCode",
+        "description": "SIC code (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "naicsCode",
+        "description": "NAICS code (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "linkedInUrl",
+        "description": "LinkedIn company URL (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "technologies",
+        "description": "Technology stack (JSON array)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "parentCompany",
+        "description": "Parent company name",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "attributes": [
+      {
+        "apiName": "enrichmentStatus",
+        "i18n": {
+          "en_US": {
+            "displayName": "Enrichment Status",
+            "description": "Status of the enrichment process"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "apiName": "enrichmentDate",
+        "i18n": {
+          "en_US": {
+            "displayName": "Enrichment Date",
+            "description": "When the enrichment was performed"
+          }
+        },
+        "dataType": "datetime",
+        "required": false
+      },
+      {
+        "apiName": "dataConfidence",
+        "i18n": {
+          "en_US": {
+            "displayName": "Data Confidence",
+            "description": "Confidence level of enriched data (0.0-1.0)"
+          }
+        },
+        "dataType": "float",
+        "required": false
+      }
+    ]
+  }
+}
+

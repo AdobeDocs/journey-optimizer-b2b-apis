@@ -1,0 +1,1057 @@
+openapi: 3.0.0
+info:
+  title: AJO B2B Journeys External Actions Service Provider Interface
+  version: 1.0.0
+  description: |
+    # Adobe Journey Optimizer B2B External Actions API
+    
+    Service provider interface for integrating external actions into Adobe Journey Optimizer B2B Edition (AJOB2B) journeys.
+    This specification defines how external services can process leads, accounts with split path decisioning capabilities.
+    
+    ## Supported Entity Types
+    - **lead**: Lead-based processing
+    - **account**: Account-level processing
+    - **accountPerson**: Combined account and person processing 
+    
+    ## Documentation
+    For complete integration guides, examples, and detailed specifications:
+    - 📘 [Data Flow & Architecture](./docs/data-flow) - Understand the request/response lifecycle
+    - 🔧 [Service Definition](./docs/service-definition) - Declare your service capabilities
+    - ⚡ [Execution Request](./docs/execution-request) - Request structure and entity formats
+    - 📤 [Callback Response](./docs/callback-response) - Response structure and field mapping
+    - 🎯 [Path Condition Accessors](./docs/path-condition-accessors) - Journey routing decisions
+    - ⚠️  [Error Handling](./docs/error-handling) - Error codes and validation
+    
+    ## Quick Start
+    1. Implement `GET /getServiceDefinition` - Declare your capabilities
+    2. Implement `POST /submitAsyncAction` - Receive execution requests
+    3. POST results to the provided `callbackUrl` - Return processed data
+    
+    ## API Endpoints
+    Use the navigation below to explore the three required endpoints (x-required: true) and all schemas.
+  contact:
+    name: Adobe AJOB2B Engineering
+  x-providerName: "AJOB2B Service Provider"
+  x-schemaVersion: "1.0.0"
+  x-supportContact: "support@adobe.com"
+
+servers:
+  - url: https://api.example.com/v2
+    description: Production server
+  - url: https://staging-api.example.com/v2
+    description: Staging server
+
+security:
+  - apiKey: []
+  - oauth2: []
+  - basicAuth: []
+
+paths:
+  /getServiceDefinition:
+    x-required: true
+    x-implemented-by: partner
+    get:
+      summary: Get Service Definition
+      description: |
+        Returns the service definition including supported entities, authentication requirements,
+        field mappings, and configuration options.
+      operationId: getServiceDefinition
+      tags:
+        - Service Configuration
+      responses:
+        '200':
+          description: Service definition retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceDefinition'
+              examples:
+                lead-scoring:
+                  summary: Lead Entity - Lead Scoring Service
+                  description: Service definition for lead scoring with behavioral analysis
+                  externalValue: ./examples/service-definitions/lead-scoring.json
+                account-enrichment:
+                  summary: Account Entity - Account Enrichment Service
+                  description: Service definition for B2B account enrichment with firmographic data
+                  externalValue: ./examples/service-definitions/account-enrichment.json
+                accountPerson:
+                  summary: AccountPerson Entity 
+                  description: Service definition for buying group role identification with account context
+                  externalValue: ./examples/service-definitions/accountPerson-buying-group.json
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /submitAsyncAction:
+    x-required: true
+    x-implemented-by: partner
+    post:
+      summary: Execute External Action
+      description: |
+        Executes the external action for leads, accounts, or accountPerson entities.
+        This endpoint receives context, entity data, and configuration to process the request
+        and return results via the callback mechanism.
+        
+       
+      operationId: executeAction
+      tags:
+        - Action Execution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionRequest'
+      responses:
+        '201':
+          description: Request accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /submitExternalAction/callback:
+    x-required: false
+    x-implemented-by: adobe
+    post:
+      summary: Process Callback Response (Adobe-side endpoint)
+      description: |
+        **Note: This endpoint is implemented by Adobe, not by service providers.**
+         
+        Service providers send their processing results to this Adobe-managed callback endpoint.
+        
+         
+        **Required Headers:**
+        - `X-Callback-Token`: Encrypted correlation token from execution request (REQUIRED)
+        - `X-Api-Key`: Customer API key for authentication
+        - `X-Request-Id`: Request ID for tracking
+        - `Authorization`: Bearer token for validation
+        - `x-gw-ims-org-id`: Organization identifier
+        - `Content-Type`: application/json
+        
+        **Authentication Setup:**
+        
+        To generate the access token for the `Authorization` header, set up OAuth Server-to-Server credentials 
+        in Adobe Developer Console for your IMS Organization and Client.
+        
+        Learn more: https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/
+      operationId: processCallback
+      tags:
+        - Callback Processing
+      parameters:
+        - name: X-Callback-Token
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Encrypted correlation token from the original execution request
+        - name: X-Api-Key
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Customer API key
+        - name: X-Request-Id
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Request correlation ID
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token
+        - name: x-gw-ims-org-id
+          in: header
+          required: true
+          schema:
+            type: string
+          description: IMS Organization ID
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackRequest'
+      responses:
+        '200':
+          description: Callback processed successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Organization not authorized
+        '429':
+          description: Rate limit exceeded
+
+  /status:
+    x-required: true
+    x-implemented-by: partner
+    get:
+      summary: Status Check
+      description: Returns the status of the service
+      operationId: statusCheck
+      tags:
+        - Monitoring
+      responses:
+        '200':
+          description: Service is operational
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy]
+                  timestamp:
+                    type: string
+                    format: date-time
+
+components:
+  securitySchemes:
+    # Used to describe how AJOB2B will authenticate with your service.
+    # Indicate which scheme to use in the root "security" node.
+    # AJOB2B will only use the first scheme defined in the '#/security' section.
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API Key authentication.# Change the value of name to specify a different header name.  'in' may have a value of either 'header' or 'query'
+    oauth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+      # Scopes must be empty. Use x-fields to define nonstandard names to be used when requesting access token
+        authorizationCode:
+          authorizationUrl: "https://www.example.com/authorize"
+          tokenUrl: "https://www.example.com/token"
+          refreshUrl: "https://www.example.com/refreshToken"
+          scopes: {}
+          x-grantTypeName: Grant type name to be used when requesting access token
+          x-clientIdName: Client ID name to be used when requesting access token
+          x-clientSecretName: Client secret name to be used when requesting access token
+        clientCredentials:
+          tokenUrl: "https://www.example.com/token"
+          refreshUrl: "https://www.example.com/refreshToken"
+          scopes: {}
+          
+
+        # Scopes must be empty. Use x-fields to define nonstandard names to be used when requesting access token
+        
+    basicAuth:
+      type: http
+      scheme: basic
+      x-realm-required: false
+      description: HTTP Basic authentication
+
+  schemas:
+    ServiceDefinition:
+      type: object
+      required:
+        - apiName
+        - i18n
+        - description
+        - invocationPayloadDef
+        - callbackPayloadDef
+        - primaryAttribute
+        - enableSplitPaths
+        - supportedEntityType
+      properties:
+        apiName:
+          type: string
+          description: Unique identifier for the external action service
+          example: "account_enrichment"
+        i18n:
+          $ref: '#/components/schemas/ServiceI18n'
+        description:
+          type: string
+          description: Primary attribute that describes the main asset
+          example: "accountName"
+        primaryAttribute:
+          type: string
+          description: API name of the attribute that describes the primary asset. This must match an attribute from the flow attribute list and *cannot* match an attribute from the callback attribute list.
+        invocationPayloadDef:
+          $ref: '#/components/schemas/InvocationPayloadDef'
+        callbackPayloadDef:
+          $ref: '#/components/schemas/CallbackPayloadDef'
+        supportedEntityType:
+          type: string
+          enum: [lead, account, accountPerson]
+          description: |
+            Entity type supported by this external action (a service supports only one entity type):
+            - lead: lead processing (AJOB2B)
+            - account: Account-level processing (AJOB2B)
+            - accountPerson: Combined processing (AJOB2B)
+          default: account
+        timeout:
+          type: integer
+          maximum: 240
+          default: 60
+          description: Callback timeout in minutes (max 4 hours)
+        enableSplitPaths:
+          type: boolean
+          description: Indicates if this service supports split path decisioning in journeys
+          default: false
+      oneOf:
+        # Option 1: Lead entity without split paths
+        - type: object
+          title: Lead Entity (No Split Paths)
+          description: Service processes individual leads without journey split path decisioning
+          properties:
+            supportedEntityType:
+              enum: [lead]
+            enableSplitPaths:
+              enum: [false]
+            invocationPayloadDef:
+              required: [fields]
+            callbackPayloadDef:
+              required: [fields]
+        
+        # Option 2: Lead entity with split paths
+        - type: object
+          title: Lead Entity (With Split Paths)
+          description: Service processes individual leads with journey split path decisioning via accessor tokens
+          properties:
+            supportedEntityType:
+              enum: [lead]
+            enableSplitPaths:
+              enum: [true]
+            invocationPayloadDef:
+              required: [fields, accessorsMetadata]
+            callbackPayloadDef:
+              required: [fields]
+        
+        # Option 3: Account entity without split paths
+        - type: object
+          title: Account Entity (No Split Paths)
+          description: Service processes accounts without journey split path decisioning
+          properties:
+            supportedEntityType:
+              enum: [account]
+            enableSplitPaths:
+              enum: [false]
+            invocationPayloadDef:
+              required: [accountFields]
+            callbackPayloadDef:
+              required: [accountFields]
+        
+        # Option 4: Account entity with split paths
+        - type: object
+          title: Account Entity (With Split Paths)
+          description: Service processes accounts with journey split path decisioning via accessor tokens
+          properties:
+            supportedEntityType:
+              enum: [account]
+            enableSplitPaths:
+              enum: [true]
+            invocationPayloadDef:
+              required: [accountFields, accessorsMetadata]
+            callbackPayloadDef:
+              required: [accountFields]
+        
+        # Option 5: AccountPerson entity without split paths
+        - type: object
+          title: AccountPerson Entity (No Split Paths)
+          description: Service processes leads in context of their accounts without journey split path decisioning
+          properties:
+            supportedEntityType:
+              enum: [accountPerson]
+            enableSplitPaths:
+              enum: [false]
+            invocationPayloadDef:
+              required: [fields, accountFields]
+            callbackPayloadDef:
+              required: [fields, accountFields]
+        
+        # Option 6: AccountPerson entity with split paths
+        - type: object
+          title: AccountPerson Entity (With Split Paths)
+          description: Service processes leads in context of their accounts with journey split path decisioning via accessor tokens
+          properties:
+            supportedEntityType:
+              enum: [accountPerson]
+            enableSplitPaths:
+              enum: [true]
+            invocationPayloadDef:
+              required: [fields, accountFields, accessorsMetadata]
+            callbackPayloadDef:
+              required: [fields, accountFields]
+
+    ServiceI18n:
+      type: object
+      required:
+        - en_US
+      properties:
+        en_US:
+          $ref: '#/components/schemas/LocalizedStrings'
+
+    LocalizedStrings:
+      type: object
+      required:
+        - name
+        - description
+      properties:
+        name:
+          type: string
+          description: Localized service name
+        description:
+          type: string
+          description: Localized service description
+
+    InvocationPayloadDef:
+      type: object
+      properties:
+        globalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinition'
+          description: Global configuration attributes (Values configured in Admin UI)
+        flowAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinition'
+          description: Flow step specific attributes (Values configured in Journey UI)
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldMapping'
+          description: |
+            Lead/person field mappings (Mapped to AJOB2B fields in Admin UI).
+            - Required for entityType: lead 
+            - Required for entityType: accountPerson (AJOB2B)
+            - Not used for entityType: account
+        accountFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldMapping'
+          description: |
+            Account field mappings (Mapped to AJOB2B fields configured in Admin UI).
+            - Required for entityType: account
+            - Required for entityType: accountPerson
+            - Not used for entityType: lead 
+        headers:
+          type: array
+          items:
+            $ref: '#/components/schemas/HeaderAttribute'
+          description: Custom headers for invocations
+        journeyContext:
+          type: boolean
+          default: true
+          description: Include journey data in invocation
+        subscriptionContext:
+          type: boolean
+          default: true
+          description: Include subscription data in invocation
+
+        accessorsMetadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessorMetadataDefinition'
+          description: |
+            Metadata about path condition accessors to be used in path conditions.
+            Required when enableSplitPaths is true.
+
+    CallbackPayloadDef:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldMapping'
+          description: |
+            Lead/person fields that can be updated via callback.
+            Used for lead and accountPerson entity types.
+        accountFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldMapping'
+          description: |
+            Account fields that can be updated via callback.
+            Used for account and accountPerson entity types.
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinition'
+          description: Attributes that can be updated via callback.
+
+        
+
+    AttributeDefinition:
+      type: object
+      required:
+        - apiName
+        - i18n
+        - dataType
+      properties:
+        apiName:
+          type: string
+          description: API name for the attribute
+        i18n:
+          $ref: '#/components/schemas/AttributeI18n'
+        dataType:
+          type: string
+          enum: [string, integer, float, boolean, date, datetime]
+        required:
+          type: boolean
+          default: false
+
+    AttributeI18n:
+      type: object
+      required:
+        - en_US
+      properties:
+        en_US:
+          type: object
+          required:
+            - displayName
+          properties:
+            displayName:
+              type: string
+            description:
+              type: string
+
+    FieldMapping:
+      type: object
+      required:
+        - serviceAttribute
+        - dataType
+      properties:
+        serviceAttribute:
+          type: string
+          description: Service-side field name
+        description:
+          type: string
+          description: Description presented to the user for the mapping during installation
+        dataType:
+          type: string
+          enum: [string, integer, float, boolean, date, datetime]
+        required:
+          type: boolean
+          default: false
+
+    HeaderAttribute:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          description: Header name
+        value:
+          type: string
+          description: Header value
+        description:
+          type: string
+          description: Description of the header's purpose
+
+
+
+    AccessorMetadataDefinition:
+      type: object
+      required:
+        - accessorName
+        - dataType
+      properties:
+        accessorName:
+          type: string
+          description: Accessor name (without my. prefix)
+        dataType:
+          type: string
+          enum: [string, integer, float, boolean, date, datetime]
+        description:
+          type: string
+          description: Human-readable description of the accessor's purpose
+        
+
+    PathConditionDefinition:
+      type: object
+      required:
+        - pathId
+        - pathDefinition
+      properties:
+        pathId:
+          type: string
+          description: Unique identifier for the split path
+          example: "highValue"
+        pathDefinition:
+          type: array
+          description: Array of condition definitions for this path (empty array for default path)
+          items:
+            type: object
+            required:
+              - accessor
+              - operator
+              - values
+            properties:
+              accessor:
+                type: string
+                description: Name of the accessor to evaluate
+                example: "enrichmentScore"
+              operator:
+                type: string
+                description: Comparison operator
+                enum: [is, isNot, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, contains, notContains]
+                example: "greaterThanOrEqual"
+              values:
+                type: array
+                items:
+                  type: string
+                description: Values to compare against
+                example: ["80"]
+
+    ExecutionRequest:
+      type: object
+      required:
+        - token
+        - objectData
+        - callbackUrl
+        - actionConfig
+      properties:
+        token:
+          type: string
+          description: Encrypted correlation token for callback authentication
+        context:
+          $ref: '#/components/schemas/ExecutionContext'
+        objectData:
+          type: object
+          description: Entity data object submitted by Adobe to service
+          required:
+            - objectType
+            - objectContext
+          properties:
+            objectType:
+              type: string
+              enum: [lead, account, accountPerson]
+              description: |
+                Type of entity being processed:
+                - lead: Lead/person 
+                - account: Account entity 
+                - accountPerson: Leads within account 
+            objectContext:
+              description: |
+                Entity-specific data structure. Structure depends on objectType:
+                - lead: LeadObjectData (leadId, leadData)
+                - account: AccountObjectData (accountId, accountData)
+                - accountPerson: AccountPersonObjectData (accountId, accountData, accountPersonRelationships)
+              oneOf:
+                - $ref: '#/components/schemas/LeadObjectData'
+                - $ref: '#/components/schemas/AccountObjectData'
+                - $ref: '#/components/schemas/AccountPersonObjectData'
+            flowStepContext:
+              type: object
+              additionalProperties: true
+              description: Data related to specific invocation of the flow action. Property list is defined by 'flow' type service attributes in Service Definition. Values are based on inputs given by Marketo users in Smart Campaign UI
+        callbackUrl:
+          type: string
+          format: uri
+          description: Adobe callback endpoint URL where service provider will send results
+        actionConfig:
+          $ref: '#/components/schemas/ActionConfig'
+     
+        enableSplitPaths:
+          type: boolean
+          description: Indicates if split path decisioning is enabled
+
+    ExecutionContext:
+      type: object
+      properties:
+        subscription:
+          type: object
+          properties:
+            prefix:
+              type: string
+              description: Customer prefix
+            imsOrgId:
+              type: string
+              description: IMS Organization ID
+            munchkinId:
+              type: string
+              description: Munchkin ID
+        journey:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Journey identifier
+            name:
+              type: string
+              description: Journey name
+            status:
+              type: string
+              enum: [Finished, Live, draft, Aborted]
+            startDate:
+              type: string
+              format: date-time
+            endDate:
+              type: string
+              format: date-time
+        admin:
+          type: object
+          additionalProperties: true
+          description: Global configuration data as provided by AJO administrator
+
+    LeadObjectData:
+      type: object
+      required:
+        - leadId
+        - leadData
+      properties:
+        leadId:
+          type: string
+          description: Lead/Person identifier (AJOB2B system identifier)
+        leadData:
+          type: object
+          additionalProperties: true
+          description: Lead field data
+
+    AccountObjectData:
+      type: object
+      required:
+        - accountId
+        - accountData
+      properties:
+        accountId:
+          type: string
+          description: Account identifier (system identifier)
+        accountData:
+          type: object
+          additionalProperties: true
+          description: Account field data
+
+    AccountPersonObjectData:
+      type: object
+      required:
+        - accountId
+        - accountData
+        - accountPersonRelationships
+      properties:
+        accountId:
+          type: string
+          description: Account identifier (system identifier)
+        accountData:
+          type: object
+          additionalProperties: true
+          description: Account field data
+        accountPersonRelationships:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPersonRelationship'
+          description: Array of account-person relationships
+
+    AccountPersonRelationship:
+      type: object
+      required:
+        - accountPersonRelId
+        - accountId
+        - personId
+        - leadData
+      properties:
+        accountPersonRelId:
+          type: integer
+          description: Unique identifier for account-person relationship
+        accountId:
+          type: integer
+          description: Account ID from the relationship
+        personId:
+          type: integer
+          description: Person/Lead ID from the relationship
+        leadData:
+          type: object
+          additionalProperties: true
+          description: Lead field data
+        relationshipMetadata:
+          type: object
+          additionalProperties: true
+          description: Relationship-specific metadata
+
+    ActionConfig:
+      type: object
+      required:
+        - timeout
+      properties:
+        timeout:
+          type: integer
+          description: Callback timeout in minutes
+        pathConfig:
+          type: array
+          items:
+            $ref: '#/components/schemas/PathConditionDefinition'
+          description: Split path configuration
+
+    ExecutionResponse:
+      type: object
+      required:
+        - status
+        - requestId
+      properties:
+        status:
+          type: string
+          enum: [accepted]
+        requestId:
+          type: string
+          description: Unique request identifier
+        message:
+          type: string
+          description: Status message
+        estimatedProcessingTime:
+          type: integer
+          description: Estimated processing time in seconds
+
+    CallbackRequest:
+      type: object
+      required:
+        - objectData
+      properties:
+        objectData:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackResponseObjectData'
+          description: Array of responses 
+
+    CallbackResponseObjectData:
+      type: object
+      required:
+        - activityData
+      properties:
+        activityData:
+          $ref: '#/components/schemas/ActivityData'
+        leadData:
+          allOf:
+            - $ref: '#/components/schemas/LeadCallbackData'
+          description: Lead/person data for 'lead' entity type
+        accountData:
+          $ref: '#/components/schemas/AccountCallbackData'
+        accountPersonData:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountPersonCallbackData'
+          description: |
+            Account-person relationship data (REQUIRED for accountPerson entity type).
+            Each object includes IDs, optional leadData for person updates, and accessorValues.
+      anyOf:
+        - title: Lead
+          required: [leadData]
+          description: Lead entity callback - requires leadData
+        - title: Account
+          required: [accountData]
+          description: Account entity callback - requires accountData
+        - title: AccountPerson
+          required: [accountPersonData]
+          description: AccountPerson entity callback - requires accountPersonData
+
+    LeadCallbackData:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Lead/Person identifier
+        accessorValues:
+          type: object
+          additionalProperties: true
+          description: Path condition accessor values for person-level split path decisioning
+          example:
+            treatmentId: "premium"
+            priority: "high"
+      additionalProperties: true
+      description: Object used to submit data back to lead record. Included fields must be included in service definition. Fields must also be mapped and active for write to succeed.
+
+    AccountCallbackData:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Account identifier
+        accessorValues:
+          type: object
+          additionalProperties: true
+          description: |
+            Path condition accessor values for account-level split path decisioning.
+            Note: For accountPerson entity type, accessor values should be provided at the accountPersonData level instead.
+          example:
+            tier: "enterprise"
+            region: "EMEA"
+      additionalProperties: true
+      description: |
+        Object used to submit data back to account record. Included fields must be included in service definition. 
+        Fields must also be mapped and active for write to succeed.
+        
+        When used in accountPerson callback (with accountPersonData), this provides account-level attribute updates.
+        Token overrides for accountPerson should be at the accountPersonData level, not here.
+
+    AccountPersonCallbackData:
+      type: object
+      required:
+        - accountPersonRelId
+        - accountId
+        - personId
+      properties:
+        accountPersonRelId:
+          type: integer
+          format: int64
+          description: Account-person relationship ID
+        accountId:
+          type: integer
+          format: int64
+          description: Account ID
+        personId:
+          type: integer
+          format: int64
+          description: Person/Lead ID
+        leadData:
+          type: object
+          additionalProperties: true
+          description: |
+            Lead/person field data for this specific relationship.
+            **Optional** - Only include if your service wants to update person attributes.
+            Fields must be defined in callbackPayloadDef.fields and properly mapped.
+          example:
+            email: "john@example.com"
+            title: "VP Sales"
+            mobilePhone: "+1-555-0101"
+        accessorValues:
+          type: object
+          additionalProperties: true
+          description: |
+            Path condition accessor values for this specific account-person relationship split path decisioning.
+            For accountPerson entity type, accessor values MUST be provided at this level (per person),
+            not at the accountData level.
+          example:
+            treatmentId: "premium"
+            engagementScore: 92
+            persona: "decision_maker"
+            priority: "high"
+      additionalProperties: false
+      description: |
+        Object used for account-person relationships in accountPerson callbacks.
+        Structure mirrors the execution request for consistency.
+        
+        **Purpose:**
+        - Identifies each specific account-person relationship (accountPersonRelId, accountId, personId)
+        - Optionally updates person attributes via leadData (only if your service supports it)
+        - Provides relationship-specific path condition accessor values (via accessorValues)
+        
+        **Important:**
+        - IDs (accountPersonRelId, accountId, personId) MUST match the ones provided in the execution request
+        - Account attribute updates: Use accountData.additionalProperties (applies to all relationships)
+        - Person/lead attribute updates: Use leadData inside each accountPersonData object (per person)
+        - Relationship metadata updates: NOT currently supported (additionalProperties: false)
+        
+        **Note:** Support for relationship metadata updates may be added in future releases.
+
+    ActivityData:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Whether the action succeeded
+        errorCode:
+          type: string
+          description: Error code if action failed
+        reason:
+          type: string
+          description: Human-readable error message
+      additionalProperties: true
+
+    Error:
+      type: object
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: string
+          enum: [error]
+        code:
+          type: string
+          enum:
+            - INVALID_REQUEST
+            - RESOURCE_NOT_FOUND
+            - VALIDATION_ERROR
+            - INTERNAL_ERROR
+            - UNAUTHORIZED
+            - FORBIDDEN
+            - TIMEOUT
+            - RATE_LIMITED
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
+        timestamp:
+          type: string
+          format: date-time
+        requestId:
+          type: string
+        token:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Authentication required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+tags:
+  - name: Service Configuration
+    description: Service definition and capability discovery
+  - name: Action Execution
+    description: External action execution endpoints
+  - name: Callback Processing
+    description: Callback processing for asynchronous results
+  - name: Monitoring
+    description: Status and monitoring endpoints
+
+

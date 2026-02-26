@@ -1,0 +1,212 @@
+apiName: "leadEnrichmentService"
+i18n:
+  en_US:
+    name: "Lead Enrichment Service"
+    description: "Enriches lead/person data with third-party intelligence and provides data quality scoring"
+description: "Enriches lead profiles with external data sources to improve targeting and personalization"
+primaryAttribute: "enrichmentType"
+supportedEntityType: lead
+timeout: 90
+enableSplitPaths: true
+
+invocationPayloadDef:
+  globalAttributes:
+    - apiName: apiKey
+      i18n:
+        en_US:
+          displayName: "API Key"
+          description: "API key for service authentication"
+      dataType: string
+      required: true
+    - apiName: region
+      i18n:
+        en_US:
+          displayName: "Data Region"
+          description: "Data region (US, EU, APAC)"
+      dataType: string
+      required: false
+  
+  flowAttributes:
+    - apiName: enrichmentType
+      i18n:
+        en_US:
+          displayName: "Enrichment Type"
+          description: "Type of enrichment to perform (professional, social, contact)"
+      dataType: string
+      required: true
+    - apiName: priority
+      i18n:
+        en_US:
+          displayName: "Processing Priority"
+          description: "Processing priority (high, normal, low)"
+      dataType: string
+      required: false
+  
+  fields:
+    - apiName: email
+      i18n:
+        en_US:
+          displayName: "Email Address"
+          description: "Person email address (primary identifier)"
+      dataType: string
+      required: true
+    - apiName: firstName
+      i18n:
+        en_US:
+          displayName: "First Name"
+          description: "Person first name"
+      dataType: string
+      required: false
+    - apiName: lastName
+      i18n:
+        en_US:
+          displayName: "Last Name"
+          description: "Person last name"
+      dataType: string
+      required: false
+    - apiName: company
+      i18n:
+        en_US:
+          displayName: "Company"
+          description: "Company name"
+      dataType: string
+      required: false
+    - apiName: title
+      i18n:
+        en_US:
+          displayName: "Job Title"
+          description: "Job title"
+      dataType: string
+      required: false
+  
+  headers:
+    - headerName: X-Tenant-ID
+      description: Tenant identifier for multi-tenant services
+    - headerName: X-Request-Source
+      defaultValue: AJO
+      description: Source system identifier
+  
+  journeyContext: true
+  subscriptionContext: true
+  
+  accessorsMetadata:
+    - accessorName: enrichmentScore
+      dataType: integer
+      description: Overall data enrichment quality score (0-100)
+      constraints:
+        minValue: 0
+        maxValue: 100
+    - accessorName: dataQuality
+      dataType: string
+      description: Data quality level
+      constraints:
+        allowedValues: ["high", "medium", "low"]
+    - accessorName: contactability
+      dataType: string
+      description: Likelihood of contact reachability
+      constraints:
+        allowedValues: ["excellent", "good", "fair", "poor"]
+
+callbackPayloadDef:
+  fields:
+    - apiName: email
+      i18n:
+        en_US:
+          displayName: "Email Address"
+          description: "Verified/corrected email address"
+      dataType: string
+      required: false
+    - apiName: firstName
+      i18n:
+        en_US:
+          displayName: "First Name"
+          description: "Verified first name"
+      dataType: string
+      required: false
+    - apiName: lastName
+      i18n:
+        en_US:
+          displayName: "Last Name"
+          description: "Verified last name"
+      dataType: string
+      required: false
+    - apiName: mobilePhone
+      i18n:
+        en_US:
+          displayName: "Mobile Phone"
+          description: "Enriched mobile phone number"
+      dataType: string
+      required: false
+    - apiName: directPhone
+      i18n:
+        en_US:
+          displayName: "Direct Phone"
+          description: "Enriched direct phone number"
+      dataType: string
+      required: false
+    - apiName: linkedInUrl
+      i18n:
+        en_US:
+          displayName: "LinkedIn URL"
+          description: "LinkedIn profile URL"
+      dataType: string
+      required: false
+    - apiName: twitterHandle
+      i18n:
+        en_US:
+          displayName: "Twitter Handle"
+          description: "Twitter handle"
+      dataType: string
+      required: false
+    - apiName: title
+      i18n:
+        en_US:
+          displayName: "Job Title"
+          description: "Verified job title"
+      dataType: string
+      required: false
+    - apiName: seniority
+      i18n:
+        en_US:
+          displayName: "Seniority Level"
+          description: "Job seniority level"
+      dataType: string
+      required: false
+    - apiName: department
+      i18n:
+        en_US:
+          displayName: "Department"
+          description: "Department name"
+      dataType: string
+      required: false
+    - apiName: jobFunction
+      i18n:
+        en_US:
+          displayName: "Job Function"
+          description: "Job function category"
+      dataType: string
+      required: false
+  
+  attributes:
+    - apiName: enrichmentStatus
+      i18n:
+        en_US:
+          displayName: "Enrichment Status"
+          description: "Status of enrichment process"
+      dataType: string
+      required: false
+    - apiName: enrichmentDate
+      i18n:
+        en_US:
+          displayName: "Enrichment Date"
+          description: "When enrichment was performed"
+      dataType: datetime
+      required: false
+    - apiName: dataConfidence
+      i18n:
+        en_US:
+          displayName: "Data Confidence"
+          description: "Confidence level of enriched data (0.0-1.0)"
+      dataType: float
+      required: false
+

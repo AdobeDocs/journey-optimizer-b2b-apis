@@ -1,0 +1,221 @@
+{
+  "apiName": "lead_scoring_service",
+  "i18n": {
+    "en_US": {
+      "name": "Lead Scoring Service",
+      "description": "Scores and enriches individual lead/person records with behavioral and demographic data"
+    }
+  },
+  "description": "Advanced lead scoring with AI-driven insights and enrichment",
+  "primaryAttribute": "scoringModel",
+  "supportedEntityType": "lead",
+  "timeout": 60,
+  "enableSplitPaths": true,
+  "invocationPayloadDef": {
+    "globalAttributes": [
+      {
+        "apiName": "apiKey",
+        "i18n": {
+          "en_US": {
+            "displayName": "API Key",
+            "description": "Service authentication key"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "scoringThreshold",
+        "i18n": {
+          "en_US": {
+            "displayName": "Scoring Threshold",
+            "description": "Minimum score for qualification"
+          }
+        },
+        "dataType": "integer",
+        "required": false
+      }
+    ],
+    "flowAttributes": [
+      {
+        "apiName": "scoringModel",
+        "i18n": {
+          "en_US": {
+            "displayName": "Scoring Model",
+            "description": "Which scoring model to use (predictive, behavioral, demographic)"
+          }
+        },
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "apiName": "includeIntent",
+        "i18n": {
+          "en_US": {
+            "displayName": "Include Intent Data",
+            "description": "Whether to include intent signal analysis"
+          }
+        },
+        "dataType": "boolean",
+        "required": false
+      }
+    ],
+    "fields": [
+      {
+        "serviceAttribute": "email",
+        "description": "Person email address (primary identifier)",
+        "dataType": "string",
+        "required": true
+      },
+      {
+        "serviceAttribute": "firstName",
+        "description": "First name",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "lastName",
+        "description": "Last name",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "title",
+        "description": "Job title",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "company",
+        "description": "Company name",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "phone",
+        "description": "Phone number",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "linkedInUrl",
+        "description": "LinkedIn profile URL",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "headers": [
+      {
+        "name": "X-Customer-ID",
+        "value": "{{subscription.munchkinId}}",
+        "description": "Customer Munchkin ID"
+      }
+    ],
+    "journeyContext": true,
+    "subscriptionContext": true,
+    "accessorsMetadata": [
+      {
+        "accessorName": "leadScore",
+        "dataType": "integer",
+        "description": "Calculated lead score (0-100)"
+      },
+      {
+        "accessorName": "scoreTier",
+        "dataType": "string",
+        "description": "Score tier classification (hot, warm, cold)"
+      },
+      {
+        "accessorName": "readyToBuy",
+        "dataType": "boolean",
+        "description": "Whether lead shows buying readiness signals"
+      },
+      {
+        "accessorName": "persona",
+        "dataType": "string",
+        "description": "Identified persona type"
+      }
+    ]
+  },
+  "callbackPayloadDef": {
+    "fields": [
+      {
+        "serviceAttribute": "mobilePhone",
+        "description": "Mobile phone (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "directPhone",
+        "description": "Direct phone number (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "jobFunction",
+        "description": "Job function category (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "seniority",
+        "description": "Job seniority level (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "department",
+        "description": "Department (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "twitterHandle",
+        "description": "Twitter handle (enriched)",
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "serviceAttribute": "education",
+        "description": "Education background (enriched)",
+        "dataType": "string",
+        "required": false
+      }
+    ],
+    "attributes": [
+      {
+        "apiName": "scoringDate",
+        "i18n": {
+          "en_US": {
+            "displayName": "Scoring Date",
+            "description": "When scoring was performed"
+          }
+        },
+        "dataType": "datetime",
+        "required": false
+      },
+      {
+        "apiName": "modelVersion",
+        "i18n": {
+          "en_US": {
+            "displayName": "Model Version",
+            "description": "Version of scoring model used"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "apiName": "confidenceLevel",
+        "i18n": {
+          "en_US": {
+            "displayName": "Confidence Level",
+            "description": "Confidence in scoring accuracy (0.0-1.0)"
+          }
+        },
+        "dataType": "float",
+        "required": false
+      }
+    ]
+  }
+}
+

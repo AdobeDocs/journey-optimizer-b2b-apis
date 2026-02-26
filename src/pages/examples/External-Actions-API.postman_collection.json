@@ -1,0 +1,261 @@
+{
+  "info": {
+    "_postman_id": "external-actions-api",
+    "name": "Adobe External Actions API",
+    "description": "Postman collection for testing Adobe External Actions API integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "serviceUrl",
+      "value": "https://your-service.com",
+      "type": "string"
+    },
+    {
+      "key": "adobeCallbackUrl",
+      "value": "https://adobe.com/external-actions/callback",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "your-api-key",
+      "type": "string"
+    },
+    {
+      "key": "callbackToken",
+      "value": "test-callback-token-123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Service Definition",
+      "item": [
+        {
+          "name": "Get Service Definition",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{serviceUrl}}/getServiceDefinition",
+              "host": ["{{serviceUrl}}"],
+              "path": ["getServiceDefinition"]
+            },
+            "description": "Retrieve the service definition that declares service capabilities"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Execution Requests",
+      "item": [
+        {
+          "name": "Submit Lead Entity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{callbackToken}}\",\n  \"callbackUrl\": \"{{adobeCallbackUrl}}\",\n  \"context\": {\n    \"subscription\": {\n      \"prefix\": \"test-instance\",\n      \"imsOrgId\": \"12345@AdobeOrg\"\n    },\n    \"admin\": {\n      \"apiKey\": \"service-api-key\"\n    }\n  },\n  \"objectData\": {\n    \"objectType\": \"lead\",\n    \"objectContext\": {\n      \"leadId\": \"12345\",\n      \"leadData\": {\n        \"email\": \"test@example.com\",\n        \"firstName\": \"Test\",\n        \"lastName\": \"User\"\n      }\n    }\n  },\n  \"enableSplitPaths\": false\n}"
+            },
+            "url": {
+              "raw": "{{serviceUrl}}/submitAsyncAction",
+              "host": ["{{serviceUrl}}"],
+              "path": ["submitAsyncAction"]
+            },
+            "description": "Submit a lead entity for processing"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Account Entity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{callbackToken}}\",\n  \"callbackUrl\": \"{{adobeCallbackUrl}}\",\n  \"context\": {\n    \"subscription\": {\n      \"prefix\": \"test-instance\",\n      \"imsOrgId\": \"12345@AdobeOrg\"\n    },\n    \"admin\": {\n      \"apiKey\": \"service-api-key\"\n    }\n  },\n  \"objectData\": {\n    \"objectType\": \"account\",\n    \"objectContext\": {\n      \"accountId\": \"67890\",\n      \"accountData\": {\n        \"accountName\": \"Test Corporation\",\n        \"industry\": \"Technology\"\n      }\n    }\n  },\n  \"enableSplitPaths\": false\n}"
+            },
+            "url": {
+              "raw": "{{serviceUrl}}/submitAsyncAction",
+              "host": ["{{serviceUrl}}"],
+              "path": ["submitAsyncAction"]
+            },
+            "description": "Submit an account entity for processing"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit AccountPerson Entity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"{{callbackToken}}\",\n  \"callbackUrl\": \"{{adobeCallbackUrl}}\",\n  \"context\": {\n    \"subscription\": {\n      \"prefix\": \"test-instance\",\n      \"imsOrgId\": \"12345@AdobeOrg\"\n    },\n    \"admin\": {\n      \"apiKey\": \"service-api-key\"\n    }\n  },\n  \"objectData\": {\n    \"objectType\": \"accountPerson\",\n    \"objectContext\": {\n      \"accountId\": \"67890\",\n      \"accountData\": {\n        \"accountName\": \"Test Corporation\",\n        \"industry\": \"Technology\"\n      },\n      \"accountPersonRelationships\": [\n        {\n          \"accountPersonRelId\": 111,\n          \"accountId\": 67890,\n          \"personId\": 12345,\n          \"leadData\": {\n            \"email\": \"john@testcorp.com\",\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\"\n          }\n        },\n        {\n          \"accountPersonRelId\": 112,\n          \"accountId\": 67890,\n          \"personId\": 12346,\n          \"leadData\": {\n            \"email\": \"jane@testcorp.com\",\n            \"firstName\": \"Jane\",\n            \"lastName\": \"Smith\"\n          }\n        }\n      ]\n    }\n  },\n  \"enableSplitPaths\": true\n}"
+            },
+            "url": {
+              "raw": "{{serviceUrl}}/submitAsyncAction",
+              "host": ["{{serviceUrl}}"],
+              "path": ["submitAsyncAction"]
+            },
+            "description": "Submit accountPerson entity (buying group) for processing"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Callback Responses",
+      "item": [
+        {
+          "name": "Send Success Callback - Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "X-Callback-Token",
+                "value": "{{callbackToken}}"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer service-token"
+              },
+              {
+                "key": "x-gw-ims-org-id",
+                "value": "12345@AdobeOrg"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectData\": [\n    {\n      \"activityData\": {\n        \"success\": true\n      },\n      \"leadData\": {\n        \"id\": 12345,\n        \"email\": \"test@example.com\",\n        \"mobilePhone\": \"+1-555-0101\",\n        \"accessorValues\": {\n          \"enrichmentScore\": 85\n        }\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{adobeCallbackUrl}}",
+              "host": ["{{adobeCallbackUrl}}"]
+            },
+            "description": "Send a successful callback response to Adobe for lead entity"
+          },
+          "response": []
+        },
+        {
+          "name": "Send Success Callback - AccountPerson",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "X-Callback-Token",
+                "value": "{{callbackToken}}"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer service-token"
+              },
+              {
+                "key": "x-gw-ims-org-id",
+                "value": "12345@AdobeOrg"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectData\": [\n    {\n      \"activityData\": {\n        \"success\": true,\n        \"analysisModel\": \"buying-group-v2.0\"\n      },\n      \"accountData\": {\n        \"id\": 67890,\n        \"buyingGroupSize\": 5,\n        \"accountEngagementScore\": 88\n      },\n      \"accountPersonData\": [\n        {\n          \"accountPersonRelId\": 111,\n          \"accountId\": 67890,\n          \"personId\": 12345,\n          \"leadData\": {\n            \"email\": \"john@testcorp.com\",\n            \"title\": \"CTO\"\n          },\n          \"accessorValues\": {\n            \"buyingRole\": \"economic_buyer\",\n            \"influenceScore\": 92\n          }\n        },\n        {\n          \"accountPersonRelId\": 112,\n          \"accountId\": 67890,\n          \"personId\": 12346,\n          \"leadData\": {\n            \"email\": \"jane@testcorp.com\",\n            \"title\": \"VP Sales\"\n          },\n          \"accessorValues\": {\n            \"buyingRole\": \"champion\",\n            \"influenceScore\": 88\n          }\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{adobeCallbackUrl}}",
+              "host": ["{{adobeCallbackUrl}}"]
+            },
+            "description": "Send a successful callback response to Adobe for accountPerson entity. Structure mirrors execution request with leadData inside accountPersonData objects."
+          },
+          "response": []
+        },
+        {
+          "name": "Send Error Callback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Api-Key",
+                "value": "{{apiKey}}"
+              },
+              {
+                "key": "X-Callback-Token",
+                "value": "{{callbackToken}}"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer service-token"
+              },
+              {
+                "key": "x-gw-ims-org-id",
+                "value": "12345@AdobeOrg"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"objectData\": [\n    {\n      \"activityData\": {\n        \"success\": false,\n        \"errorCode\": \"ENRICHMENT_FAILED\",\n        \"reason\": \"External API unavailable\"\n      },\n      \"leadData\": {\n        \"id\": 12345\n      }\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{adobeCallbackUrl}}",
+              "host": ["{{adobeCallbackUrl}}"]
+            },
+            "description": "Send an error callback response to Adobe"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
