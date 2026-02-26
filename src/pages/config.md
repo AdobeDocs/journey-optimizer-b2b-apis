@@ -1,5 +1,5 @@
 - pathPrefix:
-    - /dev-docs-template/
+    - /journey-optimizer-b2b-apis/
 
 - pages:
     - [Analytics](index.md)
