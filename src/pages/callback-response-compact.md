@@ -1,7 +1,6 @@
 ---
 title: Callback Response (Compact)
-contributors:
-  - https://github.com/adobe
+description: Compact reference for callback response headers, payload structure, and status handling.
 ---
 
 # Callback Response (Compact)
@@ -156,8 +155,3 @@ Failure (account):
 - To avoid unintended updates, return only changed fields.
 - Validate data types before sending callback payloads.
 - Log callback attempts and Adobe response codes.
-
-## Next Steps
-
-- Review [Path Condition Accessors](/docs/path-condition-accessors/) for split-path logic
-- Review [Error Handling](/docs/error-handling/) for request/callback failure handling

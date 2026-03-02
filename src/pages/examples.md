@@ -1,5 +1,6 @@
 ---
 title: Examples
+description: Real-world request and response examples for leads, accounts, and account-person workflows.
 contributors:
   - https://github.com/adobe
 ---
@@ -537,7 +538,7 @@ curl -X POST https://adobe-test.com/callback/YOUR_CORRELATION_ID \
 
 ## Testing with Postman
 
-For a more interactive testing experience, use our [Postman Collection](/docs/postman).
+For a more interactive testing experience, use our [Postman Collection](postman.md).
 
 The Postman collection includes:
 
@@ -545,12 +546,3 @@ The Postman collection includes:
 - Environment variable templates
 - Request/response validation
 - Mock server support
-
-## Related Documentation
-
-- [Data Flow Overview](/docs/data-flow) - Understand the complete data flow
-- [Service Definition](/docs/service-definition) - Detailed service definition guide
-- [Execution Request](/docs/execution-request) - Execution request structure
-- [Callback Response](/docs/callback-response) - Callback response format
-- [Postman Collection](/docs/postman) - Interactive API testing
-

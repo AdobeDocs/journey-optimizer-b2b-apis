@@ -3,7 +3,7 @@
 
 - pages:
     - [Overview](index.md)
-    - [API Reference](openapi-spec-requirements-compact.md)
+    - [API Reference](external-actions-api.md)
     - [Code Samples](examples.md)
 
 - subPages:

@@ -1,5 +1,6 @@
 ---
 title: Execution Request (Compact)
+description: Compact reference for the submitAsyncAction request envelope, headers, and required fields.
 ---
 
 # Execution Request (Compact)
@@ -100,8 +101,3 @@ Send service-specific runtime headers from admin configuration.
 - Required IDs for that entity type are present.
 - `flowStepContext` fields align with `invocationPayloadDef.flowAttributes`.
 - `actionConfig.pathConfig` is only used when split paths are enabled.
-
-## Next Steps
-
-- Review [Callback Response](/docs/callback-response/) for required callback format
-- Review [Error Handling](/docs/error-handling/) for request and callback failure behavior

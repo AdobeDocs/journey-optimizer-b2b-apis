@@ -1,5 +1,6 @@
 ---
-title: OpenAPI Spec Requirements
+title: Service Provider OpenAPI Spec Requirements
+description: Complete OpenAPI contract requirements for implementing an Adobe External Actions service.
 ---
 
 # Service Provider OpenAPI Spec Requirements
@@ -28,8 +29,8 @@ Your service must implement these three endpoints:
 | `/submitAsyncAction` | POST | Receives execution requests from Adobe |
 | `/status` | GET | Status check endpoint for monitoring |
 
-- `/getServiceDefinition`: Declares what entity types you support, what data you need, and what data you can return. See the [Service Definition Guide](/docs/service-definition/) for complete details.
-- `/submitAsyncAction`: Receives entity data from Adobe for processing. Must return `201 Accepted` immediately and process asynchronously. See [Execution Request](/docs/execution-request/) for details.
+- `/getServiceDefinition`: Declares what entity types you support, what data you need, and what data you can return. See the [Service Definition Guide](service-definition.md) for complete details.
+- `/submitAsyncAction`: Receives entity data from Adobe for processing. Must return `201 Accepted` immediately and process asynchronously. See [Execution Request](execution-request.md) for details.
 - `/status`: Simple status check that returns `200 OK` with a status indicator. Used by Adobe for service monitoring.
 
 ### Security Scheme
@@ -229,14 +230,7 @@ components:
 
 Once your your OpenAPI specification is ready:
 
-1. Define your service capabilities - Implement the `/getServiceDefinition` endpoint following the [Service Definition Guide](/docs/service-definition/)
-1. Understand the execution flow - Review the [Execution Request](/docs/execution-request/) structure
-1. Implement the callback - Learn how to return results via [Callback Response](/docs/callback-response/)
-1. Review the complete data flow - See [Data Flow](/docs/data-flow/) for the end-to-end integration flow
-
-## Resources
-
-- [Canonical OpenAPI Specification](/openapi/provider-canonical-openapi.yaml) - The source of truth
-- [Service Definition Guide](/docs/service-definition/) - Detailed endpoint requirements
-- [Examples](/docs/examples/) - Complete working examples for all entity types
-- [OpenAPI 3.0 Specification](https://swagger.io/specification/) - Official OpenAPI docs
+1. Define your service capabilities - Implement the `/getServiceDefinition` endpoint following the [Service Definition Guide](service-definition.md)
+1. Understand the execution flow - Review the [Execution Request](execution-request.md) structure
+1. Implement the callback - Learn how to return results via [Callback Response](callback-response.md)
+1. Review the complete data flow - See [Data Flow](data-flow.md) for the end-to-end integration flow

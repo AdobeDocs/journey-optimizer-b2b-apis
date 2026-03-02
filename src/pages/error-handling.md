@@ -1,6 +1,6 @@
 ---
-
 title: Error Handling
+description: Error model, response patterns, and best practices for robust External Actions integrations.
 ---
 
 # Error Handling
@@ -330,9 +330,3 @@ errorCodes:
 | Invalid correlation ID | Callback delayed / ID not stored | Store IDs, check timing |
 | Field not updating | Field not in `callbackPayloadDef` | Add field to service definition |
 | Token values ignored | `enableSplitPaths` not set | Enable split paths in service definition |
-
-## Next Steps
-
-- Review [Execution Request](/docs/execution-request/) for request validation
-- Review [Callback Response](/docs/callback-response/) for callback structure
-- See [Examples](/docs/examples/) for error handling examples

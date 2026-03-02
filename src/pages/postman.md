@@ -1,15 +1,11 @@
 ---
-
 title: Postman Collection
+description: Setup and usage guide for the Postman collection used to test External Actions endpoints.
 ---
 
 # Postman Collection
 
 The Postman collection provides a complete set of pre-configured requests for testing all API endpoints, including service discovery, execution requests, and callback responses.
-
-## Download Collection
-
-📦 **[Download Postman Collection](https://github.com/AdobeDocs/ajo-external-actions-api-spec/blob/main/postman/External-Actions-API.postman_collection.json)**
 
 ## Collection Contents
 
@@ -308,19 +304,3 @@ Add the following to your CI/CD pipeline:
 - Use environment variables - Don't hardcode API keys
 - Separate environments - Different credentials per stage
 - Rotate credentials - Regularly update API keys
-
-## Related Resources
-
-- [API Reference](/api) - Interactive OpenAPI documentation
-- [Examples](/docs/examples/) - Complete request/response examples
-- [Service Definition](/docs/service-definition/) - Service configuration guide
-- [Execution Request](/docs/execution-request/) - Request structure details
-- [Callback Response](/docs/callback-response/) - Response format guide
-
-## Support
-
-For issues or questions:
-
-- Review the [OpenAPI specification](https://github.com/AdobeDocs/ajo-external-actions-api-spec/blob/main/static/openapi/provider-canonical-openapi.yaml)
-- Check [GitHub Issues](https://github.com/AdobeDocs/ajo-external-actions-api-spec/issues)
-- Contact Adobe Support via [Experience League](https://experienceleague.adobe.com/)

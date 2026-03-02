@@ -1,5 +1,6 @@
 ---
 title: Execution Request
+description: Detailed request contract for submitAsyncAction, including headers, payload schema, and examples.
 ---
 
 # Execution Request
@@ -401,9 +402,3 @@ HTTP status codes:
 - `400`: Invalid request (malformed)
 - `401`: Unauthorized
 - `500`: Internal server error
-
-## Next Steps
-
-- Implement async processing logic
-- See [Callback Response](/docs/callback-response/) for returning results
-- Review [Examples](/docs/examples/) for more samples

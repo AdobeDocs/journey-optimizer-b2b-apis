@@ -1,5 +1,6 @@
 ---
-title: OpenAPI Spec Requirements (Compact)
+title: Service Provider OpenAPI Spec Requirements (Compact)
+description: Compact checklist of required OpenAPI elements for Adobe External Actions integration.
 ---
 
 # Service Provider OpenAPI Spec Requirements (Compact)
@@ -86,14 +87,3 @@ components:
 - `/submitAsyncAction` returns `201` for accepted async requests.
 - Request/response schemas align with Adobe contract.
 
-## Next Steps
-
-1. Define your service capabilities in [Service Definition](/docs/service-definition/).
-1. Implement request handling from [Execution Request](/docs/execution-request/).
-1. Implement callback payloads from [Callback Response](/docs/callback-response/).
-1. Validate against [Canonical OpenAPI Specification](/openapi/provider-canonical-openapi.yaml).
-
-## Resources
-
-- [Canonical OpenAPI Specification](/openapi/provider-canonical-openapi.yaml)
-- [OpenAPI 3.0 Specification](https://swagger.io/specification/)

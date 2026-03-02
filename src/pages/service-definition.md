@@ -1,5 +1,6 @@
 ---
-title: Service Definition
+title: Service Definition Guide
+description: Define service capabilities, required fields, and outputs for the getServiceDefinition endpoint.
 ---
 
 # Service Definition Guide
@@ -16,9 +17,7 @@ Before implementing this endpoint, ensure you have:
 1. Defined at least one security scheme (`apiKey`, oauth2, or `basicAuth`)
 1. Included all three required endpoints in your spec
 
-👉 **See [OpenAPI Spec Requirements](/docs/openapi-spec-requirements/)** for complete details on setting up your specification.
-
----
+👉 **See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for complete details on setting up your specification.
 
 ## Endpoint Details
 
@@ -381,11 +380,3 @@ Adobe validates your service definition:
 | Validation fails | Missing required fields based on entity type | Add required `fields` or `accountFields` |
 | Split paths not working | Missing `accessorsMetadata` | Add accessor definitions when `enableSplitPaths: true` |
 | Field not mapping | Field not in definition | Add field to appropriate payload definition |
-
-## Next Steps
-
-After defining your service:
-
-1. Test with sample requests (see [Examples](/docs/examples/))
-1. Implement execution endpoint (see [Execution Request](/docs/execution-request/))
-1. Implement callback logic (see [Callback Response](/docs/callback-response/))

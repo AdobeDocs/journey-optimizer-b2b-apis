@@ -1,8 +1,6 @@
 ---
-
 title: Callback Response
-contributors:
-  - https://github.com/adobe
+description: Detailed guide for sending callback responses to Adobe after asynchronous processing.
 ---
 
 # Callback Response
@@ -572,9 +570,3 @@ If callback fails:
 - Retry up to 3-5 times.
 - Log failures for manual intervention.
 - Don't retry on 4xx errors (client errors).
-
-## Next Steps
-
-- Review [Path Condition Accessors](/docs/path-condition-accessors/) for split path details
-- See [Examples](/docs/examples/) for more samples
-- Test with [Postman collection](/docs/postman/)

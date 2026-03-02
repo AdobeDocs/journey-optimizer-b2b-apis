@@ -1,5 +1,6 @@
 ---
 title: Error Handling
+description: Quick reference for request, processing, and callback error handling in the External Actions flow.
 ---
 
 # Error Handling
@@ -103,9 +104,3 @@ When Adobe responds with an error to your callback request:
 | Callback rejected | Token/header/payload issue | Required headers and schema |
 | Intermittent failures | Throttling/timeouts | Retry policy + downstream limits |
 | Field updates missing | Field not in callback payload definition | `callbackPayloadDef` mapping |
-
-## Next Steps
-
-- Review [Execution Request](/docs/execution-request/) for request validation
-- Review [Callback Response](/docs/callback-response/) for callback shape and required headers
-- See [Examples](/docs/examples/) for end-to-end payloads

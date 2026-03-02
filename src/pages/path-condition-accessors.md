@@ -1,5 +1,6 @@
 ---
 title: Path Condition Accessors
+description: Configure path condition accessors so external services can influence journey routing decisions.
 ---
 
 # Path Condition Accessors
@@ -495,9 +496,3 @@ accessorsMetadata:
     constraints:
       allowedValues: ["immediate", "soon", "later"]
 ```
-
-## Next Steps
-
-- Review [Callback Response](/docs/callback-response/) for callback structure
-- See [Examples](/docs/examples/) for complete path condition accessor examples
-- Review [Service Definition](/docs/service-definition/) for accessor metadata configuration

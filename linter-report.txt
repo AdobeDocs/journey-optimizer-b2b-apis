@@ -1,0 +1,34 @@
+═══════════════════════════════════════════════════════════════
+                     LINTER REPORT
+═══════════════════════════════════════════════════════════════
+
+Generated: 2026-03-02T19:12:18.449Z
+Mode: Full Linting (all rules + dead links check)
+Target Directory: /Users/dobooth/projects/journey-optimizer-b2b-apis
+
+───────────────────────────────────────────────────────────────
+
+Files to process: 15
+
+───────────────────────────────────────────────────────────────
+📄 FILE: src/pages/openapi-spec-requirements-compact.md
+───────────────────────────────────────────────────────────────
+  ⚠️  WARNING
+    Location: Line 95:21
+    Message: Cannot find file `openapi/provider-canonical-openapi.yaml`
+    Rule: missing-file
+
+
+═══════════════════════════════════════════════════════════════
+                        SUMMARY
+═══════════════════════════════════════════════════════════════
+
+  📁 Files processed:    15
+  📄 Files with issues:  1
+  ❌ Total errors:       0
+  ⚠️  Total warnings:     1
+  📋 Total issues:       1
+
+Result: ⚠️  PASSED WITH WARNINGS - No fatal errors
+
+═══════════════════════════════════════════════════════════════

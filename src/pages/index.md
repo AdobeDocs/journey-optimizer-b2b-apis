@@ -17,18 +17,18 @@ The External Actions API allows you to connect your service provider endpoints t
 
 ## API Reference
 
-- [Download OpenAPI Specification](/openapi/provider-canonical-openapi.yaml) - Complete API specification in OpenAPI 3.0 format
+- [Download OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml) - Complete API specification in OpenAPI 3.0 format
 
 ## Quick Links
 
-- [OpenAPI Spec Requirements](/docs/openapi-spec-requirements/)
-- [Data Flow](/docs/data-flow/)
-- [Service Definition](/docs/service-definition/)
-- [Execution Request](/docs/execution-request/)
-- [Callback Response](/docs/callback-response/)
-- [Error Handling](/docs/error-handling/)
-- [Path & Condition Accessors](/docs/path-condition-accessors/)
-- [Examples](/docs/examples/)
-- [Postman Collection](/docs/postman/)
+- [OpenAPI Spec Requirements](openapi-spec-requirements.md)
+- [Data Flow](data-flow.md)
+- [Service Definition](service-definition.md)
+- [Execution Request](execution-request.md)
+- [Callback Response](callback-response.md)
+- [Error Handling](error-handling.md)
+- [Path & Condition Accessors](path-condition-accessors.md)
+- [Examples](examples.md)
+- [Postman Collection](postman.md)
 
 > ℹ️ **Note**: Support for person audiences will arrive in a follow-up release with Person Journeys.
