@@ -5,13 +5,9 @@ description: Complete OpenAPI contract requirements for implementing an Adobe Ex
 
 # Service Provider OpenAPI Spec Requirements
 
-The first step in integrating with Adobe External Actions is to create an OpenAPI 3.0.x specification that defines your service. This specification serves as the contract between your service and Adobe, declaring your capabilities, authentication methods, and the required endpoints that enable the integration.
+The first step in integrating with Adobe External Actions is to create a specification that defines your service. This specification serves as the contract between your service and Adobe, declaring your capabilities, authentication methods, and the required endpoints that enable the integration.
 
 ## Required Components
-
-Your OpenAPI specification must include three essential components:
-
-### OpenAPI Version
 
 Your spec must use OpenAPI 3.0.x:
 
@@ -19,25 +15,21 @@ Your spec must use OpenAPI 3.0.x:
 openapi: 3.0.0
 ```
 
-### Three Required Endpoints
+### Required endpoints
 
 Your service must implement these three endpoints:
 
-| Endpoint | Method | Purpose |
-| --- | --- | --- |
-| `/getServiceDefinition` | GET | Returns your service capabilities and configuration |
-| `/submitAsyncAction` | POST | Receives execution requests from Adobe |
-| `/status` | GET | Status check endpoint for monitoring |
-
-- `/getServiceDefinition`: Declares what entity types you support, what data you need, and what data you can return. See the [Service Definition Guide](service-definition.md) for complete details.
-- `/submitAsyncAction`: Receives entity data from Adobe for processing. Must return `201 Accepted` immediately and process asynchronously. See [Execution Request](execution-request.md) for details.
-- `/status`: Simple status check that returns `200 OK` with a status indicator. Used by Adobe for service monitoring.
+- `/getServiceDefinition`: GET: Declares what entity types are supported, what data is required, and what data is returned. See the [Service Definition Guide](service-definition.md) for complete details.
+- `/submitAsyncAction`: POST: Receives entity data from Adobe for processing. Must return `201 Accepted` immediately and process asynchronously. See [Execution Request](execution-request.md) for details.
+- `/status`: GET: Simple status check that returns `200 OK` with a status indicator. Used by Adobe for service monitoring.
 
 ### Security Scheme
 
 Your spec must define at least one of the following allowed authentication methods:
 
-#### Option 1: API Key Authentication
+<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
+
+#### API Key Authentication
 
 ```yaml
 components:
@@ -55,7 +47,7 @@ security:
 - Set `in` to `header` or `query` based on your preference
 - Change `name` to specify your custom header or query parameter name
 
-#### Option 2: OAuth 2.0
+#### OAuth 2.0
 
 ```yaml
 components:
@@ -88,7 +80,7 @@ security:
 - Use `x-fields` to define non-standard parameter names for token requests
 - Choose either authorization code or client credentials flow based on your authentication model
 
-#### Option 3: HTTP Basic Authentication
+#### HTTP Basic Authentication
 
 ```yaml
 components:
@@ -109,9 +101,9 @@ security:
   1. Defined in `components.securitySchemes`
   1. Referenced in the root-level `security` array
 
-## Complete Example
+## Example
 
-Here's a minimal but complete OpenAPI spec structure:
+This is a minimal but complete OpenAPI specification structure:
 
 ```yaml
 openapi: 3.0.0

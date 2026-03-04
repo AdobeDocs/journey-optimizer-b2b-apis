@@ -8,11 +8,11 @@
 
 - subPages:
     - [Overview](index.md)
-    - [Callback Response](callback-response-compact.md)
+    - [Callback Response](callback-response.md)
     - [Data Flow](data-flow.md)
-    - [Error Handling](error-handling-compact.md)
-    - [Execution Request](execution-request-compact.md)
+    - [Error Handling](error-handling.md)
+    - [Execution Request](execution-request.md)
     - [Path Condition Accessors](path-condition-accessors.md)
     - [Postman Collection](postman.md)
-    - [Specification Requirements](openapi-spec-requirements-compact.md)
+    - [Specification Requirements](openapi-spec-requirements.md)
     - [Service Definition](service-definition.md)

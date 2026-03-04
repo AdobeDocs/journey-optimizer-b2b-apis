@@ -5,9 +5,7 @@ description: Define service capabilities, required fields, and outputs for the g
 
 # Service Definition Guide
 
-## Overview
-
-The Service Definition endpoint (`/getServiceDefinition`) is one of the three required endpoints in your OpenAPI specification. It declares your service's capabilities, data requirements, and configuration options.
+The service definition endpoint `/getServiceDefinition` is one of three required endpoints in your OpenAPI specification. It declares your service's capabilities, data requirements, and configuration options.
 
 ## Prerequisites
 
@@ -17,17 +15,11 @@ Before implementing this endpoint, ensure you have:
 1. Defined at least one security scheme (`apiKey`, oauth2, or `basicAuth`)
 1. Included all three required endpoints in your spec
 
-👉 **See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for complete details on setting up your specification.
+See [OpenAPI Spec Requirements](openapi-spec-requirements.md) for details on writing your specification.
 
-## Endpoint Details
+## `GET /getServiceDefinition`
 
-**GET** `/getServiceDefinition`
-
-**Response**: ServiceDefinition object (application/json)
-
-## Key Properties
-
-### Required Properties
+Response: `ServiceDefinition` object (application/json)
 
 | Property | Type | Description |
 | --- | --- | --- |
@@ -39,38 +31,27 @@ Before implementing this endpoint, ensure you have:
 | `invocationPayloadDef` | object | Defines data needed by your service |
 | `callbackPayloadDef` | object | Defines data your service can update |
 | `enableSplitPaths` | boolean | Whether split path decisioning is enabled (required, set to `true` or `false`) |
-
-### Optional Properties
-
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `timeout` | integer | 60 | Callback timeout in minutes (max: 240) |
-
-## Supported Entity Types
+| `timeout` | integer | Optional. Callback timeout in minutes (max: 240) |
 
 Your service must support exactly ONE entity type:
 
-### `lead` (Lead/Person)
+- `lead` (Lead/Person)
+  - Requires `fields` in payload definitions
+  - Use for: lead enrichment, scoring, qualification
 
-- For lead-centric operations
-- Requires `fields` in payload definitions
-- Use for: lead enrichment, scoring, qualification
+- `account` (Account)
+  - Requires `accountFields` in payload definitions
+  - Use for: account enrichment, firmographic data, ABM scoring
 
-### `account` (Account)
-
-- For account-centric operations
-- Requires `accountFields` in payload definitions
-- Use for: account enrichment, firmographic data, ABM scoring
-
-### `accountPerson` (Leads within Accounts)
-
-- For operations on leads within an account context
-- Requires BOTH `fields` AND `accountFields`
-- Use for: buying group analysis, relationship scoring, multi-touch attribution
+- `accountPerson` (Leads within Accounts)
+  - Requires BOTH `fields` AND `accountFields`
+  - Use for: buying group analysis, relationship scoring, multi-touch attribution
 
 ## Authentication & Security
 
 Your OpenAPI specification must define one of the following security schemes:
+
+<Tab orientation="horizontal" slots="heading, code" repeat="3"/>
 
 ### API Key Authentication
 
@@ -131,8 +112,6 @@ security:
 
 The invocation payload defines what data your service needs from Adobe.
 
-### Structure
-
 ```yaml
 invocationPayloadDef:
   globalAttributes:
@@ -167,7 +146,7 @@ invocationPayloadDef:
       description: Computed score for routing
 ```
 
-### Field Definition Properties
+### Field definition properties
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -176,7 +155,7 @@ invocationPayloadDef:
 | `required` | boolean | No | Whether field is required (defaults to false) |
 | `description` | string | No | Human-readable description for admins (recommended but optional) |
 
-### Attribute Definition Properties
+### Attribute definition properties
 
 For `globalAttributes` and `flowAttributes`, each attribute must include:
 
@@ -193,8 +172,6 @@ For `globalAttributes` and `flowAttributes`, each attribute must include:
 ## Callback Payload Definition
 
 Defines what data your service can update in Adobe systems.
-
-### Structure
 
 ```yaml
 callbackPayloadDef:
@@ -222,8 +199,6 @@ callbackPayloadDef:
 
 When `enableSplitPaths: true`, you must define `accessorsMetadata` in `invocationPayloadDef`.
 
-### Accessor Metadata
-
 Accessors are named values that can be used in path conditions.
 
 ```yaml
@@ -241,8 +216,6 @@ accessorsMetadata:
       allowedValues: ["premium", "standard", "basic"]
 ```
 
-### Usage in Journey
-
 Admins can create path conditions using these accessors:
 
 - `my.enrichmentScore >= 80`
@@ -259,7 +232,7 @@ Your service returns accessor values in callbacks:
 }
 ```
 
-## Complete Example
+## Example
 
 ```yaml
 apiName: "dataEnrichmentService"
@@ -353,30 +326,22 @@ callbackPayloadDef:
 
 ## Validation
 
-Adobe validates your service definition:
+Adobe validates your service definition with:
 
 1. Schema validation: Ensures that all required fields are present.
 1. Entity type validation: Checks conditional field requirements.
-   - `lead` → requires `fields` in at least one of the payload defs
-   - `account` → requires `accountFields` in at least one of the payload defs
-   - `accountPerson` → requires `accountPersonRelationships` in invocation payload; optionally supports `fields` and/or `accountFields` for attribute updates
+   - `lead` requires `fields` in at least one of the payload defs
+   - `account` requires `accountFields` in at least one of the payload defs
+   - `accountPerson` requires `accountPersonRelationships` in invocation payload; optionally supports `fields` and/or `accountFields` for attribute updates
 1. Split path validation: When `enableSplitPaths: true`, requires `accessorsMetadata`.
 1. Data type validation: Ensures that data types are valid.
 
 ## Best Practices
 
-1. Use descriptive names: Make `serviceAttribute` names clear and intuitive.
-1. Provide good descriptions: Help admins understand field purposes.
-1. Mark fields required carefully: Only require truly necessary fields.
-1. Use appropriate data types: Leverage specific types (email, url) for validation.
-1. Define clear accessors: When using split paths, provide meaningful accessor names.
-1. Version your service: Update `serviceVersion` when making changes.
-1. Document constraints: Use `constraints` to define valid value ranges.
-
-## Troubleshooting
-
-| Issue | Cause | Solution |
-| --- | --- | --- |
-| Validation fails | Missing required fields based on entity type | Add required `fields` or `accountFields` |
-| Split paths not working | Missing `accessorsMetadata` | Add accessor definitions when `enableSplitPaths: true` |
-| Field not mapping | Field not in definition | Add field to appropriate payload definition |
+- Use descriptive names: Make `serviceAttribute` names clear and intuitive.
+- Provide good descriptions: Help admins understand field purposes.
+- Mark fields required carefully: Only require truly necessary fields.
+- Use appropriate data types: Leverage specific types (email, url) for validation.
+- Define clear accessors: When using split paths, provide meaningful accessor names.
+- Version your service: Update `serviceVersion` when making changes.
+- Document constraints: Use `constraints` to define valid value ranges.
