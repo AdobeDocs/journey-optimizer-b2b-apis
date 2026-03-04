@@ -6,4 +6,4 @@ layout: none
 
 # API Reference
 
-<RedoclyAPIBlock src="../static/ajo-b2b-external-actions.yaml" />
+<RedoclyAPIBlock src="../../static/ajo-b2b-external-actions.yaml" />
