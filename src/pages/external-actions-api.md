@@ -1,9 +1,10 @@
 ---
-title: API Reference
+title: External Actions API Reference
 description: Interactive OpenAPI reference for the Adobe Journey Optimizer B2B External Actions API.
 layout: none
 ---
 
-# API Reference
+# External Actions API Reference
 
-<RedoclyAPIBlock src="/static/ajo-b2b-external-actions.yaml" />
+<RedoclyAPIBlock src="../../static/ajo-b2b-external-actions.yaml" />
+

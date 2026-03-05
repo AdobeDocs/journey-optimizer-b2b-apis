@@ -18,8 +18,6 @@ x-gw-ims-org-id: {imsOrgId}
 Content-Type: application/json
 ```
 
-### Authentication Setup
-
 To generate the `accessToken` for the `Authorization` header, set up [OAuth Server-to-Server credentials](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/) in Adobe Developer Console for your IMS Organization and Client.
 
 ## Request Structure
@@ -41,17 +39,6 @@ To generate the `accessToken` for the `Authorization` header, set up [OAuth Serv
 
 Every callback must include activity data that indicates success/failure:
 
-```json
-{
-  "activityData": {
-    "success": true,
-    "errorCode": null,
-    "reason": null
-  }
-}
-```
-
-### Success Response
 
 ```json
 {
@@ -61,7 +48,7 @@ Every callback must include activity data that indicates success/failure:
 }
 ```
 
-### Error Response
+or
 
 ```json
 {
@@ -72,12 +59,6 @@ Every callback must include activity data that indicates success/failure:
   }
 }
 ```
-
-**Best Practices**
-
-- Use meaningful, consistent error codes.
-- Provide actionable error messages.
-- Log errors for troubleshooting.
 
 ## Callback Structure by Entity Type
 
@@ -109,16 +90,10 @@ Every callback must include activity data that indicates success/failure:
 }
 ```
 
-**Required Fields:**
+`id` is the Lead/Person identifier and must match `leadId` from the request. This field is required.
 
-- `id`: Lead/Person identifier (must match `leadId` from request)
-
-**Optional Fields:**
-
-- Any fields defined in `callbackPayloadDef.fields` - Only include if you want to update those lead attributes
-- `accessorValues`: Path condition accessor values (when `enableSplitPaths: true`)
-
-**Important:** Only include lead field data in your callback if your service wants to update those attributes.
+Include any fields defined in `callbackPayloadDef.fields` that you want to update.
+Include `accessorValues` when `enableSplitPaths: true`.
 
 ### Account Callback
 
@@ -148,17 +123,6 @@ Every callback must include activity data that indicates success/failure:
 }
 ```
 
-**Required Fields:**
-
-- `id`: Account identifier (must match `accountId` from request)
-
-**Optional Fields:**
-
-- Any fields defined in `callbackPayloadDef.accountFields` - Only include fields that you want to update.
-- `accessorValues`: Path condition accessor values (when `enableSplitPaths: true`)
-
-**Important:** Only include account fields in your callback that your service will update.
-
 ### AccountPerson Callback
 
 For `accountPerson` entity type, the callback structure supports:
@@ -167,8 +131,6 @@ For `accountPerson` entity type, the callback structure supports:
 - Person/lead updates through `leadData` inside each `accountPersonData` object (per person)
 - Relationship identification through the `accountPersonData` array (REQUIRED)
 - Relationship-specific accessor values for split path decisioning
-
-**Structure mirrors the execution request for consistency.**
 
 ```json
 {
@@ -228,7 +190,6 @@ For `accountPerson` entity type, the callback structure supports:
 
 - Required (if present): `id` (account identifier)
 - Optional: Any account fields that are defined in `callbackPayloadDef.accountFields`
-
 
 **accountPersonData Array Structure (REQUIRED)**
 

@@ -5,7 +5,7 @@ description: Detailed guide for sending callback responses to Adobe after asynch
 
 # Callback Response
 
-After processing an execution request, your service must send the results back to Adobe through the callback URL.
+After processing an execution request, your service must send results back to Adobe through the callback URL.
 
 ## Required Headers
 
@@ -152,16 +152,9 @@ Important: Only include lead field data in your callback if your service wants t
 }
 ```
 
-### Required Fields
-
 | Field | Requirement | Description |
 | --- | --- | --- |
 | `id` | Required | Account identifier (must match `accountId` from request) |
-
-### Optional Fields
-
-| Field | Requirement | Description |
-| --- | --- | --- |
 | `callbackPayloadDef.accountFields` mapped values | Optional | Include only account attributes your service wants to update |
 | `accessorValues` | Optional | Path condition accessor values when `enableSplitPaths: true` |
 
@@ -241,7 +234,6 @@ Structure mirrors the execution request for consistency.
 | `id` | Required when `accountData` is present | Account identifier |
 | `callbackPayloadDef.accountFields` mapped values | Optional | Account fields to update |
 
-
 ### accountPersonData Array Structure
 
 | Field | Requirement | Description |
@@ -262,8 +254,6 @@ Structure mirrors the execution request for consistency.
 | Relationship identification via `accountPersonData` | Supported | Required |
 | Relationship metadata updates (role, influence, buying committee position) | Not supported (this release) | May be added later |
 | Additional properties in `accountPersonData` beyond defined fields | Not supported (this release) | Rejected by schema |
-
-Note: Support for relationship metadata updates may be added in future releases.
 
 ## Split Path Accessors
 
@@ -290,4 +280,4 @@ At minimum in callback failures:
 
 ## Additional Examples
 
-For broader scenario payloads and end-to-end samples, see [Examples](examples.md) and [Postman Collection](../postman.md.md).
+For broader scenario payloads and end-to-end samples, see [Examples](../examples.md.md) and [Postman Collection]([!DNL ]postman.md).

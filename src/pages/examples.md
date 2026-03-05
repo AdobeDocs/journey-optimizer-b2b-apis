@@ -9,8 +9,6 @@ contributors:
 
 This section provides complete, real-world examples demonstrating the Adobe External Actions API for all supported entity types.
 
-## Supported Entity Types
-
 | Entity Type | Use Case | Key Fields |
 | --- | --- | --- |
 | `lead` | Lead/person enrichment, scoring | `leadId`, `leadData` |
@@ -254,7 +252,7 @@ Service definition for buying group role identification with complete i18n:
 }
 ```
 
-**Key difference for `accountPerson`**: Requires both `accountFields` AND `fields` since it operates on leads within account context.
+Key difference for `accountPerson`: Requires both `accountFields` AND `fields` since it operates on leads within account context.
 
 ## Execution Request Examples
 
