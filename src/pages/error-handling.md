@@ -153,7 +153,7 @@ Always include:
 Use meaningful, consistent error codes. For example:
 
 | Code | Description | Use Case |
-| --* | --* | --* |
+| -- | -- | -- |
 | `RATE_LIMIT_EXCEEDED` | Rate limit hit | Too many API calls |
 | `INVALID_DATA` | Invalid input data | Data validation error |
 | `TIMEOUT` | Processing timeout | Took too long |
