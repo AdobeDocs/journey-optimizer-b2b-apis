@@ -11,9 +11,9 @@ Adobe sends the execution request to your service when an entity (person, accoun
 
 Your service must implement:
 
-**POST** `/submitAsyncAction`
+Method: `POST /submitAsyncAction`
 
-## Request Structure
+### Request Structure
 
 ```json
 {
@@ -35,7 +35,7 @@ Your service must implement:
 }
 ```
 
-## Required Fields
+### Required Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
@@ -45,7 +45,7 @@ Your service must implement:
 | `objectData.objectType` | string | Entity type: `lead`, `account`, or `accountPerson` |
 | `objectData.objectContext` | object | Actual entity data |
 
-## Optional Fields
+### Optional Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
@@ -56,6 +56,8 @@ Your service must implement:
 | `enableSplitPaths` | boolean | Enable path condition accessor collection (default: false) |
 
 ## Context Data
+
+<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
 
 ### Subscription Context
 
@@ -70,12 +72,12 @@ Your service must implement:
 }
 ```
 
-**Fields:**
-
-- `prefix`: Customer instance prefix
-- `imsOrgId`: Adobe IMS Organization ID
-- `instanceName`: Instance name
-- `munchkinId`: Marketo Munchkin ID
+| Field | Description |
+| --- | --- |
+| `prefix` | Customer instance prefix |
+| `imsOrgId` | Adobe IMS Organization ID |
+| `instanceName` | Instance name |
+| `munchkinId` | Marketo Munchkin ID |
 
 ### Journey Context
 
@@ -91,15 +93,17 @@ Your service must implement:
 }
 ```
 
-**Fields:**
-
-- `id`: Journey identifier
-- `name`: Journey name
-- `status`: Journey status (Draft, Live, Completed)
-- `startDate`: Journey start date
-- `endDate`: Journey end date
+| Field | Description |
+| --- | --- |
+| `id` | Journey identifier |
+| `name` | Journey name |
+| `status` | Journey status (Draft, Live, Completed) |
+| `startDate` | Journey start date |
+| `endDate` | Journey end date |
 
 ### Admin Context
+
+This contains global configuration data defined by `invocationPayloadDef.globalAttributes` and is configured by admins.
 
 ```json
 {
@@ -111,9 +115,9 @@ Your service must implement:
 }
 ```
 
-Contains global configuration data defined by `invocationPayloadDef.globalAttributes` and configured by admins.
-
 ## Object Data by Entity Type
+
+<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
 
 ### Lead Entity
 
@@ -139,11 +143,11 @@ Contains global configuration data defined by `invocationPayloadDef.globalAttrib
 }
 ```
 
-**Key Points:**
-
-- `leadId`: Adobe system identifier (required)
-- `leadData`: Contains fields defined in `invocationPayloadDef.fields`
-- `flowStepContext`: Contains values for `invocationPayloadDef.flowAttributes`
+| Field | Requirement | Description |
+| --- | --- | --- |
+| `leadId` | Required | Adobe system identifier |
+| `leadData` | Required | Contains fields defined in `invocationPayloadDef.fields` |
+| `flowStepContext` | Optional | Contains values for `invocationPayloadDef.flowAttributes` |
 
 ### Account Entity
 
@@ -168,10 +172,10 @@ Contains global configuration data defined by `invocationPayloadDef.globalAttrib
 }
 ```
 
-**Key Points:**
-
-- `accountId`: Adobe system identifier (required)
-- `accountData`: Contains fields defined in `invocationPayloadDef.accountFields`
+| Field | Requirement | Description |
+| --- | --- | --- |
+| `accountId` | Required | Adobe system identifier |
+| `accountData` | Required | Contains fields defined in `invocationPayloadDef.accountFields` |
 
 ### AccountPerson Entity
 
@@ -211,12 +215,12 @@ Contains global configuration data defined by `invocationPayloadDef.globalAttrib
 }
 ```
 
-**Key Points:**
-
-- Combines account-level data with multiple person relationships
-- Each person has their own `leadData`
-- `relationshipMetadata` provides account-person relationship context
-- All relationship IDs are required
+| Item | Description |
+| --- | --- |
+| Data model | Combines account-level data with multiple person relationships |
+| Person payload | Each person has their own `leadData` |
+| Relationship context | `relationshipMetadata` provides account-person relationship context |
+| IDs | All relationship IDs are required |
 
 ## Action Configuration
 
@@ -244,15 +248,19 @@ Contains global configuration data defined by `invocationPayloadDef.globalAttrib
 }
 ```
 
-**Fields:**
+### Fields
 
-- `timeout`: Maximum processing time (minutes)
-- `pathConfig`: Split path configuration (when `enableSplitPaths: true`)
-  - `pathId`: Unique identifier for the path
-  - `pathDefinition`: Array of condition definitions (accessor, operator, values)
-    - Empty array for default path
+| Field | Type | Description |
+| --- | --- | --- |
+| `timeout` | integer | Maximum processing time in minutes |
+| `pathConfig` | array | Split path configuration when `enableSplitPaths: true` |
+| `pathConfig[].pathId` | string | Unique identifier for the path |
+| `pathConfig[].pathDefinition` | array | Condition definitions (`accessor`, `operator`, `values`) |
+| `pathConfig[].pathDefinition` (empty array) | array | Marks the default path |
 
 ## Custom Headers
+
+Headers are defined in `invocationPayloadDef.headers` with configured values.
 
 ```json
 {
@@ -263,17 +271,15 @@ Contains global configuration data defined by `invocationPayloadDef.globalAttrib
 }
 ```
 
-Headers defined in `invocationPayloadDef.headers` with configured values.
-
 ## Enable Split Paths
+
+Indicates whether split path decisioning is enabled. When `true`, your callback should include `accessorValues` for journey routing.
 
 ```json
 {
   "enableSplitPaths": true
 }
 ```
-
-Indicates whether split path decisioning is enabled. When `true`, your callback should include `accessorValues` for journey routing.
 
 ## Complete Example
 
@@ -371,7 +377,7 @@ Your service should respond with HTTP 200 to acknowledge receipt:
 }
 ```
 
-Then process asynchronously and send results to `callbackUrl`.
+Then, process asynchronously and send the results to `callbackUrl`.
 
 ## Best Practices
 

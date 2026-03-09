@@ -5,11 +5,7 @@ description: Configure path condition accessors so external services can influen
 
 # Path Condition Accessors
 
-## Overview
-
 Path condition accessors allow external services to provide computed values that can be used in journey path conditions for dynamic routing decisions. This enables services to influence the journey path based on their processing logic.
-
-## When to Use Path Condition Accessors
 
 Use path condition accessors when you want to:
 
@@ -17,10 +13,11 @@ Use path condition accessors when you want to:
 - Route entities differently based on enrichment results
 - Apply scoring or classification that affects journey flow
 
-
 ## Configuration
 
-### Enable in Service Definition
+### Enable accessors
+
+In your API definition file, set `enableSplitPaths` to `true`.
 
 ```yaml
 serviceDefinition:
@@ -40,25 +37,17 @@ serviceDefinition:
           allowedValues: ["premium", "standard", "basic"]
 ```
 
-### Admin Creates Path Conditions
+### Create path conditions
 
-In the journey builder, admins create path conditions using the defined accessors:
-
-**Path 1: High Value**
+In the journey builder, create path conditions using the defined accessors:
 
 - Condition: `my.enrichmentScore >= 80`
-
-**Path 2: Medium Value**
-
 - Condition: `my.treatmentId == 'standard'`
-
-**Path 3: Default**
-
 - Default path (no condition)
 
-### Service Returns Accessor Values
+### Return accessor values
 
-In the callback response, include `accessorValues`:
+In the callback response, include the expected `accessorValues`:
 
 ```json
 {
@@ -73,9 +62,7 @@ In the callback response, include `accessorValues`:
 }
 ```
 
-### Adobe Routes Based on Accessor Values
-
-Adobe evaluates path conditions using the accessor values and routes the entity accordingly.
+Adobe evaluates the path conditions using the accessor values and routes the entity accordingly.
 
 ## Accessor Value Structure
 
@@ -89,8 +76,6 @@ Accessor values are embedded directly in the entity data:
 | Account | `accountData.accessorValues` |
 | AccountPerson | `accountPersonData[].accessorValues` (per relationship) |
 
-### Format
-
 ```json
 {
   "accessorValues": {
@@ -100,11 +85,13 @@ Accessor values are embedded directly in the entity data:
 }
 ```
 
-**Rules:**
+### Rules
 
-- Keys must match `accessorName` from `accessorsMetadata`
-- Values must match the defined `dataType`
-- All accessors are optional (omitted accessors evaluate to null)
+| Rule | Requirement |
+| --- | --- |
+| Key names | Must match `accessorName` from `accessorsMetadata` |
+| Value types | Must match the defined `dataType` |
+| Optionality | All accessors are optional (omitted accessors evaluate to `null`) |
 
 ## Data Types
 
@@ -117,7 +104,7 @@ Accessor values are embedded directly in the entity data:
 
 ## Accessor Constraints
 
-Define constraints to help admins create valid conditions:
+Define constraints to help administrators create valid conditions:
 
 ### Numeric Constraints
 
@@ -131,6 +118,7 @@ accessorsMetadata:
 ```
 
 Usage in conditions:
+
 - `my.score >= 80`
 - `my.score < 50`
 
@@ -166,7 +154,9 @@ Usage in conditions:
 
 ### Lead Path Condition Accessors
 
-**Service Definition:**
+<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
+
+### Service Definition
 
 ```yaml
 enableSplitPaths: true
@@ -182,7 +172,7 @@ invocationPayloadDef:
       dataType: boolean
 ```
 
-**Callback Response:**
+### Callback Response
 
 ```json
 {
@@ -198,15 +188,15 @@ invocationPayloadDef:
 }
 ```
 
-**Journey Paths:**
-
 - Premium Path: `my.enrichmentScore >= 80`
 - Standard Path: `my.dataQuality == 'high'`
 - Default Path: All others
 
 ### Account Path Condition Accessors
 
-**Service Definition:**
+<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
+
+### Service Definition
 
 ```yaml
 enableSplitPaths: true
@@ -222,7 +212,8 @@ invocationPayloadDef:
       dataType: float
 ```
 
-**Callback Response:**
+### Callback Response
+
 ```json
 {
   "accountData": {
@@ -237,17 +228,17 @@ invocationPayloadDef:
 }
 ```
 
-**Journey Paths:**
-
 - Enterprise Path: `my.tier == 'enterprise'`
 - High Potential Path: `my.accountScore >= 80`
 - Default Path: All others
 
 ### AccountPerson Path Condition Accessors
 
-**Key Feature**: Each person-account relationship can have its own accessor values for relationship-specific routing.
+Key Feature: Each person-account relationship can have its own accessor values for relationship-specific routing.
 
-**Service Definition:**
+<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
+
+### Service Definition
 
 ```yaml
 enableSplitPaths: true
@@ -265,7 +256,7 @@ invocationPayloadDef:
         allowedValues: ["critical", "high", "medium", "low"]
 ```
 
-**Callback Response:**
+### Callback Response
 
 ```json
 {
@@ -298,13 +289,11 @@ invocationPayloadDef:
 }
 ```
 
-**Journey Paths:**
-
 - VIP Path: `my.persona == 'decision_maker'`
 - High Engagement Path: `my.engagementScore >= 80`
 - Nurture Path: `my.engagementScore < 60`
 
-**Routing Result**:
+Routing Result: 
 
 - John (decision_maker, critical priority) → VIP Path
 - Jane (influencer, medium priority) → Nurture Path
@@ -337,11 +326,11 @@ Adobe sends path configuration in the execution request:
 }
 ```
 
-**Your Service:**
+### Your Service
 
-- Review `pathDefinition` to understand which accessors are needed
-- Return appropriate values in `accessorValues`
-- Adobe will evaluate conditions and route accordingly
+- Reviews `pathDefinition` to understand which accessors are needed
+- Returns appropriate values in `accessorValues`
+- Adobe then evaluate conditions and routes accordingly
 
 ## Common Use Cases
 
@@ -357,7 +346,7 @@ accessorsMetadata:
       allowedValues: ["hot", "warm", "cold"]
 ```
 
-**Callback:**
+### Callback
 
 ```json
 {
@@ -368,7 +357,7 @@ accessorsMetadata:
 }
 ```
 
-**Routing:**
+### Routing
 
 - Hot leads (score >= 80) → Sales team path
 - Warm leads (50-79) → Nurture campaign
@@ -387,7 +376,8 @@ accessorsMetadata:
     dataType: integer
 ```
 
-**Callback:**
+### Callback
+
 ```json
 {
   "accessorValues": {
@@ -397,7 +387,7 @@ accessorsMetadata:
 }
 ```
 
-**Routing:**
+### Routing
 
 - Low risk + high compliance → Fast track
 - Medium risk → Standard review
@@ -417,7 +407,7 @@ accessorsMetadata:
       allowedValues: ["high", "medium", "low"]
 ```
 
-**Callback (AccountPerson):**
+### Callback (AccountPerson)
 
 ```json
 {
@@ -433,7 +423,7 @@ accessorsMetadata:
 }
 ```
 
-**Routing:**
+### Routing
 
 - Decision makers with high engagement → Executive outreach
 - Influencers → Educational content

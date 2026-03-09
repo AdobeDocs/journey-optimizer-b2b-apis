@@ -9,25 +9,12 @@ Proper error handling is critical for debugging, monitoring, and providing a goo
 
 ## Error Types
 
-### Request Errors (Execution Endpoint)
+* Request errors occur when Adobe sends the execution request to your service.
+* Processing errors occur during your service's processing logic.
+* Callback errors that occur when sending results back to Adobe.
+* Synchronous response errors happen when your `/submitAsyncAction` endpoint cannot accept the request and returns an HTTP error.
 
-Errors that occur when Adobe sends the execution request to your service.
-
-### Processing Errors (Internal)
-
-Errors that occur during your service's processing logic.
-
-### Callback Errors (Callback to Adobe)
-
-Errors that occur when sending results back to Adobe.
-
-## Request Error Handling
-
-### Synchronous Response Errors
-
-When your `/submitAsyncAction` endpoint cannot accept the request, return an HTTP error:
-
-#### 400 Bad Request
+### 400 Bad Request
 
 ```json
 {
@@ -43,14 +30,14 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Malformed JSON
-- Missing required fields
-- Invalid data types
-- Schema validation failures
+* Malformed JSON
+* Missing required fields
+* Invalid data types
+* Schema validation failures
 
-#### 401 Unauthorized
+### 401 Unauthorized
 
 ```json
 {
@@ -61,13 +48,13 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Missing authentication headers
-- Invalid API keys
-- Expired tokens
+* Missing authentication headers
+* Invalid API keys
+* Expired tokens
 
-#### 403 Forbidden
+### 403 Forbidden
 
 ```json
 {
@@ -78,12 +65,12 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Valid credentials but insufficient permissions
-- Service disabled for this customer
+* Valid credentials but insufficient permissions
+* Service disabled for this customer
 
-#### 429 Rate Limit Exceeded
+### 429 Rate Limit Exceeded
 
 ```json
 {
@@ -95,12 +82,12 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Rate limiting enforcement
-- Include `Retry-After` header
+* Rate limiting enforcement
+* Include `Retry-After` header
 
-#### 500 Internal Server Error
+### 500 Internal Server Error
 
 ```json
 {
@@ -111,13 +98,13 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Unexpected server errors
-- Service unavailable
-- Database errors
+* Unexpected server errors
+* Service unavailable
+* Database errors
 
-#### 503 Service Unavailable
+### 503 Service Unavailable
 
 ```json
 {
@@ -128,11 +115,11 @@ When your `/submitAsyncAction` endpoint cannot accept the request, return an HTT
 }
 ```
 
-**Use for:**
+Causes may be due to:
 
-- Planned maintenance
-- Temporary outages
-- Circuit breaker triggered
+* Planned maintenance
+* Temporary outages
+* Circuit breaker triggered
 
 ## Error Handling
 
@@ -157,16 +144,16 @@ When processing fails but you can still send a callback, use `activityData` to i
 }
 ```
 
-**Always include:**
+Always include:
 
-- `activityData.success: false`
-- A stable `errorCode`
-- A clear `reason`
+* `activityData.success: false`
+* A stable `errorCode`
+* A clear `reason`
 
-Use meaningful, consistent error codes. Examples:
+Use meaningful, consistent error codes. For example:
 
 | Code | Description | Use Case |
-| --- | --- | --- |
+| --* | --* | --* |
 | `RATE_LIMIT_EXCEEDED` | Rate limit hit | Too many API calls |
 | `INVALID_DATA` | Invalid input data | Data validation error |
 | `TIMEOUT` | Processing timeout | Took too long |
@@ -178,9 +165,9 @@ Use meaningful, consistent error codes. Examples:
 
 ## Callback Error Handling
 
-### Adobe's Callback Endpoint Errors
+### Adobe Callback Endpoint Errors
 
-When Adobe's callback endpoint returns an error:
+When Adobe's callback endpoint returns an error, you will see:
 
 #### 400 Bad Request
 
@@ -193,17 +180,17 @@ When Adobe's callback endpoint returns an error:
 }
 ```
 
-**Possible causes:**
+Possible causes are:
 
-- Invalid or expired correlation ID
-- Malformed callback payload
-- Schema validation failure
+* Invalid or expired correlation ID
+* Malformed callback payload
+* Schema validation failure
 
-**Your action:**
+If you see this error:
 
-- Log the error
-- Do not retry (client error)
-- Alert for manual intervention
+* Log the error
+* Do not retry (client error)
+* Alert for manual intervention
 
 #### 401 Unauthorized
 
@@ -216,17 +203,17 @@ When Adobe's callback endpoint returns an error:
 }
 ```
 
-**Possible causes:**
+Possible causes are:
 
-- Missing required headers
-- Invalid API key
-- Expired bearer token
+* Missing required headers
+* Invalid API key
+* Expired bearer token
 
-**Your action:**
+Next steps are:
 
-- Check authentication configuration
-- Refresh tokens if expired
-- Do not retry without fixing auth
+* Check authentication configuration
+* Refresh tokens if expired
+* Do not retry without fixing auth
 
 #### 500 Internal Server Error
 
@@ -239,52 +226,20 @@ When Adobe's callback endpoint returns an error:
 }
 ```
 
-**Possible causes:**
+Possible causes are:
 
-- Adobe service temporarily unavailable
-- Unexpected data format
-- Internal processing error
+* Adobe service temporarily unavailable
+* Unexpected data format
+* Internal processing error
 
-**Your action:**
+To resolve, try:
 
-- Implement retry logic with exponential backoff
-- Max 3-5 retries
-- Alert if all retries fail
+* Implement retry logic with exponential backoff
+* Max 3-5 retries
+* Alert if all retries fail
 
 
 ## Best Practices
-
-### Use Specific Error Codes
-
-```json
-// Good: Specific, actionable error code
-{
-  "errorCode": "RATE_LIMIT_EXCEEDED",
-  "reason": "API rate limit of 100 requests/minute exceeded"
-}
-
-// Bad: Generic error code
-{
-  "errorCode": "ERROR",
-  "reason": "Something went wrong"
-}
-```
-
-### Provide Actionable Error Messages
-
-```json
-// Good: Clear, actionable message
-{
-  "errorCode": "INVALID_EMAIL",
-  "reason": "Email format is invalid: 'not-an-email'"
-}
-
-// Bad: Vague message
-{
-  "errorCode": "BAD_DATA",
-  "reason": "Data is bad"
-}
-```
 
 ### Always Echo Required IDs
 
@@ -297,12 +252,12 @@ Even in error cases, always include required entity IDs:
     "errorCode": "ENRICHMENT_FAILED"
   },
   "leadData": {
-    "id": 12345  // Always include
+    "id": 12345  // Always include id
   }
 }
 ```
 
-Maintain a comprehensive error code reference:
+### Maintain a comprehensive error code reference:
 
 ```yaml
 errorCodes:
@@ -320,13 +275,3 @@ errorCodes:
     retryable: true
 ```
 
-## Troubleshooting Guide
-
-| Symptom | Possible Cause | Solution |
-| --- | --- | --- |
-| All requests failing | Service down / configuration error | Check service health, validate config |
-| Callbacks not received | Wrong callback URL / network issue | Verify callback URL, check network |
-| Intermittent failures | Rate limiting / timeouts | Implement backoff, increase timeout |
-| Invalid correlation ID | Callback delayed / ID not stored | Store IDs, check timing |
-| Field not updating | Field not in `callbackPayloadDef` | Add field to service definition |
-| Token values ignored | `enableSplitPaths` not set | Enable split paths in service definition |
