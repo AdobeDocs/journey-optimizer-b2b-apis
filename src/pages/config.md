@@ -2,12 +2,12 @@
     - /journey-optimizer-b2b-apis/
 
 - pages:
-    - [Overview](index.md)
+    - [Home](index.md)
     - [API Reference](external-actions-api.md)
     - [Code Samples](examples.md)
 
 - subPages:
-    - [Overview](index.md)
+    - [Home](index.md)
     - [Callback Response](callback-response.md)
     - [Data Flow](data-flow.md)
     - [Error Handling](error-handling.md)

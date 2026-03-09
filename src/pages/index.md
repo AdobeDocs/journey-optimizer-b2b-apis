@@ -15,18 +15,15 @@ The Adobe External Actions API enables external services to integrate with Adobe
 - Error Handling - Robust error reporting mechanisms
 - Security - Multiple authentication options (API Key, Basic, OAuth2)
 
+This External Actions API goes through the following flow:
 
-To get started with the External Actions API, read through this guide completely.
-
-| Step | Adobe Action | Service Provider Action | Reference |
-| --- | --- | --- | --- |
-| 1. OpenAPI Contract | Validates your API contract and required endpoints | Publish OpenAPI 3.0.x spec with required endpoints and security | [OpenAPI Spec Requirements](../openapi-spec-requirements.md) |
-| 2. Service Definition | Calls `GET /getServiceDefinition` | Return capabilities, payload definitions, and split-path support | [Service Definition Guide](../service-definition.md) |
-| 3. Execution Request | Sends `POST /submitAsyncAction` payload | Accept request and respond quickly, then process asynchronously | [Execution Request](../execution-request.md.md) |
-| 4. Async Processing | Waits for callback while tracking action timeout | Execute enrichment/scoring/decision logic | [Execution Request](../execution-request.md.md) |
-| 5. Callback Response | Receives callback at provided `callbackUrl` | Return `activityData` and optional entity updates | [Callback Response](../callback-response.md.md) |
-| 6. Journey Routing | Evaluates path conditions when split paths are enabled | Provide `accessorValues` for routing decisions | [Path Condition Accessors](path-condition-accessors.md) |
-| 7. Error Lifecycle | Captures request and callback failures | Return clear errors and retry only when appropriate | [Error Handling](error-handling.md) |
-
+1. OpenAPI contract validates your API contract and required endpoints. See [OpenAPI Spec Requirements](../openapi-spec-requirements.md)
+1. Service Definition calls `GET /getServiceDefinition`. Returns capabilities, payload definitions, and split-path support. See[Service Definition Guide](../service-definition.md)
+1. Execution Request sends `POST /submitAsyncAction` payload and responds quickly, then process asynchronously. See [Execution Request](../execution-request.md.md)
+1. Async Processing waits for the callback while tracking action timeout. see [Execution Request](../execution-request.md.md)
+1. Callback Response receives callback at provided `callbackUrl` and returns `activityData`. See [Callback Response](../callback-response.md.md)
+1. Journey Routing evaluates path conditions when split paths are enabled. See [Path Condition Accessors](path-condition-accessors.md)
+1. Error Lifecycle Captures request and callback failures. See [Error Handling](error-handling.md)
 
 Download the [OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml).
+Download the [Postman Collection](postman.md) for API testing.

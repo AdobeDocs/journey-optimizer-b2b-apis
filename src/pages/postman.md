@@ -18,9 +18,9 @@ The collection includes requests for:
 
 ## Setup
 
+1. Download [external-actions-postman.json](../../static/external-actions-postman.json)
 1. Open Postman Desktop or Web.
-1. Click Import.
-1. Select `External-Actions-API.postman_collection.json`.
+1. Click Import and select `external-actions-postman.json` from your download location
 1. Click Import.
 
 ### Configure Environment Variables
@@ -141,25 +141,6 @@ pm.test("Response time is acceptable", function () {
     pm.expect(pm.response.responseTime).to.be.below(5000);
 });
 ```
-
-### Chain Requests
-
-Use Collection Runner or Newman to chain requests:
-
-1. Get Service Definition.
-1. Submit Execution Request (save correlation ID).
-1. Wait for processing.
-1. Send Callback Response (use saved correlation ID).
-
-### Mock Server Setup
-
-Create a Postman Mock Server to test callbacks:
-
-1. Right-click collection → Mock Collection.
-1. Create mock server.
-1. Copy the mock URL.
-1. Use as your `callbackUrl` in execution requests.
-1. View incoming callbacks in Postman.
 
 ## Authentication
 
