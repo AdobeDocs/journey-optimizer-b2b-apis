@@ -17,11 +17,11 @@ The Adobe External Actions API enables external services to integrate with Adobe
 
 This External Actions API goes through the following flow:
 
-1. OpenAPI contract validates your API contract and required endpoints. See [OpenAPI Spec Requirements](../openapi-spec-requirements.md)
-1. Service Definition calls `GET /getServiceDefinition`. Returns capabilities, payload definitions, and split-path support. See[Service Definition Guide](../service-definition.md)
-1. Execution Request sends `POST /submitAsyncAction` payload and responds quickly, then process asynchronously. See [Execution Request](../execution-request.md.md)
-1. Async Processing waits for the callback while tracking action timeout. see [Execution Request](../execution-request.md.md)
-1. Callback Response receives callback at provided `callbackUrl` and returns `activityData`. See [Callback Response](../callback-response.md.md)
+1. OpenAPI contract validates your API contract and required endpoints. See [OpenAPI Spec Requirements](openapi-spec-requirements.md)
+1. Service Definition calls `GET /getServiceDefinition`. Returns capabilities, payload definitions, and split-path support. See[Service Definition Guide](service-definition.md)
+1. Execution Request sends `POST /submitAsyncAction` payload and responds quickly, then process asynchronously. See [Execution Request](execution-request.md.md)
+1. Async Processing waits for the callback while tracking action timeout. see [Execution Request](execution-request.md.md)
+1. Callback Response receives callback at provided `callbackUrl` and returns `activityData`. See [Callback Response](callback-response.md.md)
 1. Journey Routing evaluates path conditions when split paths are enabled. See [Path Condition Accessors](path-condition-accessors.md)
 1. Error Lifecycle Captures request and callback failures. See [Error Handling](error-handling.md)
 
