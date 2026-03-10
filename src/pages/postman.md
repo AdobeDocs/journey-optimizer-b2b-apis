@@ -144,10 +144,6 @@ pm.test("Response time is acceptable", function () {
 
 ## Authentication
 
-The collection supports multiple authentication methods:
-
-<Tab orientation="horizontal" slots="heading, content" repeat="3"/>
-
 ### API Key Authentication
 
 Set in Headers:

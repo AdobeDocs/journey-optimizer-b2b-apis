@@ -9,11 +9,7 @@ The first step in integrating with Adobe External Actions is to create a specifi
 
 ## Required Components
 
-Your spec must use OpenAPI 3.0.x:
-
-```yaml
-openapi: 3.0.0
-```
+Your spec must use OpenAPI 3.0.x.
 
 ### Required endpoints
 
@@ -27,7 +23,7 @@ Your service must implement these three endpoints:
 
 Your spec must define at least one of the following allowed authentication methods:
 
-<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
+<Tab orientation="horizontal" slots="heading, content" repeat="3"/>
 
 #### API Key Authentication
 

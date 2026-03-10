@@ -154,7 +154,7 @@ Usage in conditions:
 
 ### Lead Path Condition Accessors
 
-<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
+<Tab orientation="horizontal" slots="heading, code" repeat="2"/>
 
 ### Service Definition
 
@@ -236,7 +236,7 @@ invocationPayloadDef:
 
 Key Feature: Each person-account relationship can have its own accessor values for relationship-specific routing.
 
-<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
+<Tab orientation="horizontal" slots="heading, code" repeat="2"/>
 
 ### Service Definition
 
