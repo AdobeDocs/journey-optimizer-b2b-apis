@@ -57,7 +57,7 @@ Method: `POST /submitAsyncAction`
 
 ## Context Data
 
-<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
+<Tab orientation="horizontal" slots="heading, content" repeat="3"/>
 
 ### Subscription Context
 

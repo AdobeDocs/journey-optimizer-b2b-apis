@@ -7,7 +7,6 @@
     - [Code Samples](examples.md)
 
 - subPages:
-    - [External Actions Home](index.md)
     - [API Reference](external-actions-api.md)
     - [Callback Response](callback-response.md)
     - [Data Flow](data-flow.md)
