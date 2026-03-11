@@ -9,7 +9,7 @@ This document provides a comprehensive overview of the data flow for the Adobe E
 
 ## Overview
 
-The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition (AJOB2B) through custom journey actions.
+The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition through custom journey actions.
 
 The integration flow consists of:
 
@@ -26,7 +26,7 @@ Before integrating, your service must provide an OpenAPI 3.0.x compliant specifi
 - Three required endpoints: `/getServiceDefinition`, `/submitAsyncAction`, `/status`
 - At least one security scheme: `apiKey`, oauth2, or `basicAuth`
 
-👉 **See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for complete details on creating your specification.
+**See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for details on creating your specification.
 
 ## Service Definition Flow
 
@@ -133,6 +133,7 @@ Adobe sends mapped data to the service:
 ### Callback Phase
 
 The service returns updated data:
+
 ```json
 {
   "leadData": {
@@ -247,5 +248,6 @@ callbackPayloadDef:
 ### Journey Routing
 
 Based on `accessorValues.enrichmentScore = 92`:
+
 - Condition: `my.enrichmentScore >= 80` evaluates to `true`
 - Result: Lead takes "`highValue`" path

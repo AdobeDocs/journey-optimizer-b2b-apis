@@ -2,17 +2,17 @@
     - /journey-optimizer-b2b-apis/
 
 - pages:
-    - [Home](index.md)
+    - [External Action Home](index.md)
     - [API Reference](external-actions-api.md)
     - [Code Samples](examples.md)
 
 - subPages:
-    - [Home](index.md)
+    - [External Actions Home](index.md)
     - [API Reference](external-actions-api.md)
     - [Callback Response](callback-response.md)
     - [Data Flow](data-flow.md)
     - [Error Handling](error-handling.md)
-    - [Example Code](examples.md.md)
+    - [Code Samples](examples.md)
     - [Execution Request](execution-request.md)
     - [Path Condition Accessors](path-condition-accessors.md)
     - [Postman Collection](postman.md)

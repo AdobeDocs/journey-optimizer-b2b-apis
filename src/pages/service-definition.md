@@ -9,13 +9,11 @@ The service definition endpoint `/getServiceDefinition` is one of three required
 
 ## Prerequisites
 
-Before implementing this endpoint, ensure you have:
+Before implementing this endpoint, ensure you:
 
-1. Created your OpenAPI 3.0.x specification with the required components.
-1. Defined at least one security scheme (`apiKey`, oauth2, or `basicAuth`)
-1. Included all three required endpoints in your spec
-
-See [OpenAPI Spec Requirements](openapi-spec-requirements.md) for details on writing your specification.
+1. Create your [OpenAPI Spec](openapi-spec-requirements.md) with the required components.
+1. Define at least one security scheme (`apiKey`, `oauth2`, or `basicAuth`)
+1. Include the three required endpoints in your spec
 
 ## `GET /getServiceDefinition`
 

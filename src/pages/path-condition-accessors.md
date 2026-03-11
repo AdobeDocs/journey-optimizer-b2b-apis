@@ -154,8 +154,6 @@ Usage in conditions:
 
 ### Lead Path Condition Accessors
 
-<Tab orientation="horizontal" slots="heading, code" repeat="2"/>
-
 ### Service Definition
 
 ```yaml
@@ -193,8 +191,6 @@ invocationPayloadDef:
 - Default Path: All others
 
 ### Account Path Condition Accessors
-
-<Tab orientation="horizontal" slots="heading, code" repeat="1"/>
 
 ### Service Definition
 
@@ -235,8 +231,6 @@ invocationPayloadDef:
 ### AccountPerson Path Condition Accessors
 
 Key Feature: Each person-account relationship can have its own accessor values for relationship-specific routing.
-
-<Tab orientation="horizontal" slots="heading, code" repeat="2"/>
 
 ### Service Definition
 
@@ -362,7 +356,6 @@ accessorsMetadata:
 - Hot leads (score >= 80) → Sales team path
 - Warm leads (50-79) → Nurture campaign
 - Cold leads (< 50) → Long-term nurture
-
 
 ### Risk Assessment
 

@@ -213,12 +213,3 @@ components:
         requestId:
           type: string
 ```
-
-## Next Steps
-
-Once your your OpenAPI specification is ready:
-
-1. Define your service capabilities - Implement the `/getServiceDefinition` endpoint following the [Service Definition Guide](service-definition.md)
-1. Understand the execution flow - Review the [Execution Request](execution-request.md) structure
-1. Implement the callback - Learn how to return results via [Callback Response](callback-response.md)
-1. Review the complete data flow - See [Data Flow](data-flow.md) for the end-to-end integration flow
