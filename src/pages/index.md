@@ -3,9 +3,9 @@ title: Adobe Journey Optimizer B2B External Actions API
 description: Adobe Journey Optimizer B2B External Actions API Specification
 ---
 
-# Adobe Journey Optimizer B2B External Actions API
+<Superhero slots="heading, text" />
 
-> ⚠️ **Beta Release**: This specification is a beta release. Endpoints, schemas, and behavior may change without notice.
+# Adobe Journey Optimizer B2B External Actions API
 
 The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition through custom journey actions. This guide explains how to write and configure your service to receive data from Adobe, and return the processed data back to your journey.
 
@@ -14,6 +14,8 @@ The Adobe External Actions API enables external services to integrate with Adobe
 - Rich Data Mapping - Map Adobe data to your service fields
 - Error Handling - Robust error reporting mechanisms
 - Security - Multiple authentication options (API Key, Basic, OAuth2)
+
+**Beta Release**: This specification is a beta release. Endpoints, schemas, and behavior may change without notice.* 
 
 Start building your External Actions API service by reading the following documentation:
 
@@ -24,5 +26,5 @@ The [Callback Response](callback-response.md.md) receives callback at provided `
 [Path Condition Accessors](path-condition-accessors.md) evaluates path conditions when split paths are enabled.
 Error Lifecycle Captures request and callback failures. See [Error Handling](error-handling.md)
 
-Download the [OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml).
-Download the [Postman Collection](postman.md) for API testing.
+- Download the [OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml).
+- Download the [Postman Collection](postman.md) for API testing.

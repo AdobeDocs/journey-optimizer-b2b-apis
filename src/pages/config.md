@@ -2,7 +2,8 @@
     - /journey-optimizer-b2b-apis/
 
 - pages:
-    - [External Action Home](index.md)
+    - [Journey Optimizer B2B APIs](index.md)
+    - [Documentation]()
     - [API Reference](external-actions-api.md)
     - [Code Samples](examples.md)
 

@@ -1,11 +1,9 @@
 ---
-title: Examples
+title: Code Examples
 description: Real-world request and response examples for leads, accounts, and account-person workflows.
-contributors:
-  - https://github.com/adobe
 ---
 
-# Examples
+# Code Examples
 
 This section provides complete, real-world examples demonstrating the Adobe External Actions API for all supported entity types.
 
