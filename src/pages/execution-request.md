@@ -117,7 +117,7 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
 
 ## Object Data by Entity Type
 
-<Tab orientation="horizontal" slots="heading, code, content" repeat="3"/>
+<Tab orientation="horizontal" slots="heading, content" repeat="3"/>
 
 ### Lead Entity
 

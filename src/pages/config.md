@@ -3,9 +3,8 @@
 
 - pages:
     - [Journey Optimizer B2B APIs](index.md)
-    - [Documentation]()
+    - [Documentation](data-flow.md)
     - [API Reference](external-actions-api.md)
-    - [Code Samples](examples.md)
 
 - subPages:
     - [API Reference](external-actions-api.md)
