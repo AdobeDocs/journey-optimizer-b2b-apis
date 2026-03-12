@@ -4,12 +4,12 @@
 - pages:
     - [Journey Optimizer B2B APIs](index.md)
     - [Documentation](data-flow.md)
-    - [API Reference](external-actions-api.md)
 
 - subPages:
-    - [API Reference](external-actions-api.md)
+    - [Documentation](data-flow.md)
     - [Callback Response](callback-response.md)
     - [Code Samples](examples.md)
+    - [API Reference](external-actions-api.md)
     - [Data Flow](data-flow.md)
     - [Error Handling](error-handling.md)
     - [Execution Request](execution-request.md)
