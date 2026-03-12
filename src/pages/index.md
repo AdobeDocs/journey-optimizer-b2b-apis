@@ -21,7 +21,7 @@ The External Actions API enables:
 
 Start building your External Actions API service with the following documentation:
 
-- See [OpenAPI Spec Requirements](openapi-spec-requirements.md) to define your OpenAPI spec.
+- Begin with [OpenAPI Spec Requirements](openapi-spec-requirements.md) to define your OpenAPI spec.
 - The [Service Definition](service-definition.md) calls `GET /getServiceDefinition`. Returns capabilities, payload definitions, and split-path support.
 - [Execution Request](execution-request.md.md) sends `POST /submitAsyncAction` payload and responds quickly, then process asynchronously.
 - The [Callback Response](callback-response.md.md) receives callback at provided `callbackUrl` and returns `activityData`.
