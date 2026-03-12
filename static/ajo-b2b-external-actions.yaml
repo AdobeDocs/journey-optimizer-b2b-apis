@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
-  title: AJO B2B Journeys External Actions Service Provider Interface
+  title: Adobe Journey Optimizer B2BExternal Actions Service Provider Interface
   version: 1.0.0
   description: |
     # Adobe Journey Optimizer B2B External Actions API
     
-    Service provider interface for integrating external actions into Adobe Journey Optimizer B2B Edition (AJOB2B) journeys.
+    Service provider interface for integrating external actions into Journey Optimizer B2B journeys.
     This specification defines how external services can process leads, accounts with split path decisioning capabilities.
     
     ## Supported Entity Types
@@ -14,15 +14,9 @@ info:
     - **accountPerson**: Combined account and person processing 
     
     ## Documentation
-    For complete integration guides, examples, and detailed specifications:
-    - 📘 [Data Flow & Architecture](./docs/data-flow) - Understand the request/response lifecycle
-    - 🔧 [Service Definition](./docs/service-definition) - Declare your service capabilities
-    - ⚡ [Execution Request](./docs/execution-request) - Request structure and entity formats
-    - 📤 [Callback Response](./docs/callback-response) - Response structure and field mapping
-    - 🎯 [Path Condition Accessors](./docs/path-condition-accessors) - Journey routing decisions
-    - ⚠️  [Error Handling](./docs/error-handling) - Error codes and validation
+    For complete integration guides, examples, and detailed specifications see the [External Actions Documentation](https://developer.adobe.com/journey-optimizer-b2b-apis/).
     
-    ## Quick Start
+    ## Basic flow
     1. Implement `GET /getServiceDefinition` - Declare your capabilities
     2. Implement `POST /submitAsyncAction` - Receive execution requests
     3. POST results to the provided `callbackUrl` - Return processed data
