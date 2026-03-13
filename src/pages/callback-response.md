@@ -234,10 +234,10 @@ Structure mirrors the execution request for consistency.
  
 | Capability | Status | Notes | 
 | --- | --- | --- | 
-| Account attribute updates via `accountData` | Supported | Applies to all relationships | 
-| Person/lead updates via `accountPersonData[].leadData` | Supported | Per person, optional | 
-| Relationship-specific values via `accountPersonData[].accessorValues` | Supported | Used for split paths | 
-| Relationship identification via `accountPersonData` | Supported | Required | 
+| Account attribute updates through `accountData` | Supported | Applies to all relationships | 
+| Person/lead updates through `accountPersonData[].leadData` | Supported | Per person, optional | 
+| Relationship-specific values through `accountPersonData[].accessorValues` | Supported | Used for split paths | 
+| Relationship identification through `accountPersonData` | Supported | Required | 
 | Relationship metadata updates (role, influence, buying committee position) | Not supported (this release) | May be added later | 
 | Additional properties in `accountPersonData` beyond defined fields | Not supported (this release) | Rejected by schema | 
  
