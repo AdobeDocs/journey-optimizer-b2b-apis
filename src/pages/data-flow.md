@@ -32,7 +32,8 @@ Before integrating, your service must provide an OpenAPI 3.0.x compliant specifi
 
 ### Prerequisites: Create OpenAPI Specification
 
-The first step is creating your OpenAPI 3.0.x specification with the required endpoints and security schemes. See [OpenAPI Spec Requirements](openapi-spec-requirements.md).
+The first step is creating your OpenAPI 3.0.x specification with the required endpoints and security schemes.
+See [OpenAPI Spec Requirements](openapi-spec-requirements.md).
 
 ### Service Provider Exposes `/getServiceDefinition` Endpoint
 
@@ -149,7 +150,8 @@ Adobe updates records with the returned data.
 
 ## Path Condition Accessors
 
-Path condition accessors enable external services to influence journey routing decisions. See [Path Condition Accessors](path-condition-accessors.md) for details.
+Path condition accessors enable external services to influence journey routing decisions.
+See [Path Condition Accessors](path-condition-accessors.md) for details.
 
 **Key Points:**
 
@@ -251,3 +253,4 @@ Based on `accessorValues.enrichmentScore = 92`:
 
 - Condition: `my.enrichmentScore >= 80` evaluates to `true`
 - Result: Lead takes "`highValue`" path
+

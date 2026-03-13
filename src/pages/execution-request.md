@@ -273,7 +273,8 @@ Headers are defined in `invocationPayloadDef.headers` with configured values.
 
 ## Enable Split Paths
 
-Indicates whether split path decisioning is enabled. When `true`, your callback should include `accessorValues` for journey routing.
+Indicates whether split path decisioning is enabled.
+When `true`, your callback should include `accessorValues` for journey routing.
 
 ```json
 {
@@ -408,3 +409,4 @@ HTTP status codes:
 - `400`: Invalid request (malformed)
 - `401`: Unauthorized
 - `500`: Internal server error
+

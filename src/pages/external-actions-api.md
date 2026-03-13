@@ -7,3 +7,4 @@ layout: none
 # External Actions API Reference
 
 <RedoclyAPIBlock src="/journey-optimizer-b2b-apis/ajo-b2b-external-actions.yaml" />
+

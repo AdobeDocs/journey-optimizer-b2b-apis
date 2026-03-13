@@ -5,7 +5,8 @@ description: Define service capabilities, required fields, and outputs for the g
 
 # Service Definition Guide
 
-The service definition endpoint `/getServiceDefinition` is one of three required endpoints in your OpenAPI specification. It declares your service's capabilities, data requirements, and configuration options.
+The service definition endpoint `/getServiceDefinition` is one of three required endpoints in your OpenAPI specification.
+It declares your service's capabilities, data requirements, and configuration options.
 
 ## Prerequisites
 
@@ -343,3 +344,4 @@ Adobe validates your service definition with:
 - Define clear accessors: When using split paths, provide meaningful accessor names.
 - Version your service: Update `serviceVersion` when making changes.
 - Document constraints: Use `constraints` to define valid value ranges.
+

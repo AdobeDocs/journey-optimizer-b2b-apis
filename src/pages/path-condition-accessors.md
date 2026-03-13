@@ -5,7 +5,8 @@ description: Configure path condition accessors so external services can influen
 
 # Path Condition Accessors
 
-Path condition accessors allow external services to provide computed values that can be used in journey path conditions for dynamic routing decisions. This enables services to influence the journey path based on their processing logic.
+Path condition accessors allow external services to provide computed values that can be used in journey path conditions for dynamic routing decisions.
+This enables services to influence the journey path based on their processing logic.
 
 Use path condition accessors when you want to:
 
@@ -287,7 +288,7 @@ invocationPayloadDef:
 - High Engagement Path: `my.engagementScore >= 80`
 - Nurture Path: `my.engagementScore < 60`
 
-Routing Result: 
+Routing Result:
 
 - John (decision_maker, critical priority) → VIP Path
 - Jane (influencer, medium priority) → Nurture Path
@@ -479,3 +480,4 @@ accessorsMetadata:
     constraints:
       allowedValues: ["immediate", "soon", "later"]
 ```
+

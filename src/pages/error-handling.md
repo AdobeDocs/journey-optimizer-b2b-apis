@@ -5,7 +5,8 @@ description: Error model, response patterns, and best practices for robust Exter
 
 # Error Handling
 
-Proper error handling is critical for debugging, monitoring, and providing a good integration experience. This document covers error patterns, codes, and best practices for the External Actions API.
+Proper error handling is critical for debugging, monitoring, and providing a good integration experience.
+This document covers error patterns, codes, and best practices for the External Actions API.
 
 ## Error Types
 
@@ -150,7 +151,8 @@ Always include:
 * A stable `errorCode`
 * A clear `reason`
 
-Use meaningful, consistent error codes. For example:
+Use meaningful, consistent error codes.
+For example:
 
 | Code | Description | Use Case |
 | -- | -- | -- |
@@ -274,4 +276,5 @@ errorCodes:
     httpStatus: 429
     retryable: true
 ```
+
 

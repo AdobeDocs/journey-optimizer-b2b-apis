@@ -5,7 +5,8 @@ description: Complete OpenAPI contract requirements for implementing an Adobe Ex
 
 # Service Provider OpenAPI Spec Requirements
 
-The first step in integrating with Adobe External Actions is to create a specification that defines your service. This specification serves as the contract between your service and Adobe, declaring your capabilities, authentication methods, and the required endpoints that enable the integration.
+The first step in integrating with Adobe External Actions is to create a specification that defines your service.
+This specification serves as the contract between your service and Adobe, declaring your capabilities, authentication methods, and the required endpoints that enable the integration.
 
 ## Required Components
 
@@ -213,3 +214,4 @@ components:
         requestId:
           type: string
 ```
+

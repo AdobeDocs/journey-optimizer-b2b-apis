@@ -249,4 +249,6 @@ See [Path Condition Accessors](path-condition-accessors.md) for full accessor de
 
 ## Callback Error Model
 
-This page focuses on callback payload structure. Keep complete error taxonomy, response handling, and retry strategy in [Error Handling](error-handling.md).
+This page focuses on callback payload structure.
+Keep complete error taxonomy, response handling, and retry strategy in [Error Handling](error-handling.md).
+
