@@ -18,9 +18,9 @@ The collection includes requests for:
  
 ## Setup 
  
-1. Download [external-actions-postman.json](../../static/external-actions-postman.json) 
+1. Download [external-actions-postman.json](../../static/external-actions-postman.json) .
 1. Open Postman Desktop or Web. 
-1. Click Import and select `external-actions-postman.json` from your download location 
+1. Click Import and select `external-actions-postman.json` from your download location.
 1. Click Import. 
  
 ### Configure Environment Variables 
