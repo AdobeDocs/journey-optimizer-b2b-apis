@@ -13,8 +13,8 @@ It declares your service's capabilities, data requirements, and configuration op
 Before implementing this endpoint, ensure you: 
  
 1. Create your [OpenAPI Spec](openapi-spec-requirements.md) with the required components. 
-1. Define at least one security scheme (`apiKey`, `oauth2`, or `basicAuth`) 
-1. Include the three required endpoints in your spec 
+1. Define at least one security scheme (`apiKey`, `oauth2`, or `basicAuth`) .
+1. Include the three required endpoints in your spec .
  
 ## `GET /getServiceDefinition` 
  
@@ -105,7 +105,7 @@ security:
 ``` 
  
 - Adobe only allows one security scheme defined in your root-level `security` array. 
-- The security scheme must be both defined in both `components.securitySchemes` and in the root-level `security` array. 
+- The security scheme must be defined in both `components.securitySchemes` and in the root-level `security` array. 
  
 ## Invocation Payload Definition 
  

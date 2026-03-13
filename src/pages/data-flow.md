@@ -157,9 +157,9 @@ See [Path Condition Accessors](path-condition-accessors.md) for details.
  
 **Key Points:** 
  
-- Accessor values are embedded directly in entity data (`accessorValues` property) 
-- Each entity can have its own accessor values 
-- Accessors can be used in journey path conditions for dynamic routing 
+- Accessor values are embedded directly in entity data (`accessorValues` property) .
+- Each entity can have its own accessor values .
+- Accessors can be used in journey path conditions for dynamic routing .
  
 ## Error Handling 
  
