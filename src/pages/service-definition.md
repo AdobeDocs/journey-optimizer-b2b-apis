@@ -215,7 +215,7 @@ accessorsMetadata:
       allowedValues: ["premium", "standard", "basic"] 
 ``` 
  
-Admins can create path conditions using these accessors: 
+Administrators can create path conditions using these accessors: 
  
 - `my.enrichmentScore >= 80` 
 - `my.treatmentId == 'premium'` 

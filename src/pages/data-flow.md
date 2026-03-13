@@ -26,7 +26,7 @@ Before integrating, your service must provide an OpenAPI 3.0.x compliant specifi
 - Three required endpoints: `/getServiceDefinition`, `/submitAsyncAction`, `/status` 
 - At least one security scheme: `apiKey`, oauth2, or `basicAuth` 
  
-**See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for details on creating your specification. 
+See [OpenAPI Spec Requirements](openapi-spec-requirements.md) for details on creating your specification. 
  
 ## Service Definition Flow 
  
@@ -118,11 +118,13 @@ callbackPayloadDef:
 ### Admin Configuration Phase 
  
 The admin maps service fields to Adobe fields: 
+
 - Service field `email` → Adobe field `Email Address` 
  
 ### Execution Phase 
  
 Adobe sends mapped data to the service: 
+
 ```json 
 { 
   "leadData": { 
