@@ -1,13 +1,17 @@
 ---
-title: Adobe Journey Optimizer B2B External Actions API
-description: Adobe Journey Optimizer B2B External Actions API Specification
+title: Journey Optimizer B2B External Actions API
+description: The Journey Optimizer B2B External Actions API allows you to integrate your custom service with Adobe directly.
 ---
 
-# Adobe Journey Optimizer B2B External Actions API
+<Superhero slots="heading, text" />
 
-> ⚠️ **Beta Release**: This specification is a beta release. Endpoints, schemas, and behavior may change without notice.
+# Journey Optimizer B2B External Actions API
 
-The External Actions API allows you to connect your service provider endpoints to Adobe Journey Optimizer, enabling you to execute custom actions as part of customer journeys.
+The Journey Optimizer B2B External Actions API enables external services to integrate with Journey Optimizer B2B Edition through custom journey actions. 
+
+**Beta Release**: This specification is a beta release. Endpoints, schemas, and behavior may change without notice.
+
+The External Actions API enables:
 
 - Asynchronous Processing - Adobe sends requests, you process them asynchronously
 - Flexible Entity Types - Support for leads, accounts, and more
@@ -15,20 +19,13 @@ The External Actions API allows you to connect your service provider endpoints t
 - Error Handling - Robust error reporting mechanisms
 - Security - Multiple authentication options (API Key, Basic, OAuth2)
 
-## API Reference
+Start building your External Actions API service with the following documentation:
 
-- [Download OpenAPI Specification](/openapi/provider-canonical-openapi.yaml) - Complete API specification in OpenAPI 3.0 format
+- Begin with [OpenAPI Spec Requirements](openapi-spec-requirements.md) to define your OpenAPI spec.
+- The [Service Definition](service-definition.md) calls `GET /getServiceDefinition`. Returns capabilities, payload definitions, and split-path support.
+- [Execution Request](execution-request.md.md) sends `POST /submitAsyncAction` payload and responds quickly, then process asynchronously.
+- The [Callback Response](callback-response.md.md) receives callback at provided `callbackUrl` and returns `activityData`.
+- [Path Condition Accessors](path-condition-accessors.md) evaluates path conditions when split paths are enabled.
+- Error Lifecycle Captures request and callback failures. See [Error Handling](error-handling.md)
 
-## Quick Links
-
-- [OpenAPI Spec Requirements](/docs/openapi-spec-requirements/)
-- [Data Flow](/docs/data-flow/)
-- [Service Definition](/docs/service-definition/)
-- [Execution Request](/docs/execution-request/)
-- [Callback Response](/docs/callback-response/)
-- [Error Handling](/docs/error-handling/)
-- [Path & Condition Accessors](/docs/path-condition-accessors/)
-- [Examples](/docs/examples/)
-- [Postman Collection](/docs/postman/)
-
-> ℹ️ **Note**: Support for person audiences will arrive in a follow-up release with Person Journeys.
+Download the [OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml) and the [Postman Collection](postman.md) for API testing.

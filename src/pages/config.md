@@ -2,17 +2,18 @@
     - /journey-optimizer-b2b-apis/
 
 - pages:
-    - [Overview](index.md)
-    - [API Reference](openapi-spec-requirements-compact.md)
-    - [Code Samples](examples.md)
+    - [Journey Optimizer B2B APIs](index.md)
+    - [Documentation](data-flow.md)
 
 - subPages:
-    - [Overview](index.md)
-    - [Callback Response](callback-response-compact.md)
+    - [Documentation](data-flow.md)
+    - [Callback Response](callback-response.md)
+    - [Code Samples](examples.md)
+    - [API Reference](external-actions-api.md)
     - [Data Flow](data-flow.md)
-    - [Error Handling](error-handling-compact.md)
-    - [Execution Request](execution-request-compact.md)
+    - [Error Handling](error-handling.md)
+    - [Execution Request](execution-request.md)
     - [Path Condition Accessors](path-condition-accessors.md)
     - [Postman Collection](postman.md)
-    - [Specification Requirements](openapi-spec-requirements-compact.md)
     - [Service Definition](service-definition.md)
+    - [Specification Requirements](openapi-spec-requirements.md)

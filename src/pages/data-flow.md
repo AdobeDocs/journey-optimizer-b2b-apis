@@ -1,16 +1,15 @@
 ---
-title: Data Flow
-contributors:
-  - https://github.com/adobe
+title: External Actions Documentation
+description: End-to-end integration flow for service definition, execution requests, processing, and callbacks.
 ---
 
-# External Actions Data Flow
+# External Actions Documentation
 
 This document provides a comprehensive overview of the data flow for the Adobe External Actions API.
 
 ## Overview
 
-The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition (AJOB2B) through custom journey actions.
+The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition through custom journey actions.
 
 The integration flow consists of:
 
@@ -27,13 +26,13 @@ Before integrating, your service must provide an OpenAPI 3.0.x compliant specifi
 - Three required endpoints: `/getServiceDefinition`, `/submitAsyncAction`, `/status`
 - At least one security scheme: `apiKey`, oauth2, or `basicAuth`
 
-👉 **See [OpenAPI Spec Requirements](/docs/openapi-spec-requirements)** for complete details on creating your specification.
+**See [OpenAPI Spec Requirements](openapi-spec-requirements.md)** for details on creating your specification.
 
 ## Service Definition Flow
 
 ### Prerequisites: Create OpenAPI Specification
 
-The first step is creating your OpenAPI 3.0.x specification with the required endpoints and security schemes. See [OpenAPI Spec Requirements](/docs/openapi-spec-requirements).
+The first step is creating your OpenAPI 3.0.x specification with the required endpoints and security schemes. See [OpenAPI Spec Requirements](openapi-spec-requirements.md).
 
 ### Service Provider Exposes `/getServiceDefinition` Endpoint
 
@@ -53,7 +52,7 @@ The service provider must expose a service definition endpoint that declares:
 - If `supportedEntityType: account` → requires `accountFields` in both invocation and callback payload defs
 - If `supportedEntityType: accountPerson` → requires `accountPersonRelationships` in the invocation payload; optionally supports `fields` and/or `accountFields` in the callback payload for attribute updates
 
-See the [Service Definition Guide](/docs/service-definition) for details.
+See the [Service Definition Guide](service-definition.md) for details.
 
 ## Payload Definition Structure
 
@@ -83,7 +82,7 @@ Defines the structure of data that can be sent BACK from the external service.
 
 ## Execution Request Flow
 
-See [Execution Request Documentation](/docs/execution-request) for complete details on the request structure, including:
+See [Execution Request Documentation](execution-request.md) for complete details on the request structure, including:
 
 - Request structure and required fields
 - Entity-specific data formats (lead, account, `accountPerson`)
@@ -93,7 +92,7 @@ See [Execution Request Documentation](/docs/execution-request) for complete deta
 
 ## Callback Response Flow
 
-See [Callback Response Documentation](/docs/callback-response) for complete details on the callback structure, including:
+See [Callback Response Documentation](callback-response.md) for complete details on the callback structure, including:
 
 - Required callback headers
 - Response structure by entity type
@@ -134,6 +133,7 @@ Adobe sends mapped data to the service:
 ### Callback Phase
 
 The service returns updated data:
+
 ```json
 {
   "leadData": {
@@ -149,7 +149,7 @@ Adobe updates records with the returned data.
 
 ## Path Condition Accessors
 
-Path condition accessors enable external services to influence journey routing decisions. See [Path Condition Accessors](/docs/path-condition-accessors/) for details.
+Path condition accessors enable external services to influence journey routing decisions. See [Path Condition Accessors](path-condition-accessors.md) for details.
 
 **Key Points:**
 
@@ -159,7 +159,7 @@ Path condition accessors enable external services to influence journey routing d
 
 ## Error Handling
 
-See [Error Handling Documentation](/docs/error-handling) for details on:
+See [Error Handling Documentation](error-handling.md) for details on:
 
 - Error response structure
 - Standard error codes
@@ -248,14 +248,6 @@ callbackPayloadDef:
 ### Journey Routing
 
 Based on `accessorValues.enrichmentScore = 92`:
+
 - Condition: `my.enrichmentScore >= 80` evaluates to `true`
 - Result: Lead takes "`highValue`" path
-
-## Additional Resources
-
-- [OpenAPI Specification](../provider-canonical-openapi.yaml)
-- [Service Definition Guide](/docs/service-definition)
-- [Execution Request](/docs/execution-request)
-- [Callback Response](/docs/callback-response)
-- [Examples](/docs/examples)
-
