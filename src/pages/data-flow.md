@@ -1,9 +1,10 @@
 ---
-title: External Actions Documentation
+title: Overview
 description: End-to-end integration flow for service definition, execution requests, processing, and callbacks.
+hideBreadcrumbs: true
 ---
 
-# External Actions Documentation
+# Overview
 
 This document provides a comprehensive overview of the data flow for the Adobe External Actions API.
 

@@ -1,6 +1,7 @@
 ---
 title: Callback Response
 description: Detailed guide for sending callback responses to Adobe after asynchronous processing.
+hideBreadcrumbs: true
 ---
 
 # Callback Response

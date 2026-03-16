@@ -1,6 +1,7 @@
 ---
 title: Postman Collection
 description: Setup and usage guide for the Postman collection used to test External Actions endpoints.
+hideBreadcrumbs: true
 ---
 
 # Postman Collection

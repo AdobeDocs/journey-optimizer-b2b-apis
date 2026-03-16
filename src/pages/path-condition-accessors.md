@@ -1,6 +1,7 @@
 ---
 title: Path Condition Accessors
 description: Configure path condition accessors so external services can influence journey routing decisions.
+hideBreadcrumbs: true
 ---
 
 # Path Condition Accessors

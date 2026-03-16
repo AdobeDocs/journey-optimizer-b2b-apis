@@ -1,6 +1,7 @@
 ---
 title: Service Provider OpenAPI Spec Requirements
 description: Complete OpenAPI contract requirements for implementing an Adobe External Actions service.
+hideBreadcrumbs: true
 ---
 
 # Service Provider OpenAPI Spec Requirements

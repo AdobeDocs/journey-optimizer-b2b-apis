@@ -1,6 +1,7 @@
 ---
 title: Code Examples
 description: Real-world request and response examples for leads, accounts, and account-person workflows.
+hideBreadcrumbs: true
 ---
 
 # Code Examples

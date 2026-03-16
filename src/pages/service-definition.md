@@ -1,6 +1,7 @@
 ---
 title: Service Definition Guide
 description: Define service capabilities, required fields, and outputs for the getServiceDefinition endpoint.
+hideBreadcrumbs: true
 ---
 
 # Service Definition Guide

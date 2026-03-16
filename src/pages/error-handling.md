@@ -1,6 +1,7 @@
 ---
 title: Error Handling
 description: Error model, response patterns, and best practices for robust External Actions integrations.
+hideBreadcrumbs: true
 ---
 
 # Error Handling

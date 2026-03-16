@@ -6,7 +6,7 @@
 
 - subPages:
     - [External Actions API](index.md)
-      - [Documentation](data-flow.md)
+      - [Overview](data-flow.md)
       - [API Reference](external-actions-api.md)
       - [Callback Response](callback-response.md)
       - [Code Samples](examples.md)
