@@ -25,7 +25,7 @@ invocationPayloadDef:
           description: "Data region (US, EU, APAC)"
       dataType: string
       required: false
-  
+
   flowAttributes:
     - apiName: enrichmentType
       i18n:
@@ -41,7 +41,7 @@ invocationPayloadDef:
           description: "Processing priority (high, normal, low)"
       dataType: string
       required: false
-  
+
   fields:
     - apiName: email
       i18n:
@@ -78,17 +78,17 @@ invocationPayloadDef:
           description: "Job title"
       dataType: string
       required: false
-  
+
   headers:
     - headerName: X-Tenant-ID
       description: Tenant identifier for multi-tenant services
     - headerName: X-Request-Source
       defaultValue: AJO
       description: Source system identifier
-  
+
   journeyContext: true
   subscriptionContext: true
-  
+
   accessorsMetadata:
     - accessorName: enrichmentScore
       dataType: integer
@@ -186,7 +186,7 @@ callbackPayloadDef:
           description: "Job function category"
       dataType: string
       required: false
-  
+
   attributes:
     - apiName: enrichmentStatus
       i18n:

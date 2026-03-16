@@ -4,23 +4,23 @@ info:
   version: 1.0.0
   description: |
     # Adobe Journey Optimizer B2B External Actions API
-    
+
     Service provider interface for integrating external actions into Journey Optimizer B2B journeys.
     This specification defines how external services can process leads, accounts with split path decisioning capabilities.
-    
+
     ## Supported Entity Types
     - **lead**: Lead-based processing
     - **account**: Account-level processing
-    - **accountPerson**: Combined account and person processing 
-    
+    - **accountPerson**: Combined account and person processing
+
     ## Documentation
     For complete integration guides, examples, and detailed specifications see the [External Actions Documentation](https://developer.adobe.com/journey-optimizer-b2b-apis/).
-    
+
     ## Basic flow
     1. Implement `GET /getServiceDefinition` - Declare your capabilities
     2. Implement `POST /submitAsyncAction` - Receive execution requests
     3. POST results to the provided `callbackUrl` - Return processed data
-    
+
     ## API Endpoints
     Use the navigation below to explore the three required endpoints (x-required: true) and all schemas.
   contact:
@@ -69,7 +69,7 @@ paths:
                   description: Service definition for B2B account enrichment with firmographic data
                   externalValue: ./examples/service-definitions/account-enrichment.json
                 accountPerson:
-                  summary: AccountPerson Entity 
+                  summary: AccountPerson Entity
                   description: Service definition for buying group role identification with account context
                   externalValue: ./examples/service-definitions/accountPerson-buying-group.json
         '401':
@@ -86,8 +86,8 @@ paths:
         Executes the external action for leads, accounts, or accountPerson entities.
         This endpoint receives context, entity data, and configuration to process the request
         and return results via the callback mechanism.
-        
-       
+
+
       operationId: executeAction
       tags:
         - Action Execution
@@ -120,10 +120,10 @@ paths:
       summary: Process Callback Response (Adobe-side endpoint)
       description: |
         **Note: This endpoint is implemented by Adobe, not by service providers.**
-         
+
         Service providers send their processing results to this Adobe-managed callback endpoint.
-        
-         
+
+
         **Required Headers:**
         - `X-Callback-Token`: Encrypted correlation token from execution request (REQUIRED)
         - `X-Api-Key`: Customer API key for authentication
@@ -131,12 +131,12 @@ paths:
         - `Authorization`: Bearer token for validation
         - `x-gw-ims-org-id`: Organization identifier
         - `Content-Type`: application/json
-        
+
         **Authentication Setup:**
-        
-        To generate the access token for the `Authorization` header, set up OAuth Server-to-Server credentials 
+
+        To generate the access token for the `Authorization` header, set up OAuth Server-to-Server credentials
         in Adobe Developer Console for your IMS Organization and Client.
-        
+
         Learn more: https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/
       operationId: processCallback
       tags:
@@ -172,7 +172,7 @@ paths:
           schema:
             type: string
           description: IMS Organization ID
-      
+
       requestBody:
         required: true
         content:
@@ -242,10 +242,10 @@ components:
           tokenUrl: "https://www.example.com/token"
           refreshUrl: "https://www.example.com/refreshToken"
           scopes: {}
-          
+
 
         # Scopes must be empty. Use x-fields to define nonstandard names to be used when requesting access token
-        
+
     basicAuth:
       type: http
       scheme: basic
@@ -314,7 +314,7 @@ components:
               required: [fields]
             callbackPayloadDef:
               required: [fields]
-        
+
         # Option 2: Lead entity with split paths
         - type: object
           title: Lead Entity (With Split Paths)
@@ -328,7 +328,7 @@ components:
               required: [fields, accessorsMetadata]
             callbackPayloadDef:
               required: [fields]
-        
+
         # Option 3: Account entity without split paths
         - type: object
           title: Account Entity (No Split Paths)
@@ -342,7 +342,7 @@ components:
               required: [accountFields]
             callbackPayloadDef:
               required: [accountFields]
-        
+
         # Option 4: Account entity with split paths
         - type: object
           title: Account Entity (With Split Paths)
@@ -356,7 +356,7 @@ components:
               required: [accountFields, accessorsMetadata]
             callbackPayloadDef:
               required: [accountFields]
-        
+
         # Option 5: AccountPerson entity without split paths
         - type: object
           title: AccountPerson Entity (No Split Paths)
@@ -370,7 +370,7 @@ components:
               required: [fields, accountFields]
             callbackPayloadDef:
               required: [fields, accountFields]
-        
+
         # Option 6: AccountPerson entity with split paths
         - type: object
           title: AccountPerson Entity (With Split Paths)
@@ -425,7 +425,7 @@ components:
             $ref: '#/components/schemas/FieldMapping'
           description: |
             Lead/person field mappings (Mapped to AJOB2B fields in Admin UI).
-            - Required for entityType: lead 
+            - Required for entityType: lead
             - Required for entityType: accountPerson (AJOB2B)
             - Not used for entityType: account
         accountFields:
@@ -436,7 +436,7 @@ components:
             Account field mappings (Mapped to AJOB2B fields configured in Admin UI).
             - Required for entityType: account
             - Required for entityType: accountPerson
-            - Not used for entityType: lead 
+            - Not used for entityType: lead
         headers:
           type: array
           items:
@@ -482,7 +482,7 @@ components:
             $ref: '#/components/schemas/AttributeDefinition'
           description: Attributes that can be updated via callback.
 
-        
+
 
     AttributeDefinition:
       type: object
@@ -570,7 +570,7 @@ components:
         description:
           type: string
           description: Human-readable description of the accessor's purpose
-        
+
 
     PathConditionDefinition:
       type: object
@@ -633,9 +633,9 @@ components:
               enum: [lead, account, accountPerson]
               description: |
                 Type of entity being processed:
-                - lead: Lead/person 
-                - account: Account entity 
-                - accountPerson: Leads within account 
+                - lead: Lead/person
+                - account: Account entity
+                - accountPerson: Leads within account
             objectContext:
               description: |
                 Entity-specific data structure. Structure depends on objectType:
@@ -656,7 +656,7 @@ components:
           description: Adobe callback endpoint URL where service provider will send results
         actionConfig:
           $ref: '#/components/schemas/ActionConfig'
-     
+
         enableSplitPaths:
           type: boolean
           description: Indicates if split path decisioning is enabled
@@ -815,7 +815,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CallbackResponseObjectData'
-          description: Array of responses 
+          description: Array of responses
 
     CallbackResponseObjectData:
       type: object
@@ -887,9 +887,9 @@ components:
             region: "EMEA"
       additionalProperties: true
       description: |
-        Object used to submit data back to account record. Included fields must be included in service definition. 
+        Object used to submit data back to account record. Included fields must be included in service definition.
         Fields must also be mapped and active for write to succeed.
-        
+
         When used in accountPerson callback (with accountPersonData), this provides account-level attribute updates.
         Token overrides for accountPerson should be at the accountPersonData level, not here.
 
@@ -939,18 +939,18 @@ components:
       description: |
         Object used for account-person relationships in accountPerson callbacks.
         Structure mirrors the execution request for consistency.
-        
+
         **Purpose:**
         - Identifies each specific account-person relationship (accountPersonRelId, accountId, personId)
         - Optionally updates person attributes via leadData (only if your service supports it)
         - Provides relationship-specific path condition accessor values (via accessorValues)
-        
+
         **Important:**
         - IDs (accountPersonRelId, accountId, personId) MUST match the ones provided in the execution request
         - Account attribute updates: Use accountData.additionalProperties (applies to all relationships)
         - Person/lead attribute updates: Use leadData inside each accountPersonData object (per person)
         - Relationship metadata updates: NOT currently supported (additionalProperties: false)
-        
+
         **Note:** Support for relationship metadata updates may be added in future releases.
 
     ActivityData:
