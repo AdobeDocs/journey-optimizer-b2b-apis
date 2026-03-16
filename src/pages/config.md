@@ -2,11 +2,11 @@
     - /journey-optimizer-b2b-apis/ 
  
 - pages: 
-    - [Journey Optimizer B2B APIs](index.md) 
-    - [Documentation](data-flow.md) 
+    - [Journey Optimizer B2B APIs](index.md)  
  
 - subPages: 
-    - [Documentation](data-flow.md) 
+    - [Home](index.md) 
+      - [Documentation](data-flow.md) 
       - [API Reference](external-actions-api.md)
       - [Callback Response](callback-response.md) 
       - [Code Samples](examples.md) 
