@@ -5,7 +5,7 @@
     - [Journey Optimizer B2B APIs](index.md)  
  
 - subPages: 
-    - [Home](index.md) 
+    - [External Actions API](index.md) 
       - [Documentation](data-flow.md) 
       - [API Reference](external-actions-api.md)
       - [Callback Response](callback-response.md) 
