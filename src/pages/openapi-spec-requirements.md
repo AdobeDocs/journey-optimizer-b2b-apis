@@ -1,10 +1,10 @@
 ---
-title: Service Provider OpenAPI Spec Requirements
+title: Service Provider Spec Requirements
 description: Complete OpenAPI contract requirements for implementing an Adobe External Actions service.
 hideBreadcrumbs: true
 ---
 
-# Service Provider OpenAPI Spec Requirements
+# Service Provider Spec Requirements
 
 The first step in integrating with Adobe External Actions is to create a specification that defines your service.
 This specification serves as the contract between your service and Adobe, declaring your capabilities, authentication methods, and the required endpoints that enable the integration.

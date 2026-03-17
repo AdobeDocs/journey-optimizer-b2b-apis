@@ -1,16 +1,14 @@
 ---
-title: Overview
+title: External Actions overview
 description: End-to-end integration flow for service definition, execution requests, processing, and callbacks.
 hideBreadcrumbs: true
 ---
 
-# Overview
-
-This document provides a comprehensive overview of the data flow for the Adobe External Actions API.
-
-## Overview
+# External Actions overview
 
 The Adobe External Actions API enables external services to integrate with Adobe Journey Optimizer B2B Edition through custom journey actions.
+
+This document provides a comprehensive overview of the data flow for the Adobe External Actions API.
 
 The integration flow consists of:
 
