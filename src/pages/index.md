@@ -28,6 +28,3 @@ Start building your External Actions API service with the following documentatio
 - The [Callback Response](callback-response.md.md) receives callback at provided `callbackUrl` and returns `activityData`.
 - [Path Condition Accessors](path-condition-accessors.md) evaluates path conditions when split paths are enabled.
 - Error Lifecycle Captures request and callback failures. See [Error Handling](error-handling.md)
-
-Download the [OpenAPI Specification](../../static/ajo-b2b-external-actions.yaml) and the [Postman Collection](postman.md) for API testing.
-
