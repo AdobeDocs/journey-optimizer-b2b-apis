@@ -532,15 +532,3 @@ curl -X POST https://adobe-test.com/callback/YOUR_CORRELATION_ID \
   -H "X-Request-Id: YOUR_CORRELATION_ID" \
   -d @examples/callback-responses/lead-success.json
 ```
-
-## Testing with Postman
-
-For a more interactive testing experience, use our [Postman Collection](postman.md).
-
-The Postman collection includes:
-
-- Pre-configured requests for all endpoints
-- Environment variable templates
-- Request/response validation
-- Mock server support
-

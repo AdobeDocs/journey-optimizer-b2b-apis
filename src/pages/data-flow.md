@@ -28,7 +28,7 @@ Before integrating, your service must provide an OpenAPI 3.0.x compliant specifi
 
 - OpenAPI 3.0.x version
 - Three required endpoints: `/getServiceDefinition`, `/submitAsyncAction`, `/status`
-- At least one security scheme: `apiKey`, oauth2, or `basicAuth`
+- At least one security scheme: `apiKey`, `oauth2`, or `basicAuth`
 
 See [OpenAPI Spec Requirements](openapi-spec-requirements.md) for details on creating your specification.
 
