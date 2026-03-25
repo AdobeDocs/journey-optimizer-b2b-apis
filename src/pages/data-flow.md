@@ -10,6 +10,11 @@ The Adobe External Actions API enables external services to integrate with Adobe
 
 This document provides a comprehensive overview of the data flow for the Adobe External Actions API.
 
+<InlineAlert slots="text" variant="info" />
+
+External Actions are supported only in account journeys and are not available for person journeys.
+
+
 The integration flow consists of:
 
 1. Service Definition: External service declares capabilities via `/getServiceDefinition`
