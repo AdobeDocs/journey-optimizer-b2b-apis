@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Adobe Journey Optimizer B2BExternal Actions Service Provider Interface
+  title: Adobe Journey Optimizer B2B External Actions Service Provider Interface
   version: 1.0.0
   description: |
     Service provider interface for integrating external actions into Journey Optimizer B2B journeys.
@@ -219,7 +219,7 @@ components:
       type: apiKey
       in: header
       name: X-API-Key
-      description: API Key authentication.# Change the value of name to specify a different header name.  'in' may have a value of either 'header' or 'query'
+      description: "API Key authentication. Change the value of name to specify a different header name. 'in' may have a value of either 'header' or 'query'"
     oauth2:
       type: oauth2
       description: OAuth2 authentication
@@ -682,7 +682,7 @@ components:
               description: Journey name
             status:
               type: string
-              enum: [Finished, Live, draft, Aborted]
+              enum: [Finished, Live, Draft, Aborted]
             startDate:
               type: string
               format: date-time
