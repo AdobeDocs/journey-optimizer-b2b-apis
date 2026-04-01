@@ -46,7 +46,7 @@ The service provider must expose a service definition endpoint that declares:
 **Key Properties:**
 
 - `apiName`: Unique identifier for the service
-- `supportedEntityType`: Single entity type supported (lead, account, or `accountPerson`)
+- `supportedEntityType`: Single entity type supported (`lead`, `account`, or `accountPerson`)
 - `enableSplitPaths`: Boolean indicating split path decisioning support
 - `invocationPayloadDef`: Defines what data the service needs
 - `callbackPayloadDef`: Defines what data the service can update
@@ -90,7 +90,7 @@ Defines the structure of data that can be sent BACK from the external service.
 See [Execution Request Documentation](execution-request.md) for complete details on the request structure, including:
 
 - Request structure and required fields
-- Entity-specific data formats (lead, account, `accountPerson`)
+- Entity-specific data formats (`lead`, `account`, `accountPerson`)
 - Context data (subscription, journey, admin)
 - Action configuration
 - Custom headers
