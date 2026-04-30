@@ -191,7 +191,7 @@ paths:
     x-implemented-by: partner
     get:
       summary: Status Check
-      description: Returns the status of the service
+      description: Returns the status of the service, used to determine service health. Response status codes >= 400 will be considered "unhealthy".
       operationId: statusCheck
       tags:
         - Monitoring
@@ -202,13 +202,12 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  status:
-                    type: string
-                    enum: [healthy]
-                  timestamp:
-                    type: string
-                    format: date-time
+                info:
+                    type: array
+                    items:
+                      type: string
+        '500':
+          description: Service is not operational
 
 components:
   securitySchemes:
