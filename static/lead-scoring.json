@@ -107,7 +107,7 @@
     "headers": [
       {
         "name": "X-Customer-ID",
-        "value": "{{subscription.munchkinId}}",
+        "value": "subscription.munchkinId",
         "description": "Customer Munchkin ID"
       }
     ],

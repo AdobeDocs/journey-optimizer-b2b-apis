@@ -95,7 +95,7 @@
     "headers": [
       {
         "name": "X-Tenant-ID",
-        "value": "{{subscription.prefix}}",
+        "value": "subscription.prefix",
         "description": "Customer tenant identifier"
       },
       {

@@ -83,6 +83,7 @@ Service definition for B2B account enrichment with firmographic data, including 
         "required": false
       }
     ],
+    "fields": [],
     "accountFields": [
       { "serviceAttribute": "accountId", "dataType": "string", "required": true, "description": "Account ID" },
       { "serviceAttribute": "accountName", "dataType": "string", "required": true, "description": "Account name" },
@@ -91,7 +92,8 @@ Service definition for B2B account enrichment with firmographic data, including 
     ],
     "headers": [
       {
-        "headerName": "X-Tenant-ID",
+        "name": "X-Tenant-ID",
+        "value": "subscription.imsOrgId",
         "description": "Tenant identifier for multi-tenant environments"
       }
     ],
@@ -111,15 +113,36 @@ Service definition for B2B account enrichment with firmographic data, including 
     ]
   },
   "callbackPayloadDef": {
+    "fields": [],
     "accountFields": [
-      { "serviceAttribute": "annualRevenue", "dataType": "integer", "description": "Annual revenue" },
-      { "serviceAttribute": "employeeCount", "dataType": "integer", "description": "Employee count" },
-      { "serviceAttribute": "sicCode", "dataType": "string", "description": "SIC code" },
-      { "serviceAttribute": "technologies", "dataType": "string", "description": "Technologies used" }
+      { "serviceAttribute": "annualRevenue", "dataType": "integer", "required": false, "description": "Annual revenue" },
+      { "serviceAttribute": "employeeCount", "dataType": "integer", "required": false, "description": "Employee count" },
+      { "serviceAttribute": "sicCode", "dataType": "string", "required": false, "description": "SIC code" },
+      { "serviceAttribute": "technologies", "dataType": "string", "required": false, "description": "Technologies used" }
     ],
     "attributes": [
-      { "serviceAttribute": "enrichmentStatus", "dataType": "string", "description": "Enrichment status" },
-      { "serviceAttribute": "lastEnriched", "dataType": "datetime", "description": "Last enrichment timestamp" }
+      {
+        "apiName": "enrichmentStatus",
+        "i18n": {
+          "en_US": {
+            "displayName": "Enrichment Status",
+            "description": "Enrichment status"
+          }
+        },
+        "dataType": "string",
+        "required": false
+      },
+      {
+        "apiName": "lastEnriched",
+        "i18n": {
+          "en_US": {
+            "displayName": "Last Enriched",
+            "description": "Last enrichment timestamp"
+          }
+        },
+        "dataType": "datetime",
+        "required": false
+      }
     ]
   }
 }
@@ -192,11 +215,6 @@ Service definition for buying group role identification with complete i18n:
         "required": false
       }
     ],
-    "accountFields": [
-      { "serviceAttribute": "accountId", "dataType": "string", "required": true, "description": "Account ID" },
-      { "serviceAttribute": "accountName", "dataType": "string", "required": true, "description": "Account name" },
-      { "serviceAttribute": "industry", "dataType": "string", "required": false, "description": "Industry" }
-    ],
     "fields": [
       { "serviceAttribute": "email", "dataType": "string", "required": true, "description": "Email address" },
       { "serviceAttribute": "firstName", "dataType": "string", "required": false, "description": "First name" },
@@ -204,9 +222,15 @@ Service definition for buying group role identification with complete i18n:
       { "serviceAttribute": "title", "dataType": "string", "required": false, "description": "Job title" },
       { "serviceAttribute": "department", "dataType": "string", "required": false, "description": "Department" }
     ],
+    "accountFields": [
+      { "serviceAttribute": "accountId", "dataType": "string", "required": true, "description": "Account ID" },
+      { "serviceAttribute": "accountName", "dataType": "string", "required": true, "description": "Account name" },
+      { "serviceAttribute": "industry", "dataType": "string", "required": false, "description": "Industry" }
+    ],
     "headers": [
       {
-        "headerName": "X-Analysis-Version",
+        "name": "X-Analysis-Version",
+        "value": "1.0",
         "description": "Version of the analysis algorithm to use"
       }
     ],
@@ -236,16 +260,36 @@ Service definition for buying group role identification with complete i18n:
     ]
   },
   "callbackPayloadDef": {
-    "accountFields": [
-      { "serviceAttribute": "buyingGroupSize", "dataType": "integer", "description": "Number of stakeholders" },
-      { "serviceAttribute": "decisionTimeframe", "dataType": "string", "description": "Expected decision timeframe" }
-    ],
     "fields": [
-      { "serviceAttribute": "validatedTitle", "dataType": "string", "description": "Validated job title" }
+      { "serviceAttribute": "validatedTitle", "dataType": "string", "required": false, "description": "Validated job title" }
+    ],
+    "accountFields": [
+      { "serviceAttribute": "buyingGroupSize", "dataType": "integer", "required": false, "description": "Number of stakeholders" },
+      { "serviceAttribute": "decisionTimeframe", "dataType": "string", "required": false, "description": "Expected decision timeframe" }
     ],
     "attributes": [
-      { "serviceAttribute": "analysisConfidence", "dataType": "integer", "description": "Confidence level (0-100)" },
-      { "serviceAttribute": "lastAnalyzed", "dataType": "datetime", "description": "Last analysis timestamp" }
+      {
+        "apiName": "analysisConfidence",
+        "i18n": {
+          "en_US": {
+            "displayName": "Analysis Confidence",
+            "description": "Confidence level (0-100)"
+          }
+        },
+        "dataType": "integer",
+        "required": false
+      },
+      {
+        "apiName": "lastAnalyzed",
+        "i18n": {
+          "en_US": {
+            "displayName": "Last Analyzed",
+            "description": "Last analysis timestamp"
+          }
+        },
+        "dataType": "datetime",
+        "required": false
+      }
     ]
   }
 }
@@ -279,23 +323,25 @@ Request for lead/person enrichment:
       "region": "US"
     }
   },
-  "objectData": {
-    "objectType": "lead",
-    "objectContext": {
-      "leadId": "12345",
-      "leadData": {
-        "email": "john.doe@acme.com",
-        "firstName": "John",
-        "lastName": "Doe",
-        "company": "Acme Corporation",
-        "title": "VP of Sales"
+  "objectData": [
+    {
+      "objectType": "lead",
+      "objectContext": {
+        "leadId": "12345",
+        "leadData": {
+          "email": "john.doe@acme.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "company": "Acme Corporation",
+          "title": "VP of Sales"
+        }
+      },
+      "flowStepContext": {
+        "enrichmentType": "professional",
+        "priority": "high"
       }
-    },
-    "flowStepContext": {
-      "enrichmentType": "professional",
-      "priority": "high"
     }
-  },
+  ],
   "actionConfig": {
     "timeout": 60,
     "pathConfig": [
@@ -336,24 +382,26 @@ Request for account enrichment:
       "dataProvider": "ZoomInfo"
     }
   },
-  "objectData": {
-    "objectType": "account",
-    "objectContext": {
-      "accountId": "ACC-98765",
-      "accountData": {
-        "accountName": "Acme Corporation",
-        "website": "https://www.acme-corp.example.com",
-        "industry": "Manufacturing",
-        "billingCountry": "United States",
-        "annualRevenue": 50000000,
-        "employeeCount": 250
+  "objectData": [
+    {
+      "objectType": "account",
+      "objectContext": {
+        "accountId": "ACC-98765",
+        "accountData": {
+          "accountName": "Acme Corporation",
+          "website": "https://www.acme-corp.example.com",
+          "industry": "Manufacturing",
+          "billingCountry": "United States",
+          "annualRevenue": 50000000,
+          "employeeCount": 250
+        }
+      },
+      "flowStepContext": {
+        "enrichmentType": "technographic",
+        "priority": "high"
       }
-    },
-    "flowStepContext": {
-      "enrichmentType": "technographic",
-      "priority": "high"
     }
-  },
+  ],
   "actionConfig": {
     "timeout": 120,
     "pathConfig": [
@@ -394,48 +442,50 @@ Request for buying group analysis (leads within account context):
       "buyingGroupModel": "enterprise-b2b"
     }
   },
-  "objectData": {
-    "objectType": "accountPerson",
-    "objectContext": {
-      "accountId": "ACC-54321",
-      "accountData": {
-        "accountName": "Global Manufacturing Solutions Inc",
-        "industry": "Industrial Manufacturing",
-        "annualRevenue": 250000000,
-        "employeeCount": 1500
-      },
-      "accountPersonRelationships": [
-        {
-          "accountPersonRelId": 9001,
-          "accountId": 54321,
-          "personId": 12345,
-          "leadData": {
-            "email": "michael.chen@globalmfg.example.com",
-            "firstName": "Michael",
-            "lastName": "Chen",
-            "title": "Chief Technology Officer",
-            "department": "IT"
-          }
+  "objectData": [
+    {
+      "objectType": "accountPerson",
+      "objectContext": {
+        "accountId": "ACC-54321",
+        "accountData": {
+          "accountName": "Global Manufacturing Solutions Inc",
+          "industry": "Industrial Manufacturing",
+          "annualRevenue": 250000000,
+          "employeeCount": 1500
         },
-        {
-          "accountPersonRelId": 9002,
-          "accountId": 54321,
-          "personId": 12346,
-          "leadData": {
-            "email": "jennifer.wong@globalmfg.example.com",
-            "firstName": "Jennifer",
-            "lastName": "Wong",
-            "title": "VP of Operations",
-            "department": "Operations"
+        "accountPersonRelationships": [
+          {
+            "accountPersonRelId": 9001,
+            "accountId": 54321,
+            "personId": 12345,
+            "leadData": {
+              "email": "michael.chen@globalmfg.example.com",
+              "firstName": "Michael",
+              "lastName": "Chen",
+              "title": "Chief Technology Officer",
+              "department": "IT"
+            }
+          },
+          {
+            "accountPersonRelId": 9002,
+            "accountId": 54321,
+            "personId": 12346,
+            "leadData": {
+              "email": "jennifer.wong@globalmfg.example.com",
+              "firstName": "Jennifer",
+              "lastName": "Wong",
+              "title": "VP of Operations",
+              "department": "Operations"
+            }
           }
-        }
-      ]
-    },
-    "flowStepContext": {
-      "analysisType": "committee_complete",
-      "minInfluenceLevel": 70
+        ]
+      },
+      "flowStepContext": {
+        "analysisType": "committee_complete",
+        "minInfluenceLevel": 70
+      }
     }
-  },
+  ],
   "actionConfig": {
     "timeout": 180,
     "pathConfig": [

@@ -139,12 +139,12 @@
     "headers": [
       {
         "name": "X-Org-ID",
-        "value": "{{subscription.imsOrgId}}",
+        "value": "subscription.imsOrgId",
         "description": "IMS Organization ID"
       },
       {
         "name": "X-Journey-ID",
-        "value": "{{journey.id}}",
+        "value": "journey.id",
         "description": "Journey identifier"
       }
     ],
