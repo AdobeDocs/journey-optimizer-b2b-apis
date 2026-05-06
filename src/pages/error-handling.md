@@ -13,7 +13,7 @@ This document covers the three distinct error flows in External Actions integrat
 2. **Your service → Adobe** — callback payload errors sent to `callbackUrl` after asynchronous processing
 3. **Adobe → Your service** — error responses from Adobe's callback endpoint when your callback POST fails
 
----
+<HorizontalLine />
 
 ## 1. Errors from Your Service (`/submitAsyncAction`)
 
@@ -123,7 +123,7 @@ Use meaningful, consistent error codes across both top-level and per-entity erro
 | `INVALID_DATA` | Invalid input data | Data validation error |
 | `NOT_FOUND` | Entity not found | No matching record in external system |
 
----
+<HorizontalLine />
 
 ## 3. Adobe Callback Endpoint Errors
 
@@ -200,7 +200,7 @@ Response:
 * Implement retry logic with exponential backoff
 * Max 3–5 retries before alerting
 
----
+<HorizontalLine />
 
 ## Best Practices
 
