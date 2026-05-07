@@ -128,7 +128,7 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
       "objectContext": {
         "leadId": "12345",
         "leadData": {
-          "email": "john@example.com",
+          "email": "john.doe@example.com",
           "firstName": "John",
           "lastName": "Doe",
           "company": "Acme Corp",
@@ -201,7 +201,7 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
             "mktoGuid": "guid-123",
             "isEmployee": true,
             "leadData": {
-              "email": "john@acme.com",
+              "email": "john.doe@example.com",
               "firstName": "John",
               "title": "VP Sales"
             },
@@ -321,7 +321,7 @@ When `true`, your callback should include `accessorValues` for journey routing.
       "objectContext": {
         "leadId": "12345",
         "leadData": {
-          "email": "john.doe@acme.com",
+          "email": "john.doe@example.com",
           "firstName": "John",
           "lastName": "Doe",
           "company": "Acme Corporation",

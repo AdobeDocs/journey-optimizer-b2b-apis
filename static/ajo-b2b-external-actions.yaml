@@ -218,7 +218,8 @@ paths:
             application/json:
               schema:
                 type: object
-                info:
+                properties:
+                  info:
                     type: array
                     items:
                       type: string
@@ -942,7 +943,7 @@ components:
             **Optional** - Only include if your service wants to update person attributes.
             Fields must be defined in callbackPayloadDef.fields and properly mapped.
           example:
-            email: "john@example.com"
+            email: "john.doe@example.com"
             title: "VP Sales"
             mobilePhone: "+1-555-0101"
         accessorValues:

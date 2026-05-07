@@ -132,7 +132,7 @@ Adobe sends mapped data to the service:
 ```json
 {
   "leadData": {
-    "email": "john@example.com"
+    "email": "john.doe@example.com"
   }
 }
 ```
@@ -145,7 +145,7 @@ The service returns updated data:
 {
   "leadData": {
     "id": 12345,
-    "email": "updated@example.com"
+    "email": "john.doe@example.com"
   }
 }
 ```
@@ -208,7 +208,7 @@ callbackPayloadDef:
     "objectContext": {
       "leadId": "12345",
       "leadData": {
-        "email": "john@example.com",
+        "email": "john.doe@example.com",
         "company": "Acme Corp"
       }
     }
@@ -242,7 +242,7 @@ callbackPayloadDef:
       },
       "leadData": {
         "id": 12345,
-        "email": "john@example.com",
+        "email": "john.doe@example.com",
         "enrichedData": "Premium customer - Tech industry",
         "accessorValues": {
           "enrichmentScore": 92

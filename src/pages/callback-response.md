@@ -83,7 +83,7 @@ and an error response contains the `errorCode` and `reason`:
       },
       "leadData": {
         "id": 12345,
-        "email": "john.doe@acme.com",
+        "email": "john.doe@example.com",
         "firstName": "John",
         "lastName": "Doe",
         "mobilePhone": "+1-555-0101",
@@ -184,7 +184,7 @@ Structure mirrors the execution request for consistency.
           "accountId": 54321,
           "personId": 12345,
           "leadData": {
-            "email": "john.cto@acme.com",
+            "email": "john.doe@example.com",
             "title": "Chief Technology Officer",
             "mobilePhone": "+1-555-0101"
           },
@@ -199,7 +199,7 @@ Structure mirrors the execution request for consistency.
           "accountId": 54321,
           "personId": 12346,
           "leadData": {
-            "email": "jane.vp@acme.com",
+            "email": "jane.doe@example.com",
             "title": "VP of Operations"
           },
           "accessorValues": {

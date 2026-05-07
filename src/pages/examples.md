@@ -329,7 +329,7 @@ Request for lead/person enrichment:
       "objectContext": {
         "leadId": "12345",
         "leadData": {
-          "email": "john.doe@acme.com",
+          "email": "john.doe@example.com",
           "firstName": "John",
           "lastName": "Doe",
           "company": "Acme Corporation",
@@ -459,7 +459,7 @@ Request for buying group analysis (leads within account context):
             "accountId": 54321,
             "personId": 12345,
             "leadData": {
-              "email": "michael.chen@globalmfg.example.com",
+              "email": "john.doe@example.com",
               "firstName": "Michael",
               "lastName": "Chen",
               "title": "Chief Technology Officer",
@@ -471,7 +471,7 @@ Request for buying group analysis (leads within account context):
             "accountId": 54321,
             "personId": 12346,
             "leadData": {
-              "email": "jennifer.wong@globalmfg.example.com",
+              "email": "jane.doe@example.com",
               "firstName": "Jennifer",
               "lastName": "Wong",
               "title": "VP of Operations",
@@ -521,7 +521,7 @@ Request for buying group analysis (leads within account context):
       },
       "leadData": {
         "id": 12345,
-        "email": "john.doe@acme.com",
+        "email": "john.doe@example.com",
         "firstName": "John",
         "lastName": "Doe",
         "mobilePhone": "+1-555-0101",
@@ -553,7 +553,7 @@ Request for buying group analysis (leads within account context):
       },
       "leadData": {
         "id": 67890,
-        "email": "jane.smith@example.com"
+        "email": "jane.doe@example.com"
       }
     }
   ]
