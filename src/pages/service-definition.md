@@ -36,15 +36,15 @@ Response: `ServiceDefinition` object (application/json)
 Your service must support exactly ONE entity type:
 
 - `lead` (Lead/Person)
-  - Requires `fields` in payload definitions
+  - Requires `fields` in `invocationPayloadDef`
   - Use for: lead enrichment, scoring, qualification
 
 - `account` (Account)
-  - Requires `accountFields` in payload definitions
+  - Requires `accountFields` in `invocationPayloadDef`
   - Use for: account enrichment, firmographic data, ABM scoring
 
 - `accountPerson` (Leads within Accounts)
-  - Requires BOTH `fields` AND `accountFields`
+  - Requires at least one of `fields` or `accountFields` in `invocationPayloadDef`
   - Use for: buying group analysis, relationship scoring, multi-touch attribution
 
 ## Authentication & Security
@@ -357,10 +357,11 @@ callbackPayloadDef:
 Adobe validates your service definition with:
 
 1. Schema validation: Ensures that all required fields are present.
-1. Entity type validation: Checks conditional field requirements.
-   - `lead` requires `fields` in at least one of the payload defs
-   - `account` requires `accountFields` in at least one of the payload defs
-   - `accountPerson` requires both `fields` and `accountFields` in both `invocationPayloadDef` and `callbackPayloadDef`
+1. Entity type validation: Checks conditional field requirements in `invocationPayloadDef`.
+   - `lead` requires `fields`
+   - `account` requires `accountFields`
+   - `accountPerson` requires at least one of `fields` or `accountFields`
+   - `callbackPayloadDef` fields and accountFields are always optional — your service may legitimately have nothing to write back (e.g., a scoring-only service that only populates `attributes` or `accessorsMetadata`)
 1. Split path validation: When `enableSplitPaths: true`, requires `accessorsMetadata`.
 1. Data type validation: Ensures that data types are valid.
 

@@ -322,8 +322,6 @@ components:
               enum: [false]
             invocationPayloadDef:
               required: [fields]
-            callbackPayloadDef:
-              required: [fields]
 
         # Option 2: Lead entity with split paths
         - type: object
@@ -336,8 +334,6 @@ components:
               enum: [true]
             invocationPayloadDef:
               required: [fields, accessorsMetadata]
-            callbackPayloadDef:
-              required: [fields]
 
         # Option 3: Account entity without split paths
         - type: object
@@ -349,8 +345,6 @@ components:
             enableSplitPaths:
               enum: [false]
             invocationPayloadDef:
-              required: [accountFields]
-            callbackPayloadDef:
               required: [accountFields]
 
         # Option 4: Account entity with split paths
@@ -364,8 +358,6 @@ components:
               enum: [true]
             invocationPayloadDef:
               required: [accountFields, accessorsMetadata]
-            callbackPayloadDef:
-              required: [accountFields]
 
         # Option 5: AccountPerson entity without split paths
         - type: object
@@ -377,9 +369,9 @@ components:
             enableSplitPaths:
               enum: [false]
             invocationPayloadDef:
-              required: [fields, accountFields]
-            callbackPayloadDef:
-              required: [fields, accountFields]
+              anyOf:
+                - required: [fields]
+                - required: [accountFields]
 
         # Option 6: AccountPerson entity with split paths
         - type: object
@@ -391,9 +383,10 @@ components:
             enableSplitPaths:
               enum: [true]
             invocationPayloadDef:
-              required: [fields, accountFields, accessorsMetadata]
-            callbackPayloadDef:
-              required: [fields, accountFields]
+              required: [accessorsMetadata]
+              anyOf:
+                - required: [fields]
+                - required: [accountFields]
 
     ServiceI18n:
       type: object
@@ -436,7 +429,7 @@ components:
           description: |
             Lead/person field mappings (Mapped to AJOB2B fields in Admin UI).
             - Required for entityType: lead
-            - Required for entityType: accountPerson (AJOB2B)
+            - Required for entityType: accountPerson if accountFields is not provided (at least one of fields or accountFields must be present)
             - Not used for entityType: account
         accountFields:
           type: array
@@ -445,7 +438,7 @@ components:
           description: |
             Account field mappings (Mapped to AJOB2B fields configured in Admin UI).
             - Required for entityType: account
-            - Required for entityType: accountPerson
+            - Required for entityType: accountPerson if fields is not provided (at least one of fields or accountFields must be present)
             - Not used for entityType: lead
         headers:
           type: array
