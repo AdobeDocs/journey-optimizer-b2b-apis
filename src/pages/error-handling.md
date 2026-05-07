@@ -7,32 +7,37 @@ hideBreadcrumbs: true
 # Error Handling
 
 Proper error handling is critical for debugging, monitoring, and providing a good integration experience.
-This document covers error patterns, codes, and best practices for the External Actions API.
+This document covers the three distinct error flows in External Actions integrations:
 
-## Error Types
+1. **Your service → Adobe** — synchronous HTTP errors from `/submitAsyncAction` when your service cannot accept a request
+2. **Your service → Adobe** — callback payload errors sent to `callbackUrl` after asynchronous processing
+3. **Adobe → Your service** — error responses from Adobe's callback endpoint when your callback POST fails
 
-* Request errors occur when Adobe sends the execution request to your service.
-* Processing errors occur during your service's processing logic.
-* Callback errors that occur when sending results back to Adobe.
-* Synchronous response errors happen when your `/submitAsyncAction` endpoint cannot accept the request and returns an HTTP error.
+<HorizontalLine />
+
+## 1. Errors from Your Service (`/submitAsyncAction`)
+
+When Adobe calls your `/submitAsyncAction` endpoint and your service cannot accept the request, return a synchronous HTTP error. 
+
+
 
 ### 400 Bad Request
 
 ```json
 {
-  "error": {
-    "code": "INVALID_REQUEST",
-    "message": "Missing required field: email",
-    "details": {
-      "field": "objectData.objectContext.leadData.email",
-      "expected": "string",
-      "received": "null"
+  "status": "error",
+  "code": "INVALID_REQUEST",
+  "message": "Missing required field: email",
+  "details": [
+    {
+      "field": "objectData[0].objectContext.leadData.email",
+      "message": "Field is required"
     }
-  }
+  ]
 }
 ```
 
-Causes may be due to:
+Causes:
 
 * Malformed JSON
 * Missing required fields
@@ -43,91 +48,45 @@ Causes may be due to:
 
 ```json
 {
-  "error": {
-    "code": "UNAUTHORIZED",
-    "message": "Invalid or missing authentication credentials"
-  }
+  "status": "error",
+  "code": "UNAUTHORIZED",
+  "message": "Invalid or missing authentication credentials"
 }
 ```
 
-Causes may be due to:
+Causes:
 
 * Missing authentication headers
 * Invalid API keys
 * Expired tokens
 
-### 403 Forbidden
+
+
+## 2. Callback Error Payloads
+
+After accepting the execution request (HTTP 200/201), your service processes the data asynchronously and POSTs results to the `callbackUrl`. There are two ways to report errors in the callback.
+
+### Top-Level Callback Error
+
+Use this when your service cannot complete processing at all — for example, due to a timeout or system failure. Report the failure at the top level with an empty `objectData` array:
 
 ```json
 {
-  "error": {
-    "code": "FORBIDDEN",
-    "message": "Insufficient permissions to access this resource"
-  }
+  "errorCode": "TIMEOUT",
+  "errorMessage": "Processing exceeded the configured timeout limit",
+  "objectData": []
 }
 ```
 
-Causes may be due to:
+| Field | Type | Description |
+| --- | --- | --- |
+| `errorCode` | string | Stable error code identifying the failure type |
+| `errorMessage` | string | Human-readable description of the failure |
+| `objectData` | array | Must be present as an empty array |
 
-* Valid credentials but insufficient permissions
-* Service disabled for this customer
+### Per-Entity Callback Error
 
-### 429 Rate Limit Exceeded
-
-```json
-{
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Too many requests",
-    "retryAfter": 60
-  }
-}
-```
-
-Causes may be due to:
-
-* Rate limiting enforcement
-* Include `Retry-After` header
-
-### 500 Internal Server Error
-
-```json
-{
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "message": "An unexpected error occurred"
-  }
-}
-```
-
-Causes may be due to:
-
-* Unexpected server errors
-* Service unavailable
-* Database errors
-
-### 503 Service Unavailable
-
-```json
-{
-  "error": {
-    "code": "SERVICE_UNAVAILABLE",
-    "message": "Service is temporarily unavailable"
-  }
-}
-```
-
-Causes may be due to:
-
-* Planned maintenance
-* Temporary outages
-* Circuit breaker triggered
-
-## Error Handling
-
-### Callback with Activity Error
-
-When processing fails but you can still send a callback, use `activityData` to indicate the error:
+Use this when processing fails for a specific entity but the callback can still be sent. Report the failure inside `activityData` within the `objectData` entry:
 
 ```json
 {
@@ -135,8 +94,8 @@ When processing fails but you can still send a callback, use `activityData` to i
     {
       "activityData": {
         "success": false,
-        "errorCode": "ENRICHMENT_FAILED",
-        "reason": "External API returned 503 Service Unavailable"
+        "errorCode": "INVALID_DATA",
+        "reason": "External API not able to process data"
       },
       "leadData": {
         "id": 12345
@@ -151,131 +110,102 @@ Always include:
 * `activityData.success: false`
 * A stable `errorCode`
 * A clear `reason`
+* The entity ID (e.g. `leadData.id`) even in failure cases
 
-Use meaningful, consistent error codes.
-For example:
+### Error Code Reference
+
+Use meaningful, consistent error codes across both top-level and per-entity errors:
 
 | Code | Description | Use Case |
-| -- | -- | -- |
-| `RATE_LIMIT_EXCEEDED` | Rate limit hit | Too many API calls |
+| --- | --- | --- |
+| `TIMEOUT` | Processing timeout | Service took too long |
+| `RATE_LIMIT_EXCEEDED` | Rate limit hit | Too many downstream API calls |
 | `INVALID_DATA` | Invalid input data | Data validation error |
-| `TIMEOUT` | Processing timeout | Took too long |
-| `NOT_FOUND` | Entity not found | No matching record |
-| `EXTERNAL_API_ERROR` | Third-party API error | Downstream failure |
-| `AUTHENTICATION_FAILED` | Auth to external system failed | Credentials invalid |
-| `INSUFFICIENT_DATA` | Not enough data to process | Missing required fields |
-| `DUPLICATE_REQUEST` | Request already processed | Idempotency check failed |
+| `NOT_FOUND` | Entity not found | No matching record in external system |
 
-## Callback Error Handling
+<HorizontalLine />
 
-### Adobe Callback Endpoint Errors
+## 3. Adobe Callback Endpoint Errors
 
-When Adobe's callback endpoint returns an error, you will see:
-
-#### 400 Bad Request
+When your service POSTs results to Adobe's `callbackUrl`, Adobe's endpoint may return an error. All Adobe error responses follow this format:
 
 ```json
 {
-  "error": {
-    "code": "INVALID_CALLBACK",
-    "message": "Invalid token"
-  }
+  "title": "ErrMissingOauthToken",
+  "status": 403,
+  "error_code": 403010,
+  "message": "Oauth token is missing"
 }
 ```
 
-Possible causes are:
+| Field | Type | Description |
+| --- | --- | --- |
+| `title` | string | Error name/identifier |
+| `status` | integer | HTTP status code |
+| `error_code` | integer | Adobe-specific numeric error code |
+| `message` | string | Human-readable error description |
 
-* Invalid or expired correlation ID
+### 400 Bad Request
+
+Causes:
+
+* Invalid or expired `X-Callback-Token`
 * Malformed callback payload
 * Schema validation failure
 
-If you see this error:
 
-* Log the error
-* Do not retry (client error)
-* Alert for manual intervention
 
-#### 401 Unauthorized
+### 401 Unauthorized
 
-```json
-{
-  "error": {
-    "code": "UNAUTHORIZED",
-    "message": "Invalid or missing authentication headers"
-  }
-}
-```
+Causes:
 
-Possible causes are:
+* Missing `Authorization` bearer token
+* Invalid or expired bearer token
+* Missing `X-Api-Key` header
 
-* Missing required headers
-* Invalid API key
-* Expired bearer token
+Response:
 
-Next steps are:
+* Refresh your OAuth Server-to-Server access token via Adobe Developer Console
+* Verify all required headers are present (`Authorization`, `X-Api-Key`, `X-Request-Id`, `x-gw-ims-org-id`, `X-Callback-Token`)
+* Do not retry without fixing authentication
 
-* Check authentication configuration
-* Refresh tokens if expired
-* Do not retry without fixing auth
+### 403 Forbidden
 
-#### 500 Internal Server Error
+Causes:
 
-```json
-{
-  "error": {
-    "code": "INTERNAL_ERROR",
-    "message": "An unexpected error occurred processing the callback"
-  }
-}
-```
+* `x-gw-ims-org-id` does not match the OAuth token's organization
+* Organization not authorized for External Actions
 
-Possible causes are:
+Response:
 
-* Adobe service temporarily unavailable
-* Unexpected data format
-* Internal processing error
+* Verify your IMS Organization ID
+* Check Developer Console permissions and OAuth credential scope
 
-To resolve, try:
+### 429 Rate Limit Exceeded
+
+Response:
 
 * Implement retry logic with exponential backoff
-* Max 3-5 retries
-* Alert if all retries fail
 
+
+### 500 Internal Server Error
+
+Causes:
+
+* Adobe service temporarily unavailable
+* Internal processing error
+
+Response:
+
+* Implement retry logic with exponential backoff
+* Max 3–5 retries before alerting
+
+<HorizontalLine />
 
 ## Best Practices
 
-### Always Echo Required IDs
-
-Even in error cases, always include required entity IDs:
-
-```json
-{
-  "activityData": {
-    "success": false,
-    "errorCode": "ENRICHMENT_FAILED"
-  },
-  "leadData": {
-    "id": 12345  // Always include id
-  }
-}
-```
-
-### Maintain a comprehensive error code reference:
-
-```yaml
-errorCodes:
-  ENRICHMENT_FAILED:
-    description: Data enrichment operation failed
-    httpStatus: 200  # Callback succeeds, processing failed
-    retryable: true
-  INVALID_DATA:
-    description: Input data validation failed
-    httpStatus: 400
-    retryable: false
-  RATE_LIMIT_EXCEEDED:
-    description: API rate limit exceeded
-    httpStatus: 429
-    retryable: true
-```
-
-
+* **Always echo entity IDs** — Include required IDs (`leadData.id`, `accountData.id`, etc.) in every callback entry, even failed ones, so Adobe can correlate results
+* **Use stable error codes** — Error codes should be consistent identifiers, not free-form strings; Adobe uses them for alerting and routing
+* **Distinguish error levels** — Use top-level `errorCode`/`errorMessage` for system-wide failures; use per-entity `activityData` errors for partial failures
+* **Log full Adobe error responses** — The `title`, `error_code`, and `message` fields from Adobe are needed for support and debugging
+* **Respond quickly to Adobe** — Return HTTP 200/201 from `/submitAsyncAction` immediately; process asynchronously and callback later

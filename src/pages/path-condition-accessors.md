@@ -55,7 +55,7 @@ In the callback response, include the expected `accessorValues`:
 {
   "leadData": {
     "id": 12345,
-    "email": "john@example.com",
+    "email": "john.doe@example.com",
     "accessorValues": {
       "enrichmentScore": 92,
       "treatmentId": "premium"
@@ -178,7 +178,7 @@ invocationPayloadDef:
 {
   "leadData": {
     "id": 12345,
-    "email": "john@example.com",
+    "email": "john.doe@example.com",
     "accessorValues": {
       "enrichmentScore": 92,
       "dataQuality": "high",
@@ -261,7 +261,7 @@ invocationPayloadDef:
       "accountPersonRelId": 111,
       "accountId": 67890,
       "personId": 12345,
-      "email": "john@acme.com",
+      "email": "john.doe@example.com",
       "title": "VP Sales",
       "accessorValues": {
         "engagementScore": 92,
@@ -273,7 +273,7 @@ invocationPayloadDef:
       "accountPersonRelId": 112,
       "accountId": 67890,
       "personId": 12346,
-      "email": "jane@acme.com",
+      "email": "jane.doe@example.com",
       "title": "Manager",
       "accessorValues": {
         "engagementScore": 65,

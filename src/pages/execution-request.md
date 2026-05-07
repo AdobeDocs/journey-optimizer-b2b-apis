@@ -25,11 +25,13 @@ Method: `POST /submitAsyncAction`
     "journey": {...},
     "admin": {...}
   },
-  "objectData": {
-    "objectType": "string",
-    "objectContext": {...},
-    "flowStepContext": {...}
-  },
+  "objectData": [
+    {
+      "objectType": "string",
+      "objectContext": {...},
+      "flowStepContext": {...}
+    }
+  ],
   "actionConfig": {...},
   "customHeaders": {...},
   "enableSplitPaths": boolean
@@ -42,16 +44,16 @@ Method: `POST /submitAsyncAction`
 | --- | --- | --- |
 | `token` | string | Encrypted correlation token for callback authentication. Must be sent back in `X-Callback-Token` header when calling the callback URL. |
 | `callbackUrl` | string | Adobe endpoint to POST callback results |
-| `objectData` | object | Entity data with type discriminator |
-| `objectData.objectType` | string | Entity type: `lead`, `account`, or `accountPerson` |
-| `objectData.objectContext` | object | Actual entity data |
+| `objectData` | array | Array of entity data objects, each with a type discriminator |
+| `objectData[].objectType` | string | Entity type: `lead`, `account`, or `accountPerson` |
+| `objectData[].objectContext` | object | Actual entity data |
 
 ### Optional Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `context` | object | Contains subscription, journey, and admin context data |
-| `objectData.flowStepContext` | object | Flow-specific attributes defined in `invocationPayloadDef.flowAttributes` |
+| `objectData[].flowStepContext` | object | Flow-specific attributes defined in `invocationPayloadDef.flowAttributes` |
 | `actionConfig` | object | Action-specific configuration (timeout in minutes, split paths) |
 | `customHeaders` | object | Custom headers defined in service definition |
 | `enableSplitPaths` | boolean | Enable path condition accessor collection (default: false) |
@@ -120,23 +122,25 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
 
 ```json
 {
-  "objectData": {
-    "objectType": "lead",
-    "objectContext": {
-      "leadId": "12345",
-      "leadData": {
-        "email": "john@example.com",
-        "firstName": "John",
-        "lastName": "Doe",
-        "company": "Acme Corp",
-        "title": "VP Sales"
+  "objectData": [
+    {
+      "objectType": "lead",
+      "objectContext": {
+        "leadId": "12345",
+        "leadData": {
+          "email": "john.doe@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "company": "Acme Corp",
+          "title": "VP Sales"
+        }
+      },
+      "flowStepContext": {
+        "campaignId": "campaign-456",
+        "source": "webinar"
       }
-    },
-    "flowStepContext": {
-      "campaignId": "campaign-456",
-      "source": "webinar"
     }
-  }
+  ]
 }
 ```
 
@@ -150,22 +154,24 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
 
 ```json
 {
-  "objectData": {
-    "objectType": "account",
-    "objectContext": {
-      "accountId": "67890",
-      "accountData": {
-        "accountName": "Acme Corporation",
-        "industry": "Technology",
-        "revenue": 1000000,
-        "employees": 5000,
-        "website": "https://acme.com"
+  "objectData": [
+    {
+      "objectType": "account",
+      "objectContext": {
+        "accountId": "67890",
+        "accountData": {
+          "accountName": "Acme Corporation",
+          "industry": "Technology",
+          "revenue": 1000000,
+          "employees": 5000,
+          "website": "https://acme.com"
+        }
+      },
+      "flowStepContext": {
+        "priority": "high"
       }
-    },
-    "flowStepContext": {
-      "priority": "high"
     }
-  }
+  ]
 }
 ```
 
@@ -178,37 +184,39 @@ This contains global configuration data defined by `invocationPayloadDef.globalA
 
 ```json
 {
-  "objectData": {
-    "objectType": "accountPerson",
-    "objectContext": {
-      "accountId": "67890",
-      "accountData": {
-        "accountName": "Acme Corporation",
-        "industry": "Technology"
-      },
-      "accountPersonRelationships": [
-        {
-          "accountPersonRelId": 111,
-          "accountId": 67890,
-          "personId": 12345,
-          "mktoGuid": "guid-123",
-          "isEmployee": true,
-          "leadData": {
-            "email": "john@acme.com",
-            "firstName": "John",
-            "title": "VP Sales"
-          },
-          "relationshipMetadata": {
-            "role": "decision-maker",
-            "influence": "high"
+  "objectData": [
+    {
+      "objectType": "accountPerson",
+      "objectContext": {
+        "accountId": "67890",
+        "accountData": {
+          "accountName": "Acme Corporation",
+          "industry": "Technology"
+        },
+        "accountPersonRelationships": [
+          {
+            "accountPersonRelId": 111,
+            "accountId": 67890,
+            "personId": 12345,
+            "mktoGuid": "guid-123",
+            "isEmployee": true,
+            "leadData": {
+              "email": "john.doe@example.com",
+              "firstName": "John",
+              "title": "VP Sales"
+            },
+            "relationshipMetadata": {
+              "role": "decision-maker",
+              "influence": "high"
+            }
           }
-        }
-      ]
-    },
-    "flowStepContext": {
-      "accountScore": "enterprise"
+        ]
+      },
+      "flowStepContext": {
+        "accountScore": "enterprise"
+      }
     }
-  }
+  ]
 }
 ```
 
@@ -307,25 +315,27 @@ When `true`, your callback should include `accessorValues` for journey routing.
       "dataCenter": "east"
     }
   },
-  "objectData": {
-    "objectType": "lead",
-    "objectContext": {
-      "leadId": "12345",
-      "leadData": {
-        "email": "john.doe@acme.com",
-        "firstName": "John",
-        "lastName": "Doe",
-        "company": "Acme Corporation",
-        "title": "VP of Sales",
-        "phone": "+1-555-0100"
+  "objectData": [
+    {
+      "objectType": "lead",
+      "objectContext": {
+        "leadId": "12345",
+        "leadData": {
+          "email": "john.doe@example.com",
+          "firstName": "John",
+          "lastName": "Doe",
+          "company": "Acme Corporation",
+          "title": "VP of Sales",
+          "phone": "+1-555-0100"
+        }
+      },
+      "flowStepContext": {
+        "campaignId": "campaign-456",
+        "source": "webinar-registration",
+        "enrichmentType": "professional"
       }
-    },
-    "flowStepContext": {
-      "campaignId": "campaign-456",
-      "source": "webinar-registration",
-      "enrichmentType": "professional"
     }
-  },
+  ],
   "actionConfig": {
     "timeout": 60,
     "pathConfig": [

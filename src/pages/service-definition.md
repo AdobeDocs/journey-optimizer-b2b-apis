@@ -36,15 +36,15 @@ Response: `ServiceDefinition` object (application/json)
 Your service must support exactly ONE entity type:
 
 - `lead` (Lead/Person)
-  - Requires `fields` in payload definitions
+  - Requires `fields` in `invocationPayloadDef`
   - Use for: lead enrichment, scoring, qualification
 
 - `account` (Account)
-  - Requires `accountFields` in payload definitions
+  - Requires `accountFields` in `invocationPayloadDef`
   - Use for: account enrichment, firmographic data, ABM scoring
 
 - `accountPerson` (Leads within Accounts)
-  - Requires BOTH `fields` AND `accountFields`
+  - Requires at least one of `fields` or `accountFields` in `invocationPayloadDef`
   - Use for: buying group analysis, relationship scoring, multi-touch attribution
 
 ## Authentication & Security
@@ -113,18 +113,24 @@ The invocation payload defines what data your service needs from Adobe.
 ```yaml
 invocationPayloadDef:
   globalAttributes:
-    - serviceAttribute: apiKey
+    - apiName: apiKey
+      i18n:
+        en_US:
+          displayName: "API Key"
+          description: "API key for service authentication"
       dataType: string
       required: true
-      description: API key for service authentication
   flowAttributes:
-    - serviceAttribute: campaignId
+    - apiName: campaignId
+      i18n:
+        en_US:
+          displayName: "Campaign ID"
+          description: "Campaign identifier"
       dataType: string
       required: false
-      description: Campaign identifier
   fields:  # Required for 'lead' and 'accountPerson'
     - serviceAttribute: email
-      dataType: email
+      dataType: string
       required: true
       description: Person email address
   accountFields:  # Required for 'account' and 'accountPerson'
@@ -133,8 +139,8 @@ invocationPayloadDef:
       required: true
       description: Account name
   headers:
-    - headerName: X-Custom-Header
-      defaultValue: default-value
+    - name: X-Custom-Header
+      value: default-value
       description: Custom header for API calls
   journeyContext: true  # Include journey metadata
   subscriptionContext: true  # Include subscription metadata
@@ -155,17 +161,38 @@ invocationPayloadDef:
 
 ### Attribute definition properties
 
-For `globalAttributes` and `flowAttributes`, each attribute must include:
+For `globalAttributes`, `flowAttributes`, and `callbackPayloadDef.attributes`, each attribute must include:
 
 | Property | Type | Required | Description |
 | --- | --- | --- | --- |
 | `apiName` | string | Yes | API name for the attribute |
 | `i18n` | object | Yes | Internationalized display information |
-| `i18n.en_US` | object | Yes | English (US) localization (required locale) |
+| `i18n.en_US` | object | Yes | English (US) localization — always required |
 | `i18n.en_US.displayName` | string | Yes | Display name shown to users in the UI |
 | `i18n.en_US.description` | string | No | Optional description (recommended for clarity) |
+| `i18n.<locale>` | object | No | Additional locale (e.g. `fr_FR`, `de_DE`, `ja_JP`) — same shape as `en_US` |
+| `i18n.<locale>.displayName` | string | Yes (per locale) | Localized display name |
+| `i18n.<locale>.description` | string | No | Localized description |
 | `dataType` | string | Yes | Data type: `string`, `integer`, `float`, `boolean`, `date`, `datetime` |
 | `required` | boolean | No | Whether this attribute is required (defaults to false) |
+
+Example with multiple locales:
+
+```yaml
+- apiName: enrichmentType
+  i18n:
+    en_US:
+      displayName: "Enrichment Type"
+      description: "Type of enrichment to perform"
+    fr_FR:
+      displayName: "Type d'enrichissement"
+      description: "Type d'enrichissement à effectuer"
+    de_DE:
+      displayName: "Anreicherungstyp"
+      description: "Art der durchzuführenden Anreicherung"
+  dataType: string
+  required: true
+```
 
 ## Callback Payload Definition
 
@@ -175,7 +202,7 @@ Defines what data your service can update in Adobe systems.
 callbackPayloadDef:
   fields:  # Optional - only include if your service updates person attributes
     - serviceAttribute: email
-      dataType: email
+      dataType: string
       required: false
       description: Updated email address
     - serviceAttribute: leadScore
@@ -188,9 +215,13 @@ callbackPayloadDef:
       required: false
       description: Updated revenue
   attributes:
-    - serviceAttribute: processingStatus
+    - apiName: processingStatus
+      i18n:
+        en_US:
+          displayName: "Processing Status"
+          description: "Processing status"
       dataType: string
-      description: Processing status
+      required: false
 ```
 
 ## Split Path Configuration
@@ -203,15 +234,10 @@ Accessors are named values that can be used in path conditions.
 accessorsMetadata:
   - accessorName: enrichmentScore
     dataType: integer
-    description: Enrichment score for routing
-    constraints:
-      minValue: 0
-      maxValue: 100
+    description: Enrichment score for routing (0-100)
   - accessorName: treatmentId
     dataType: string
-    description: Recommended treatment
-    constraints:
-      allowedValues: ["premium", "standard", "basic"]
+    description: Recommended treatment (premium, standard, basic)
 ```
 
 Administrators can create path conditions using these accessors:
@@ -239,7 +265,7 @@ i18n:
     name: "Data Enrichment Service"
     description: "Enriches lead and account data with third-party intelligence"
 description: "Enriches lead and account data with third-party intelligence"
-primaryAttribute: "email"
+primaryAttribute: "enrichmentType"
 supportedEntityType: lead
 enableSplitPaths: true
 timeout: 120
@@ -247,30 +273,30 @@ timeout: 120
 invocationPayloadDef:
   globalAttributes:
     - apiName: apiKey
-      dataType: string
-      required: true
       i18n:
         en_US:
           displayName: "API Key"
           description: "Service API key"
-    - apiName: region
       dataType: string
-      required: false
+      required: true
+    - apiName: region
       i18n:
         en_US:
           displayName: "Data Region"
           description: "Data region (US, EU, APAC)"
+      dataType: string
+      required: false
   flowAttributes:
     - apiName: enrichmentType
-      dataType: string
-      required: true
       i18n:
         en_US:
           displayName: "Enrichment Type"
           description: "Type of enrichment to perform"
+      dataType: string
+      required: true
   fields:
     - serviceAttribute: email
-      dataType: email
+      dataType: string
       required: true
       description: Person email address
     - serviceAttribute: company
@@ -282,7 +308,8 @@ invocationPayloadDef:
       required: false
       description: Job title
   headers:
-    - headerName: X-Tenant-ID
+    - name: X-Tenant-ID
+      value: subscription.imsOrgId
       description: Tenant identifier
   journeyContext: true
   subscriptionContext: true
@@ -290,36 +317,39 @@ invocationPayloadDef:
     - accessorName: enrichmentScore
       dataType: integer
       description: Data quality score (0-100)
-      constraints:
-        minValue: 0
-        maxValue: 100
     - accessorName: dataQuality
       dataType: string
-      description: Data quality level
-      constraints:
-        allowedValues: ["high", "medium", "low"]
+      description: Data quality level (high, medium, low)
 
 callbackPayloadDef:
   fields:
     - serviceAttribute: email
-      dataType: email
+      dataType: string
       description: Verified email address
     - serviceAttribute: mobilePhone
       dataType: string
       description: Enriched mobile phone
     - serviceAttribute: linkedInUrl
-      dataType: url
+      dataType: string
       description: LinkedIn profile URL
     - serviceAttribute: seniority
       dataType: string
       description: Job seniority level
   attributes:
-    - serviceAttribute: enrichmentStatus
+    - apiName: enrichmentStatus
+      i18n:
+        en_US:
+          displayName: "Enrichment Status"
+          description: "Enrichment processing status"
       dataType: string
-      description: Enrichment processing status
-    - serviceAttribute: enrichmentDate
+      required: false
+    - apiName: enrichmentDate
+      i18n:
+        en_US:
+          displayName: "Enrichment Date"
+          description: "When enrichment was performed"
       dataType: datetime
-      description: When enrichment was performed
+      required: false
 ```
 
 ## Validation
@@ -327,20 +357,20 @@ callbackPayloadDef:
 Adobe validates your service definition with:
 
 1. Schema validation: Ensures that all required fields are present.
-1. Entity type validation: Checks conditional field requirements.
-   - `lead` requires `fields` in at least one of the payload defs
-   - `account` requires `accountFields` in at least one of the payload defs
-   - `accountPerson` requires `accountPersonRelationships` in invocation payload; optionally supports `fields` and/or `accountFields` for attribute updates
+1. Entity type validation: Checks conditional field requirements in `invocationPayloadDef`.
+   - `lead` requires `fields`
+   - `account` requires `accountFields`
+   - `accountPerson` requires at least one of `fields` or `accountFields`
+   - `callbackPayloadDef` fields and accountFields are always optional — your service may legitimately have nothing to write back (e.g., a scoring-only service that only populates `attributes` or `accessorsMetadata`)
 1. Split path validation: When `enableSplitPaths: true`, requires `accessorsMetadata`.
 1. Data type validation: Ensures that data types are valid.
 
 ## Best Practices
 
-- Use descriptive names: Make `serviceAttribute` names clear and intuitive.
+- Use descriptive names: Make `serviceAttribute` and `apiName` values clear and intuitive.
 - Provide good descriptions: Help admins understand field purposes.
 - Mark fields required carefully: Only require truly necessary fields.
-- Use appropriate data types: Leverage specific types (email, url) for validation.
-- Define clear accessors: When using split paths, provide meaningful accessor names.
-- Version your service: Update `serviceVersion` when making changes.
-- Document constraints: Use `constraints` to define valid value ranges.
+- Use valid data types: Allowed values are `string`, `integer`, `float`, `boolean`, `date`, `datetime`.
+- Define clear accessors: When using split paths, provide meaningful accessor names and descriptions.
+- Include i18n: Always provide `displayName` in `i18n.en_US` for `globalAttributes`, `flowAttributes`, and `callbackPayloadDef.attributes`.
 
