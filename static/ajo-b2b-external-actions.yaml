@@ -58,15 +58,15 @@ paths:
                 lead-scoring:
                   summary: Lead Entity - Lead Scoring Service
                   description: Service definition for lead scoring with behavioral analysis
-                  externalValue: ./lead-scoring.json
+                  externalValue: https://raw.githubusercontent.com/AdobeDocs/journey-optimizer-b2b-apis/main/static/lead-scoring.json
                 account-enrichment:
                   summary: Account Entity - Account Enrichment Service
                   description: Service definition for B2B account enrichment with firmographic data
-                  externalValue: ./account-enrichment.json
+                  externalValue: https://raw.githubusercontent.com/AdobeDocs/journey-optimizer-b2b-apis/main/static/account-enrichment.json
                 accountPerson:
                   summary: AccountPerson Entity
                   description: Service definition for buying group role identification with account context
-                  externalValue: ./accountPerson-buying-group.json
+                  externalValue: https://raw.githubusercontent.com/AdobeDocs/journey-optimizer-b2b-apis/main/static/accountPerson-buying-group.json
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
